@@ -20,5 +20,3 @@ Equipe responsável pela preparação e finalização dos pedidos
 
 ## Status pedido
 Armazena o status de como se encontra a situação de cada pedido, pode ser: Em progresso ou Finalizado
-
-
