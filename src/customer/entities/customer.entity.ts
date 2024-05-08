@@ -1,11 +1,8 @@
-import { UUID } from 'crypto';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { AbstractEntity } from 'src/db/abstract.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity()
-export class Customer {
-  @PrimaryGeneratedColumn('uuid')
-  id: UUID;
-
+export class Customer extends AbstractEntity<Customer> {
   @Column()
   name: string;
 

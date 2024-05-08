@@ -24,9 +24,8 @@ export class ProductService {
     this.productRepository.save(createProductDto);
   }
 
-  findByCategory(category: ProductCategory): Product[] {
+  findByCategory(category: ProductCategory) {
     this.logger.log(`This action returns all product`);
-    return [new Product()];
   }
 
   findOne(id: number) {

@@ -8,8 +8,7 @@ export class CustomerService {
     return 'This action adds a new customer';
   }
 
-  findOne(cpf: string): Customer {
+  findOne(cpf: string) {
     console.log(`This action returns a #${cpf} customer`)
-    return new Customer();
   }
 }

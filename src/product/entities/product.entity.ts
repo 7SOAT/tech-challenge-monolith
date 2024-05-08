@@ -1,11 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { ProductCategory } from '../enums/product-category.enum';
+import { AbstractEntity } from 'src/db/abstract.entity';
 
 @Entity()
-export class Product {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Product extends AbstractEntity<Product>{
   @Column()
   category: ProductCategory;
 

@@ -15,7 +15,7 @@ export class CustomerController {
   }
 
   @Get()
-  findOne(@Req() cpf: string): Customer {
+  findOne(@Req() cpf: string) {
     return this.customerService.findOne(cpf);
   }
 
