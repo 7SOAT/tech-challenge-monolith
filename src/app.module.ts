@@ -1,13 +1,20 @@
-import { Module } from '@nestjs/common';
-import { CustomerModule } from './customer/customer.module';
-import { ProductModule } from './product/product.module';
-import { ConfigModule } from '@nestjs/config';
+import { Logger, Module } from "@nestjs/common";
+import { CustomerModule } from "./customer/customer.module";
+import { ProductModule } from "./product/product.module";
+import { ConfigModule } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { dataSourceOptions } from "./db/data-source";
 
 @Module({
-  imports: [CustomerModule, ProductModule, ConfigModule.forRoot({
-    envFilePath: '.env',
-  })],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: ".env",
+    }),
+    TypeOrmModule.forRoot({...dataSourceOptions, autoLoadEntities: true}),
+    CustomerModule,
+    ProductModule,
+  ],
   controllers: [],
-  providers: [],
+  providers: [Logger],
 })
 export class AppModule {}
