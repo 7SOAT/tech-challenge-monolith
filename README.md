@@ -35,6 +35,17 @@
 $ npm install
 ```
 
+## Running migrations
+
+```bash
+# run migrations
+$ npm run migration:run
+
+# create migrations
+$ npm run migration:create -name=NameMigration
+
+```
+
 ## Running the app
 
 ```bash
