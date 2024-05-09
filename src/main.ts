@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -12,9 +13,11 @@ async function bootstrap() {
     .setDescription('API.')
     .setVersion('1.0')
     .build();
+  
+  const configService = new ConfigService();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  await app.listen(process.env.API_PORT);
+  await app.listen(configService.get<number>('API_PORT'));
 }
 bootstrap();

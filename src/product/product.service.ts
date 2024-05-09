@@ -10,33 +10,24 @@ import { ProductCategory } from './enums/product-category.enum';
 export class ProductService {
   constructor(
     @InjectRepository(Product)
-    private productRepository: Repository<Product>,
-    private readonly logger: Logger,
-  ) { }
-  
-  async findAll(): Promise<Product[]> {
-    this.logger.log(`This action returns all product`);
-    return this.productRepository.find();
+    private readonly productRepository: Repository<Product>,
+    private readonly logger: Logger
+  ) {}
+
+  async findAll() {
+    try {
+      this.logger.log(`This action returns all product`);
+      return this.productRepository.find();
+    } catch (error) {
+      this.logger.error(`Error returning all product: ${error}`);
+    }
   }
 
   async create(createProductDto: CreateProductDto) {
-    this.logger.log(`This action adds a new product`);
-    this.productRepository.save(createProductDto);
-  }
-
-  findByCategory(category: ProductCategory) {
-    this.logger.log(`This action returns all product`);
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+    try {
+      return await this.productRepository.save(createProductDto);
+    } catch (error) {
+      this.logger.error(`Error adding a new product: ${error}`);
+    }
   }
 }
