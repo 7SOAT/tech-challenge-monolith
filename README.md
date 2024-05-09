@@ -26,10 +26,24 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Create file .env
+
+
 ## Installation
 
 ```bash
 $ npm install
+```
+
+## Running migrations
+
+```bash
+# run migrations
+$ npm run migration:run
+
+# create migrations
+$ npm run migration:create -name=NameMigration
+
 ```
 
 ## Running the app
@@ -45,18 +59,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Swagger API
 
-```bash
-# unit tests
-$ npm run test
+Go to url: `http://localhost:3000/api`
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Support
 

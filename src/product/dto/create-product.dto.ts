@@ -1,16 +1,16 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { ProductCategory } from '../enums/product-category.enum';
 
 export class CreateProductDto {
+  @ApiProperty()
+  category: ProductCategory;
 
-    @ApiProperty()
-    category: ProductCategory;
+  @ApiProperty()
+  name: string;
 
-    @ApiProperty()
-    name: string;
+  @ApiProperty()
+  price: number;
 
-    @ApiProperty()
-    price: number;
-
-    @ApiProperty()
-    description: string;
+  @ApiProperty()
+  description: string;
 }

@@ -1,19 +1,32 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { ProductCategory } from '../enums/product-category.enum';
 
-@Entity()
+@Entity({ name: 'product' })
 export class Product {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    category: ProductCategory;
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
-    @Column()
-    name: string;
+  @Column({ type: 'boolean', default: false })
+  isArchived: boolean;
 
-    @Column()
-    price: number;
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+    
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 
-    @Column()
-    description: string;
+  @Column({ type: 'enum', enum: ProductCategory })
+  category: ProductCategory;
+
+  @Column({ type: 'varchar', length: 200 })
+  name: string;
+
+  @Column({ type: 'int' })
+  price: number;
+
+  @Column({ type: 'varchar' })
+  description: string;
 }

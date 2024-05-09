@@ -1,6 +1,6 @@
-enum ProductCategory{
-    Burger = 0,
-    Side = 1,
-    Beverage = 2,
-    Dessert = 3
+export enum ProductCategory {
+  Burger = 'burger',
+  Side = 'side',
+  Beverage = 'beverage',
+  Dessert = 'dessert',
 }

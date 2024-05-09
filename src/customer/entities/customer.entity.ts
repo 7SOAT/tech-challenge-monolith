@@ -1,17 +1,34 @@
-import { UUID } from "crypto";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity({ name: 'customer' })
 export class Customer {
-    @PrimaryGeneratedColumn("uuid")
-    id: UUID;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name: string;
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 
-    @Column()
-    email: string;
+  @Column({ type: 'boolean', default: false })
+  isArchived: boolean;
 
-    @Column()
-    cpf: string;
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
+
+  @Column({ type: 'varchar', length: 200 })
+  name: string;
+
+  @Column({ type: 'varchar', length: 200 })
+  email: string;
+
+  @Column({ type: 'varchar', length: 200 })
+  cpf: string;
 }

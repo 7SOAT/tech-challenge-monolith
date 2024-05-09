@@ -1,12 +1,20 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Logger, Module } from '@nestjs/common';
 import { CustomerModule } from './customer/customer.module';
 import { ProductModule } from './product/product.module';
+import { ConfigModule } from '@nestjs/config';
+import { DataSource } from 'typeorm';
+import { DbModule } from './db/db.module';
 
 @Module({
-  imports: [CustomerModule, ProductModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    CustomerModule,
+    ProductModule,
+    DbModule,
+  ],
+  controllers: [],
+  providers: [Logger],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) { }
+}
