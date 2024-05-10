@@ -14,7 +14,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   
-  const configService = new ConfigService();
+  const configService = app.get<ConfigService>(ConfigService);
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
