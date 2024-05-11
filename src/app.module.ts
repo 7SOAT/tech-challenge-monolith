@@ -4,6 +4,9 @@ import { ProductModule } from './modules/product/product.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmConfigSQL } from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrderModule } from 'modules/order/order.module';
+import { HealthModule } from 'config/health/health.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -14,6 +17,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     CustomerModule,
     ProductModule,
+    OrderModule,
+    HealthModule,
+    EventEmitterModule.forRoot()
   ],
   controllers: [],
   providers: [Logger],
