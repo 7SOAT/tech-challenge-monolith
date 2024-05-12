@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderController } from './order.controller';
 import { Order } from './entities/order.entity';
 import { OrderService } from './order.service';
-import { OrderEventModule } from 'event/order/order-event.module';
+import { OrderEventModule } from 'modules/event/order/order-event.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order]), OrderEventModule],

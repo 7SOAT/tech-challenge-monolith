@@ -44,4 +44,8 @@ export class Order {
 
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer;
+
+  constructor(partial: Partial<Order>) {
+    Object.assign(this, partial);
+  }
 }

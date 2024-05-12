@@ -1,23 +1,24 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('order')
-@Controller('order')
+@UseInterceptors(ClassSerializerInterceptor)
+@Controller({ path: 'order', version: '1' })
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
-    private eventEmitter: EventEmitter2
   ) {}
 
   @Get()
@@ -50,7 +51,6 @@ export class OrderController {
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
     const test = await this.orderService.create(createOrderDto);
-    await this.eventEmitter.emit('order.created', createOrderDto);
     return test;
   }
 }
