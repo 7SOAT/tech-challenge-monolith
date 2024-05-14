@@ -50,7 +50,6 @@ export class OrderController {
     description: 'Internal server error',
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
-    const test = await this.orderService.create(createOrderDto);
-    return test;
+    return await this.orderService.create(createOrderDto);
   }
 }
