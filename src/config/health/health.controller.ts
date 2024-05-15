@@ -1,10 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import {
   HealthCheckService,
   HealthCheck,
   HttpHealthIndicator,
 } from '@nestjs/terminus';
 
+@ApiTags('health')
 @Controller('health')
 export class HealthController {
   constructor(
@@ -15,8 +17,6 @@ export class HealthController {
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([
-      () => this.http.pingCheck('api', 'http://localhost:3000'),
-    ]);
+    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000/api')]);
   }
 }
