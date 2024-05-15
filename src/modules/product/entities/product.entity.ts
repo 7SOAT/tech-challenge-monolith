@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ProductCategory } from '../enums/product-category.enum';
 
 @Entity({ name: 'product' })
@@ -14,7 +20,7 @@ export class Product {
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-    
+
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
@@ -24,9 +30,9 @@ export class Product {
   @Column({ type: 'varchar', length: 200 })
   name: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'numeric' })
   price: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 1000 })
   description: string;
 }
