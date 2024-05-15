@@ -1,0 +1,33 @@
+# Controle de versão
+.git
+.gitignore
+
+# Logs
+*.log
+logs/
+
+# Diretórios temporários
+tmp/
+temp/
+
+# Dependências locais
+node_modules/
+bower_components/
+
+# Configurações do editor
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de compilação e distribuição
+dist/
+build/
+out/
+
+# Cache de pacotes
+.npm/
+.cache/
+
+# Arquivos Docker temporários
+Dockerfile.*
+*.dockerignore
