@@ -1,11 +1,12 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { plainToClass } from 'class-transformer';
 import { OrderStatus } from './enum/order-status.enum';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 
 @Injectable()
 export class OrderService {
@@ -20,21 +21,14 @@ export class OrderService {
     try {
       return await this.orderRepository.find();
     } catch (error) {
-      this.logger.error(`[Order Service find all]: ${error.message}`);
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: error,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      this.logger.error(`[OrderService] Error retrieving orders: ${error}`);
     }
   }
 
   async create(createOrderDto: CreateOrderDto): Promise<CreateOrderDto> {
     try {
-      const order = plainToClass(Order, createOrderDto);
-      const result = await this.orderRepository.save(order);
+      const order: Order = plainToClass(Order, createOrderDto);
+      const result: Order = await this.orderRepository.save(order);
       this.eventEmitter.emit('order.status-update', {
         orderId: result.id,
         status: OrderStatus.IN_PROGRESS,
@@ -42,14 +36,22 @@ export class OrderService {
 
       return createOrderDto;
     } catch (error) {
-      this.logger.error(`[Order Service create]: ${error}`);
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: error,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+      this.logger.error(`[OrderService] Error creating order: ${error}`);
+    }
+  }
+
+  @OnEvent('order.status-update', { async: true })
+  async updateStatus({
+    orderId,
+    status,
+  }: UpdateOrderStatusDto): Promise<Order> {
+    try {
+      const order = await this.orderRepository.findOneByOrFail({ id: orderId });
+      order.orderStatus = status;
+      const result = await this.orderRepository.save(order);
+      return result;
+    } catch (error) {
+      this.logger.error(`[OrderService] Error updating order status: ${error}`);
     }
   }
 }

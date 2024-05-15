@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderModule } from 'modules/order/order.module';
 import { HealthModule } from 'config/health/health.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { CommonModule } from 'modules/common/common.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     ProductModule,
     OrderModule,
     HealthModule,
-    EventEmitterModule.forRoot()
+    EventEmitterModule.forRoot(),
+    CommonModule
   ],
   controllers: [],
   providers: [Logger],
