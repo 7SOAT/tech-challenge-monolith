@@ -19,11 +19,6 @@ bower_components/
 .idea/
 *.swp
 
-# Arquivos de compilação e distribuição
-dist/
-build/
-out/
-
 # Cache de pacotes
 .npm/
 .cache/
