@@ -7,29 +7,34 @@ services:
   app:
     container_name: app
     restart: always
-    build: .
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: secretuser
-      DB_PASSWORD: passwordmostsecret
-      DB_NAME: postgres 
+      API_PORT: 3000
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: secretuser
+      POSTGRES_PASSWORD: passwordmostsecret
+      POSTGRES_DATABASE: fiaptech 
     ports:
-      - 80:80
+      - "3000:3000"
     depends_on:
       - postgres
     volumes:
-    - .:/src/app
+      - ./src:/usr/app/src
 
   postgres:
     container_name: postgres
     image: postgres:16-alpine
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=secretuser
       - POSTGRES_PASSWORD=passwordmostsecret
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=fiaptech
     restart: always
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
