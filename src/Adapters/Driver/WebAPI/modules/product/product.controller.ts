@@ -1,3 +1,4 @@
+import { ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -9,15 +10,19 @@ import {
   Delete,
   Req,
 } from "@nestjs/common";
+
 import { CreateProductDto } from "./dto/create-product.dto";
-import { ApiTags } from "@nestjs/swagger";
-import CreateNewProductUseCase from "Core/Application/UseCases/Product/CreateNewProduct/createNewProduct.usecase";
+import { UpdateProductDto } from "./dto/update-product.dto";
+
+import ICreateProductUseCase from "Core/Application/UseCases/Product/CreateProduct/createProduct.usecase.port";
+import IUpdateProductUseCase from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase.port";
 
 @ApiTags("product")
 @Controller("product")
 export class ProductController {
   constructor(
-    private readonly _createNewProductUseCase: CreateNewProductUseCase
+    private readonly _createProductUseCase: ICreateProductUseCase,
+    private readonly _updateProductUseCase: IUpdateProductUseCase
   ) {}
 
   // @Get()
@@ -38,17 +43,14 @@ export class ProductController {
   // }
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this._createNewProductUseCase._execute(createProductDto);
+  create(@Body() input: CreateProductDto) {
+    return this._createProductUseCase.execute(input);
   }
 
-  // @Put("/:productId")
-  // update(
-  //   @Param("productId") productId,
-  //   @Body() updateProductDto: UpdateProductDto
-  // ) {
-  //   return this.productService.update(productId, updateProductDto);
-  // }
+  @Put("/:productId")
+  update(@Param("productId") id, @Body() input: UpdateProductDto) {
+    return this._updateProductUseCase.execute(id, input);
+  }
 
   // @Delete("/:productId")
   // delete(@Param("productId") productId: string) {

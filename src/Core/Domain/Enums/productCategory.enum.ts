@@ -1,5 +1,5 @@
 export enum ProductCategory {
-  Burguer = "burguer",
+  Burger = "burger",
   Side = "side",
   Beverage = "beverage",
   Dessert = "dessert",
