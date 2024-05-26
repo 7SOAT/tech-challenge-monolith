@@ -2,11 +2,12 @@ import { DataSource } from "typeorm";
 import { Logger, Module } from "@nestjs/common";
 import { TypeOrmModule, getDataSourceToken } from "@nestjs/typeorm";
 
-import { ProductTypeOrmRepository } from "../../../../../Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
-import { ProductTypeOrmEntity } from "../../../../../Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
-import { IProductRepository } from "../../../../../Core/Domain/Repositories/product.repository";
-import { CreateProductUseCase } from "../../../../../Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
-import { UpdateProductUseCase } from "../../../../../Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
+import { ProductTypeOrmRepository } from "Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
+import { ProductTypeOrmEntity } from "Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
+import { IProductRepository } from "Core/Domain/Repositories/product.repository";
+import { CreateProductUseCase } from "Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
+import { UpdateProductUseCase } from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
+import { DeleteProductUseCase } from "Core/Application/UseCases/Product/DeleteProduct/deleteProduct.usecase";
 import { ProductController } from "./product.controller";
 
 @Module({
@@ -33,6 +34,13 @@ import { ProductController } from "./product.controller";
       provide: UpdateProductUseCase,
       useFactory: (_productRepository: IProductRepository) => {
         return new UpdateProductUseCase(_productRepository);
+      },
+      inject: [ProductTypeOrmRepository],
+    },
+    {
+      provide: DeleteProductUseCase,
+      useFactory: (_productRepository: IProductRepository) => {
+        return new DeleteProductUseCase(_productRepository);
       },
       inject: [ProductTypeOrmRepository],
     },

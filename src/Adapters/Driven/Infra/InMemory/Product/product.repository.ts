@@ -6,14 +6,15 @@ export default class ProductInMemoryRepository implements IProductRepository {
   constructor() {
     this._products = new Array<ProductEntity>();
   }
+  update(id: string, product: ProductEntity): void {
+    throw new Error("Method not implemented.");
+  }
+  delete(id: string): void {
+    throw new Error("Method not implemented.");
+  }
+
   async insert(product: ProductEntity): Promise<void> {
     this._products.push(product);
-  }
-  update(id: string, product: ProductEntity): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  findById(id: string): Promise<ProductEntity> {
-    throw new Error("Method not implemented.");
   }
 
   async find(): Promise<Array<ProductEntity>> {

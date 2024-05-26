@@ -14,4 +14,8 @@ export class ProductTypeOrmRepository implements IProductRepository {
   update(id: string, product: ProductEntity): void {
     this._productRepository.update(id, ProductMapper.mapToDbEntity(product));
   }
+
+  delete(id: string): void {
+    this._productRepository.delete(id);
+  }
 }
