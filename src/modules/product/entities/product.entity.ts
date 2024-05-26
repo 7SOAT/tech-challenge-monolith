@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductCategory } from '../enums/product-category.enum';
+import { Order } from 'modules/order/entities/order.entity';
 
 @Entity({ name: 'product' })
 export class Product {
@@ -35,4 +37,11 @@ export class Product {
 
   @Column({ type: 'varchar', length: 1000 })
   description: string;
+
+  @ManyToMany(() => Order, (order) => order.products)
+  orders: Order[];
+
+  constructor(partial: Partial<Product>) {
+    Object.assign(this, partial);
+  }
 }

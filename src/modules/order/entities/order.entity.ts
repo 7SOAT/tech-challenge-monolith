@@ -7,8 +7,11 @@ import {
   UpdateDateColumn,
   Entity,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { OrderStatus } from '../enum/order-status.enum';
+import { Product } from 'modules/product/entities/product.entity';
 
 @Entity({ name: 'order' })
 export class Order {
@@ -27,23 +30,18 @@ export class Order {
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @Column({ type: 'varchar', nullable: true })
-  burger: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  side: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  beverage: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  dessert: string;
-
   @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
   orderStatus: OrderStatus;
 
+  @Column({ type: 'float', default: 0 })
+  totalValue: number;
+
   @ManyToOne(() => Customer, (customer) => customer.orders)
   customer: Customer;
+
+  @ManyToMany(() => Product, (product) => product.orders)
+  @JoinTable()
+  products: Product[];
 
   constructor(partial: Partial<Order>) {
     Object.assign(this, partial);
