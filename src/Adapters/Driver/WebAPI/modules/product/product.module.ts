@@ -9,6 +9,9 @@ import { CreateProductUseCase } from "Core/Application/UseCases/Product/CreatePr
 import { UpdateProductUseCase } from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
 import { DeleteProductUseCase } from "Core/Application/UseCases/Product/DeleteProduct/deleteProduct.usecase";
 import { ProductController } from "./product.controller";
+import { FindAllProductsUseCase } from "Core/Application/UseCases/Product/FindAllProducts/findAllProducts.usecase";
+import { FindOneProductByIdUseCase } from "Core/Application/UseCases/Product/FindOneProductById/findOneProductById.usecase";
+import { FindProductsByCategoryUseCase } from "Core/Application/UseCases/Product/FindProductsByCategory/findProductsByCategory.usecase";
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductTypeOrmEntity])],
@@ -41,6 +44,27 @@ import { ProductController } from "./product.controller";
       provide: DeleteProductUseCase,
       useFactory: (_productRepository: IProductRepository) => {
         return new DeleteProductUseCase(_productRepository);
+      },
+      inject: [ProductTypeOrmRepository],
+    },
+    {
+      provide: FindAllProductsUseCase,
+      useFactory: (_productRepository: IProductRepository) => {
+        return new FindAllProductsUseCase(_productRepository);
+      },
+      inject: [ProductTypeOrmRepository],
+    },
+    {
+      provide: FindOneProductByIdUseCase,
+      useFactory: (_productRepository: IProductRepository) => {
+        return new FindOneProductByIdUseCase(_productRepository);
+      },
+      inject: [ProductTypeOrmRepository],
+    },
+    {
+      provide: FindProductsByCategoryUseCase,
+      useFactory: (_productRepository: IProductRepository) => {
+        return new FindProductsByCategoryUseCase(_productRepository);
       },
       inject: [ProductTypeOrmRepository],
     },
