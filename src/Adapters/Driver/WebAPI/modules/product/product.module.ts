@@ -2,11 +2,11 @@ import { DataSource } from "typeorm";
 import { Logger, Module } from "@nestjs/common";
 import { TypeOrmModule, getDataSourceToken } from "@nestjs/typeorm";
 
-import ProductRepository from "Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
-import ProductTypeOrmEntity from "Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
-import IProductRepository from "Core/Domain/Repositories/product.repository";
-import { CreateProductUseCase } from "Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
-import { UpdateProductUseCase } from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
+import { ProductTypeOrmRepository } from "../../../../../Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
+import { ProductTypeOrmEntity } from "../../../../../Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
+import { IProductRepository } from "../../../../../Core/Domain/Repositories/product.repository";
+import { CreateProductUseCase } from "../../../../../Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
+import { UpdateProductUseCase } from "../../../../../Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
 import { ProductController } from "./product.controller";
 
 @Module({
@@ -14,9 +14,9 @@ import { ProductController } from "./product.controller";
   controllers: [ProductController],
   providers: [
     {
-      provide: ProductRepository,
+      provide: ProductTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        return new ProductRepository(
+        return new ProductTypeOrmRepository(
           dataSource.getRepository(ProductTypeOrmEntity)
         );
       },
@@ -27,16 +27,33 @@ import { ProductController } from "./product.controller";
       useFactory: (_productRepository: IProductRepository) => {
         return new CreateProductUseCase(_productRepository);
       },
-      inject: [ProductRepository],
+      inject: [ProductTypeOrmRepository],
     },
-    {
-      provide: UpdateProductUseCase,
-      useFactory: (_productRepository: IProductRepository) => {
-        return new UpdateProductUseCase(_productRepository);
-      },
-      inject: [ProductRepository],
-    },
-    Logger,
   ],
 })
 export class ProductModule {}
+
+// {
+//   provide: ProductTypeOrmRepository,
+//   useFactory: (dataSource: DataSource) => {
+//     return new ProductTypeOrmRepository(
+//       dataSource.getRepository(ProductTypeOrmEntity)
+//     );
+//   },
+//   inject: [getDataSourceToken()],
+// },
+// {
+//   provide: CreateProductUseCase,
+//   useFactory: (_productRepository: IProductRepository) => {
+//     return new CreateProductUseCase(_productRepository);
+//   },
+//   inject: [ProductTypeOrmRepository],
+// },
+// {
+//   provide: UpdateProductUseCase,
+//   useFactory: (_productRepository: IProductRepository) => {
+//     return new UpdateProductUseCase(_productRepository);
+//   },
+//   inject: [ProductTypeOrmRepository],
+// },
+//Logger,

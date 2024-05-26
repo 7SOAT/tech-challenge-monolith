@@ -1,5 +1,5 @@
 import ProductEntity from "Core/Domain/Entities/product.entity";
-import ProductTypeOrmEntity from "../Entities/product.typeorm.entity";
+import { ProductTypeOrmEntity } from "../Entities/product.typeorm.entity";
 
 export default class ProductMapper {
   static mapToDomainEntity(

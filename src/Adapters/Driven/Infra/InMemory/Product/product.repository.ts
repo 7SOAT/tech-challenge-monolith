@@ -1,5 +1,5 @@
 import ProductEntity from "Core/Domain/Entities/product.entity";
-import IProductRepository from "Core/Domain/Repositories/product.repository";
+import { IProductRepository } from "Core/Domain/Repositories/product.repository";
 
 export default class ProductInMemoryRepository implements IProductRepository {
   private _products: Array<ProductEntity>;

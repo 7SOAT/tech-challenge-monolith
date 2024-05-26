@@ -1,7 +1,8 @@
 import IProductInput from "Core/Application/Ports/Input/product.input";
 import ProductEntity from "Core/Domain/Entities/product.entity";
+import { IProductRepository } from "Core/Domain/Repositories/product.repository";
+
 import IUpdateProductUseCase from "./updateProduct.usecase.port";
-import IProductRepository from "Core/Domain/Repositories/product.repository";
 
 export class UpdateProductUseCase implements IUpdateProductUseCase {
   constructor(private _productRepository: IProductRepository) {}

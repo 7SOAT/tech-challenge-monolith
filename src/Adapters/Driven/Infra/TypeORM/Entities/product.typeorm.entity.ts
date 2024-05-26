@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 
 @Entity({ name: "product" })
-export default class ProductTypeOrmEntity implements IProductOutput {
+export class ProductTypeOrmEntity implements IProductOutput {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

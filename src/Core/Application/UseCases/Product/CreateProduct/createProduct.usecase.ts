@@ -1,12 +1,12 @@
 import IProductInput from "Core/Application/Ports/Input/product.input";
-import ICreateNewProductUseCase from "./createProduct.usecase.port";
-import IProductRepository from "Core/Domain/Repositories/product.repository";
+import { ICreateProductUseCase } from "./createProduct.usecase.port";
+import { IProductRepository } from "Core/Domain/Repositories/product.repository";
 import ProductEntity from "Core/Domain/Entities/product.entity";
 
-export class CreateProductUseCase implements ICreateNewProductUseCase {
+export class CreateProductUseCase implements ICreateProductUseCase {
   constructor(private _productRepository: IProductRepository) {}
 
-  async execute(input: IProductInput): Promise<ProductEntity> {
+  _execute(input: IProductInput): void {
     try {
       const newProduct = new ProductEntity(
         input.name,
@@ -15,12 +15,7 @@ export class CreateProductUseCase implements ICreateNewProductUseCase {
         input.category
       );
 
-      await new Promise((resolve, reject) => {
-        this._productRepository.insert(newProduct);
-        resolve(newProduct);
-      });
-
-      return newProduct;
+      this._productRepository.insert(newProduct);
     } catch (err) {
       throw err;
     }
