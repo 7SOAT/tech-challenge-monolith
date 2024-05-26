@@ -4,6 +4,7 @@ import {
   HealthCheckService,
   HealthCheck,
   HttpHealthIndicator,
+  TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 
 @ApiTags('health')
@@ -11,12 +12,16 @@ import {
 export class HealthController {
   constructor(
     private health: HealthCheckService,
-    private http: HttpHealthIndicator
+    private http: HttpHealthIndicator,
+    private db: TypeOrmHealthIndicator,
   ) {}
 
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000/api')]);
+    return this.health.check([
+      async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000'),
+      async () => this.db.pingCheck('database', { timeout: 300 }),
+    ]);
   }
 }
