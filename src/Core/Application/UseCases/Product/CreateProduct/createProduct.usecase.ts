@@ -6,7 +6,7 @@ import ProductEntity from "Core/Domain/Entities/product.entity";
 export class CreateProductUseCase implements ICreateProductUseCase {
   constructor(private _productRepository: IProductRepository) {}
 
-  _execute(input: IProductInput): void {
+  execute(input: IProductInput): void {
     try {
       const newProduct = new ProductEntity(
         input.name,

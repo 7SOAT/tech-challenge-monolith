@@ -29,31 +29,14 @@ import { ProductController } from "./product.controller";
       },
       inject: [ProductTypeOrmRepository],
     },
+    {
+      provide: UpdateProductUseCase,
+      useFactory: (_productRepository: IProductRepository) => {
+        return new UpdateProductUseCase(_productRepository);
+      },
+      inject: [ProductTypeOrmRepository],
+    },
   ],
 })
 export class ProductModule {}
-
-// {
-//   provide: ProductTypeOrmRepository,
-//   useFactory: (dataSource: DataSource) => {
-//     return new ProductTypeOrmRepository(
-//       dataSource.getRepository(ProductTypeOrmEntity)
-//     );
-//   },
-//   inject: [getDataSourceToken()],
-// },
-// {
-//   provide: CreateProductUseCase,
-//   useFactory: (_productRepository: IProductRepository) => {
-//     return new CreateProductUseCase(_productRepository);
-//   },
-//   inject: [ProductTypeOrmRepository],
-// },
-// {
-//   provide: UpdateProductUseCase,
-//   useFactory: (_productRepository: IProductRepository) => {
-//     return new UpdateProductUseCase(_productRepository);
-//   },
-//   inject: [ProductTypeOrmRepository],
-// },
 //Logger,

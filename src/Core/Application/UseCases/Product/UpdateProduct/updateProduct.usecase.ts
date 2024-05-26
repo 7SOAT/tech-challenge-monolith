@@ -7,7 +7,7 @@ import IUpdateProductUseCase from "./updateProduct.usecase.port";
 export class UpdateProductUseCase implements IUpdateProductUseCase {
   constructor(private _productRepository: IProductRepository) {}
 
-  async execute(id: string, input: IProductInput): Promise<ProductEntity> {
+  execute(id: string, input: IProductInput): void {
     const product = new ProductEntity(
       input.name,
       input.description,
@@ -15,9 +15,6 @@ export class UpdateProductUseCase implements IUpdateProductUseCase {
       input.category
     );
 
-    return new Promise((resolve, reject) => {
-      this._productRepository.update(id, product);
-      resolve(product);
-    });
+    this._productRepository.update(id, product);
   }
 }
