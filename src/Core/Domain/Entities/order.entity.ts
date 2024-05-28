@@ -10,7 +10,6 @@ export default class OrderEntity {
   private customer: CustomerEntity;
   private products: ProductEntity[];
 
-
   constructor(
     orderStatus: OrderStatus,
     totalValue: number,

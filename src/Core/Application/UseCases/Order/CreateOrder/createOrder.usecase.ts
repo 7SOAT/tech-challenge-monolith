@@ -31,15 +31,16 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
         .map((product) => Number(product.price))
         .reduce((a, b) => a + b, 0);
 
-      const customer = await this._customerRepository.findOneById(orderInput.customerId);
-      console.log('Customer',customer);
-     const order = new OrderEntity(
+      const customer = await this._customerRepository.findOneById(
+        orderInput.customerId
+      );
+
+      const order = new OrderEntity(
         OrderStatus.IN_PROGRESS,
         totalValueOrder,
         customer,
         products
       );
-      console.log(' ORDER:',order);
 
       this._orderRepository.insert(order);
     } catch (error) {
