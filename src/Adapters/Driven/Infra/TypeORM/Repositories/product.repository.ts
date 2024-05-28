@@ -22,7 +22,6 @@ export class ProductTypeOrmRepository implements IProductRepository {
     const product = await this._productRepository
       .findOneBy({ id })
       .then((product) => ProductMapper.mapToDomainEntity(product));
-
     return product;
   }
 

@@ -1,25 +1,25 @@
 import { UUID } from "crypto";
 import { OrderStatus } from "../Enums/orderStatus.enum";
 import ProductEntity from "./product.entity";
-import { Customer } from "Adapters/Driver/WebAPI/modules/customer/entities/customer.entity";
+import CustomerEntity from "./customer.entity";
 
 export default class OrderEntity {
   private id: UUID;
   private orderStatus: OrderStatus;
   private totalValue: number;
-  private customer: Customer;
+  private customer: CustomerEntity;
   private products: ProductEntity[];
 
 
   constructor(
     orderStatus: OrderStatus,
     totalValue: number,
-    //customer: Customer,
+    customer: CustomerEntity,
     products: ProductEntity[]
   ) {
     this.orderStatus = orderStatus;
     this.totalValue = totalValue;
-    //this._customer = customer;
+    this.customer = customer;
     this.products = products;
 
     this.validate();
@@ -37,7 +37,7 @@ export default class OrderEntity {
     return this.totalValue;
   }
 
-  public get getCustomer(): Customer {
+  public get getCustomer(): CustomerEntity {
     return this.customer;
   }
 

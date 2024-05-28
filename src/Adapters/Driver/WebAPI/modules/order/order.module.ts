@@ -8,6 +8,11 @@ import { CreateOrderUseCase } from "Core/Application/UseCases/Order/CreateOrder/
 import { IOrderRepository } from "Core/Domain/Repositories/order.repository";
 import { IProductRepository } from "Core/Domain/Repositories/product.repository";
 import { FindAllOrderUseCase } from "Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase";
+import { ICustomerRepository } from "Core/Domain/Repositories/customer.repository";
+import { ProductTypeOrmRepository } from "Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
+import { CustomerTypeOrmRepository } from "Adapters/Driven/Infra/TypeORM/Repositories/customer.repository";
+import { ProductTypeOrmEntity } from "Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
+import { CustomerTypeOrmEntity } from "Adapters/Driven/Infra/TypeORM/Entities/customer.typeorm.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity])],
@@ -23,11 +28,29 @@ import { FindAllOrderUseCase } from "Core/Application/UseCases/Order/FindAllOrde
       inject: [getDataSourceToken()],
     },
     {
-      provide: CreateOrderUseCase,
-      useFactory: (_orderRepository: IOrderRepository, _productRepository: IProductRepository) => {
-        return new CreateOrderUseCase(_orderRepository, _productRepository);
+      provide: ProductTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new ProductTypeOrmRepository(
+          dataSource.getRepository(ProductTypeOrmEntity)
+        );
       },
-      inject: [OrderTypeOrmRepository],
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: CustomerTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new CustomerTypeOrmRepository(
+          dataSource.getRepository(CustomerTypeOrmEntity)
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: CreateOrderUseCase,
+      useFactory: (_orderRepository: IOrderRepository, _productRepository: IProductRepository, _customerRepository: ICustomerRepository) => {
+        return new CreateOrderUseCase(_orderRepository, _productRepository, _customerRepository);
+      },
+      inject: [OrderTypeOrmRepository, ProductTypeOrmRepository , CustomerTypeOrmRepository],
     },
     {
       provide: FindAllOrderUseCase,

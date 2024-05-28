@@ -2,6 +2,7 @@ import IOrderOutput from "Core/Application/Ports/Output/order.outpu";
 import { OrderStatus } from "Core/Domain/Enums/orderStatus.enum";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ProductTypeOrmEntity } from "./product.typeorm.entity";
+import { CustomerTypeOrmEntity } from "./customer.typeorm.entity";
 
 @Entity({ name: "order" })
 export class OrderTypeOrmEntity implements IOrderOutput {
@@ -26,12 +27,12 @@ export class OrderTypeOrmEntity implements IOrderOutput {
   @Column({ type: 'float', default: 0 })
   totalValue: number;
 
-  @ManyToMany(() => ProductTypeOrmEntity, (product) => product.orders)
+  @ManyToMany(() => ProductTypeOrmEntity, (product) => product.id)
   @JoinTable()
   products: ProductTypeOrmEntity[];
 
-  // @ManyToOne(() => CustomerTypeOrmEntity, (customer) => customer.orders)
-  // customer: CustomerTypeOrmEntity;
+  @ManyToOne(() => CustomerTypeOrmEntity, (customer) => customer.id)
+  customer: CustomerTypeOrmEntity;
 
   constructor(partial: Partial<OrderTypeOrmEntity>) {
     Object.assign(this, partial);

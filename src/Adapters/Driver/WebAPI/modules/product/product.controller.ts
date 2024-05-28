@@ -1,4 +1,4 @@
-import { ApiTags } from "@nestjs/swagger";
+import { ApiParam, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Post,
@@ -37,11 +37,13 @@ export class ProductController {
   }
 
   @Put("/:productId")
+  @ApiParam({name: 'productId'})
   update(@Param("productId") id, @Body() input: UpdateProductDto) {
     return this._updateProductUseCase.execute(id, input);
   }
 
   @Delete("/:productId")
+  @ApiParam({name: 'productId'})
   delete(@Param("productId") id) {
     return this._deleteProductUseCase.execute(id);
   }
@@ -52,11 +54,13 @@ export class ProductController {
   }
 
   @Get("/:productId")
+  @ApiParam({name: 'productId'})
   findOneById(@Param("productId") id) {
     return this._findOneProductByIdUseCase.execute(id);
   }
 
   @Get("/by-category/:productCategory")
+  @ApiParam({name: 'productCategory'})
   findByCategory(@Param("productCategory") category) {
     return this._findProductsByCategoryUseCase.execute(category);
   }

@@ -9,11 +9,10 @@ export class OrderTypeOrmRepository implements IOrderRepository {
 
   async insert(order: OrderEntity): Promise<void> {
     try {
-      const { getProducts, getOrderStatus, getTotalValue } = order;
+      const { getProducts, getOrderStatus, getTotalValue, getCustomer } = order;
+      console.log(order);
       await this._orderRepository.save({
         orderStatus: getOrderStatus,
-        totalValue: getTotalValue,
-        products: getProducts,
       });
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
@@ -23,11 +22,7 @@ export class OrderTypeOrmRepository implements IOrderRepository {
   async findAll(): Promise<Array<OrderEntity>> {
     try {
       const result = await this._orderRepository.find({ relations: ["products"]});
-      console.log(result);
-
       const resultMap = plainToInstance(OrderEntity, result);
-      console.log(resultMap);
-
       return resultMap;
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
