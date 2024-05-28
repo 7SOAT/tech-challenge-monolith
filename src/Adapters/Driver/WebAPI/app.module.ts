@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { TypeOrmConfigSQL } from "./config/typeorm.config";
 import { ProductModule } from "./modules/product/product.module";
 import { CustomerModule } from "./modules/customer/customer.module";
+import { OrderModule } from "./modules/order/order.module";
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { CustomerModule } from "./modules/customer/customer.module";
       useFactory: TypeOrmConfigSQL,
     }),
     ProductModule,
-    CustomerModule
+    CustomerModule,
+    OrderModule
   ],
   controllers: [],
   providers: [Logger],

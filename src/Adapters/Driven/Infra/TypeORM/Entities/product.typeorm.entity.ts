@@ -37,10 +37,7 @@ export class ProductTypeOrmEntity implements IProductOutput {
   @Column({ type: "varchar", length: 1000 })
   description: string;
 
-  constructor(name, description, price, category) {
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.category = category;
+  constructor(partial: Partial<ProductTypeOrmEntity>) {
+    Object.assign(this, partial);
   }
 }

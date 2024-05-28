@@ -9,16 +9,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { OrderService } from './order.service';
-import { Order } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
+import OrderEntity from 'Core/Domain/Entities/order.entity';
+import { CreateOrderUseCase } from 'Core/Application/UseCases/Order/CreateOrder/createOrder.usecase';
 
 @ApiTags('order')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({ path: 'order', version: '1' })
 export class OrderController {
   constructor(
-    private readonly orderService: OrderService,
+    private _findAllOrderUseCase: FindAllOrderUseCase,
+    private _createOrderUseCase: CreateOrderUseCase,
   ) {}
 
   @Get()
@@ -27,14 +29,14 @@ export class OrderController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Orders retrieved successfully',
-    type: [Array<Order>],
+    type: [Array<OrderEntity>],
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
   async findAll() {
-    return await this.orderService.findAll();
+    return await this._findAllOrderUseCase.execute();
   }
 
   @Post()
@@ -43,13 +45,12 @@ export class OrderController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Order created successfully',
-    type: Order,
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
-    return await this.orderService.create(createOrderDto);
+    return await this._createOrderUseCase.execute(createOrderDto);
   }
 }

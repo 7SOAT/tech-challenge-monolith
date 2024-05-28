@@ -8,19 +8,11 @@ export class CreateOrderDto {
   @ApiProperty({ type: 'string', description: 'Customer Id' })
   customerId: UUID;
 
-  @IsString()
-  @ApiProperty({ type: 'string', description: 'Burger' })
-  burger: string;
+  @IsNotEmpty()
+  @ApiProperty({ type: 'array', description: 'Product Ids', items: { type: 'string' } })
+  productIds: Array<UUID>;
 
   @IsString()
-  @ApiProperty({ type: 'string', description: 'Side' })
-  side: string;
-
-  @IsString()
-  @ApiProperty({ type: 'string', description: 'Beverage' })
-  beverage: string;
-
-  @IsString()
-  @ApiProperty({ type: 'string', description: 'Dessert' })
-  dessert: string;
+  @ApiProperty({ type: 'string', description: 'Description' })
+  description: string;
 }

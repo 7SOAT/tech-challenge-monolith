@@ -1,48 +1,41 @@
-import { Order } from "Adapters/Driver/WebAPI/modules/order/entities/order.entity";
-import { UUID, randomUUID } from "crypto";
+import { UUID } from 'crypto';
+import OrderEntity from './order.entity';
 
-export default class CustomerEntity{
-    private readonly _id: UUID;
-    private readonly _isActive: boolean;
-    private readonly _isArchived: boolean;
-    private readonly _orders: Order[];
+export default class CustomerEntity {
+  private readonly id: UUID;
+  private readonly isActive: boolean;
+  private readonly isArchived: boolean;
 
-    constructor(
-        private readonly _name: string,
-        private readonly _email: string,
-        private readonly _cpf: string
-    ){
-        this._id = randomUUID();
-        this._isActive = true;
-        this._isArchived = false;
-        this._orders = new Array<Order>();
-    }
+  constructor(
+    private readonly name: string,
+    private readonly email: string,
+    private readonly cpf: string
+  ) {
+    this.isActive = true;
+    this.isArchived = false;
+  }
 
-    public get id(): UUID {
-        return this._id;
-    }
+  public get getId(): UUID {
+    return this.id;
+  }
 
-    public get name(): string {
-        return this._name;
-    }
+  public get getName(): string {
+    return this.name;
+  }
 
-    public get email(): string {
-        return this._email;
-    }
+  public get getEmail(): string {
+    return this.email;
+  }
 
-    public get cpf(): string {
-        return this._cpf;
-    }
+  public get getCpf(): string {
+    return this.cpf;
+  }
 
-    public get isActive(): boolean {
-        return this._isActive;
-    }
+  public get getIsActive(): boolean {
+    return this.isActive;
+  }
 
-    public get isArchived(): boolean {
-        return this._isArchived;
-    }
-
-    public get orders(): Order[] {
-        return this._orders;
-    }
+  public get getIsArchived(): boolean {
+    return this.isArchived;
+  }
 }

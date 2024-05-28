@@ -1,45 +1,45 @@
-import { UUID } from "crypto";
-import { ProductCategory } from "../Enums/productCategory.enum";
+import { UUID } from 'crypto';
+import { ProductCategory } from '../Enums/productCategory.enum';
 
 export default class ProductEntity {
-  private _id: UUID;
-  private _name: string;
-  private _description: string;
-  private _price: number;
-  private _productCategory: ProductCategory;
+  private id: UUID;
+  private name: string;
+  private description: string;
+  private price: number;
+  private category: ProductCategory;
 
   constructor(
     name: string,
     description: string,
     price: number,
-    productCategory: ProductCategory
+    category: ProductCategory
   ) {
-    this._name = name;
-    this._description = description;
-    this._price = price;
-    this._productCategory = productCategory;
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.category = category;
 
     this.validate();
   }
 
-  public get id(): UUID {
-    return this._id;
+  public get getId(): UUID {
+    return this.id;
   }
 
-  public get name(): string {
-    return this._name;
+  public get getName(): string {
+    return this.name;
   }
 
-  public get description(): string {
-    return this._description;
+  public get getDescription(): string {
+    return this.description;
   }
 
-  public get price(): number {
-    return this._price;
+  public get getPrice(): number {
+    return this.price;
   }
 
-  public get productCategory(): ProductCategory {
-    return this._productCategory;
+  public get getCategory(): ProductCategory {
+    return this.category;
   }
 
   validate() {}
