@@ -1,15 +1,10 @@
 import { Logger, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { EventEmitterModule } from "@nestjs/event-emitter";
 
 import { TypeOrmConfigSQL } from "./config/typeorm.config";
-
-import { HealthModule } from "./config/health/health.module";
-import { CommonModule } from "./modules/common/common.module";
-import { CustomerModule } from "./modules/customer/customer.module";
 import { ProductModule } from "./modules/product/product.module";
-import { OrderModule } from "./modules/order/order.module";
+import { CustomerModule } from "./modules/customer/customer.module";
 
 @Module({
   imports: [
@@ -18,6 +13,7 @@ import { OrderModule } from "./modules/order/order.module";
       useFactory: TypeOrmConfigSQL,
     }),
     ProductModule,
+    CustomerModule
   ],
   controllers: [],
   providers: [Logger],

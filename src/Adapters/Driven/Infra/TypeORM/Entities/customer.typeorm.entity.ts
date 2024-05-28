@@ -1,4 +1,5 @@
-import { Order } from "../../order/entities/order.entity";
+import { UUID } from "crypto";
+import { Order } from "../../../../Driver/WebAPI/modules/order/entities/order.entity";
 import {
   Column,
   CreateDateColumn,
@@ -9,9 +10,26 @@ import {
 } from "typeorm";
 
 @Entity({ name: "customer" })
-export class Customer {
+
+  export class CustomerTypeOrmEntity {
+    constructor(
+      id: UUID,
+      isActive: boolean,
+      isArchived: boolean,
+      name: string,
+      email: string,
+      cpf: string
+  ){
+    this.id = id,
+    this.isActive = isActive,
+    this.isArchived = isArchived,
+    this.name = name;
+    this.email = email;
+    this.cpf = cpf;
+  }
+
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "boolean", default: true })
   isActive: boolean;
@@ -20,10 +38,10 @@ export class Customer {
   isArchived: boolean;
 
   @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Column({ type: "varchar", length: 200 })
   name: string;
@@ -34,6 +52,6 @@ export class Customer {
   @Column({ type: "varchar", length: 200 })
   cpf: string;
 
-  @OneToMany(() => Order, (order) => order.customer)
-  orders: Order[];
+  // @OneToMany(() => Order, (order) => order.customer)
+  // orders: Order[];
 }

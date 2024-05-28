@@ -1,5 +1,4 @@
 import { UUID } from "crypto";
-import { Customer } from "../../customer/entities/customer.entity";
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -9,6 +8,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import { OrderStatus } from "../enum/order-status.enum";
+import CustomerEntity from "Core/Domain/Entities/customer.entity";
 
 @Entity({ name: "order" })
 export class Order {
@@ -42,8 +42,8 @@ export class Order {
   @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
   orderStatus: OrderStatus;
 
-  @ManyToOne(() => Customer, (customer) => customer.orders)
-  customer: Customer;
+  @ManyToOne(() => CustomerEntity, (customer) => customer.orders)
+  customer: CustomerEntity;
 
   constructor(partial: Partial<Order>) {
     Object.assign(this, partial);
