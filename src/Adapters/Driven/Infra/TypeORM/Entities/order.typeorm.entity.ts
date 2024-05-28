@@ -31,8 +31,11 @@ export class OrderTypeOrmEntity implements IOrderOutput {
   @JoinTable()
   products: ProductTypeOrmEntity[];
 
-  @ManyToOne(() => CustomerTypeOrmEntity, (customer) => customer.id)
-  customer: CustomerTypeOrmEntity;
+  @ManyToOne(() => CustomerTypeOrmEntity, (customer) => customer.id, { nullable: true })
+  customer: CustomerTypeOrmEntity | null;
+
+  @Column({ type: 'int', unique: true, nullable: false, generated: 'increment' })
+  orderNumber: number;
 
   constructor(partial: Partial<OrderTypeOrmEntity>) {
     Object.assign(this, partial);

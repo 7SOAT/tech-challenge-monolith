@@ -44,6 +44,7 @@ export class OrderTypeOrmRepository implements IOrderRepository {
         OrderEntity,
         result
       );
+
       return resultMap;
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);

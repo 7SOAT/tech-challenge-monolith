@@ -7,14 +7,14 @@ export default class OrderEntity {
   private id: UUID;
   private orderStatus: OrderStatus;
   private totalValue: number;
-  private customer: CustomerEntity;
+  private customer: CustomerEntity | null;
   private products: ProductEntity[];
 
   constructor(
     orderStatus: OrderStatus,
     totalValue: number,
     customer: CustomerEntity,
-    products: ProductEntity[]
+    products: ProductEntity[],
   ) {
     this.orderStatus = orderStatus;
     this.totalValue = totalValue;
