@@ -4,11 +4,11 @@ import ProductEntity from "./product.entity";
 import { Customer } from "Adapters/Driver/WebAPI/modules/customer/entities/customer.entity";
 
 export default class OrderEntity {
-  private _id: UUID;
-  private _orderStatus: OrderStatus;
-  private _totalValue: number;
-  private _customer: Customer;
-  private _products: ProductEntity[];
+  private id: UUID;
+  private orderStatus: OrderStatus;
+  private totalValue: number;
+  private customer: Customer;
+  private products: ProductEntity[];
 
 
   constructor(
@@ -17,32 +17,32 @@ export default class OrderEntity {
     //customer: Customer,
     products: ProductEntity[]
   ) {
-    this._orderStatus = orderStatus;
-    this._totalValue = totalValue;
+    this.orderStatus = orderStatus;
+    this.totalValue = totalValue;
     //this._customer = customer;
-    this._products = products;
+    this.products = products;
 
     this.validate();
   }
 
-  public get id(): UUID {
-    return this._id;
+  public get getId(): UUID {
+    return this.id;
   }
 
-  public get orderStatus(): OrderStatus {
-    return this._orderStatus;
+  public get getOrderStatus(): OrderStatus {
+    return this.orderStatus;
   }
 
-  public get totalValue(): number {
-    return this._totalValue;
+  public get getTotalValue(): number {
+    return this.totalValue;
   }
 
-  public get customer(): Customer {
-    return this._customer;
+  public get getCustomer(): Customer {
+    return this.customer;
   }
 
-  public get products(): ProductEntity[] {
-    return this._products;
+  public get getProducts(): ProductEntity[] {
+    return this.products;
   }
 
   validate() {}
