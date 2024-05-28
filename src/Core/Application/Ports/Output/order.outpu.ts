@@ -1,6 +1,4 @@
-import { OrderStatus } from "Core/Domain/Enums/orderStatus.enum";
-import { UUID } from "crypto";
-
+import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
 
 export default interface IOrderOutput {
   id: string;

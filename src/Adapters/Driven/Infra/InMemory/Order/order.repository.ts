@@ -1,5 +1,5 @@
-import OrderEntity from "Core/Domain/Entities/order.entity";
-import { IOrderRepository } from "Core/Domain/Repositories/order.repository";
+import OrderEntity from 'Core/Domain/Entities/order.entity';
+import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 
 
 export default class OrderRepository implements IOrderRepository {
@@ -8,10 +8,10 @@ export default class OrderRepository implements IOrderRepository {
     this._orders = new Array<OrderEntity>();
   }
   findAll(): Promise<OrderEntity[]> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   insert(order: OrderEntity): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }

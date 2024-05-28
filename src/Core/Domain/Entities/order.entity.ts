@@ -1,7 +1,7 @@
-import { UUID } from "crypto";
-import { OrderStatus } from "../Enums/orderStatus.enum";
-import ProductEntity from "./product.entity";
-import CustomerEntity from "./customer.entity";
+import { UUID } from 'crypto';
+import { OrderStatus } from '../Enums/orderStatus.enum';
+import ProductEntity from './product.entity';
+import CustomerEntity from './customer.entity';
 
 export default class OrderEntity {
   private id: UUID;

@@ -1,5 +1,5 @@
-import { UUID } from "crypto";
-import { ProductCategory } from "../Enums/productCategory.enum";
+import { UUID } from 'crypto';
+import { ProductCategory } from '../Enums/productCategory.enum';
 
 export default class ProductEntity {
   private id: UUID;
