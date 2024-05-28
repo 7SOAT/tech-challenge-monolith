@@ -26,6 +26,12 @@
 
 <ol start="1">
   <li>
+    <h3>Clonando o repositório</h3>
+    
+    git clone https://github.com/7SOAT/tech-challenge-monolith.git
+    cd tech-challenge-monolith
+  </li>
+  <li>
     <h3>Instalar bibliotecas</h3>
     <p>Para instalar as bibliotecas, abra o terminal na raiz do projeto e execute o seguinte comando:</p>
     
@@ -35,8 +41,20 @@
     <h3>Rodar instâncias no Docker</h3>
     <p>Para rodar as instâncias do banco e da aplicação no Docker, a maneira mais simples é utilizar a extensão do VSCode, explicada no gif abaixo:</p>
     <img src="https://code.visualstudio.com/assets/docs/containers/overview/select-subset.gif">
+    <p>Ou se preferir pode ser feito pelo terminal com:</p>
+    <p> - Para windows:</p>
+    
+      docker-compose up --build
+
+   <p> - Para Linux/macOS</p>
+
+     docker compose up --build
+
+
+  Disponível em <link>http://localhost:3000</link>
+  
   </li>
-  <li>Subindo a imagem, o projeto já estará potno para receber requisições através do Postman ou Insomnia</li>
+  <li>Subindo a imagem, o projeto já estará pronto para receber requisições através do Postman ou Insomnia</li>
 </ol>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
