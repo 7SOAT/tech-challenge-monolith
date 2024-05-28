@@ -1,4 +1,3 @@
-import { Order } from "../../order/entities/order.entity";
 import {
   Column,
   CreateDateColumn,
@@ -33,7 +32,4 @@ export class Customer {
 
   @Column({ type: "varchar", length: 200 })
   cpf: string;
-
-  @OneToMany(() => Order, (order) => order.customer)
-  orders: Order[];
 }

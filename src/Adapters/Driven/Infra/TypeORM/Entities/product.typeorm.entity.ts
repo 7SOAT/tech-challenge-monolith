@@ -4,9 +4,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { OrderTypeOrmEntity } from "./order.typeorm.entity";
 
 @Entity({ name: "product" })
 export class ProductTypeOrmEntity implements IProductOutput {
@@ -36,6 +38,9 @@ export class ProductTypeOrmEntity implements IProductOutput {
 
   @Column({ type: "varchar", length: 1000 })
   description: string;
+
+  @ManyToMany(() => OrderTypeOrmEntity, (order) => order.products)
+  orders: OrderTypeOrmEntity[];
 
   constructor(name, description, price, category) {
     this.name = name;

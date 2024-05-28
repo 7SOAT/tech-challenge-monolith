@@ -18,6 +18,7 @@ import { OrderModule } from "./modules/order/order.module";
       useFactory: TypeOrmConfigSQL,
     }),
     ProductModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [Logger],
