@@ -19,7 +19,7 @@ export class CustomerTypeOrmRepository implements ICustomerRepository {
 
   async findOneByCPF(cpf: string): Promise<CustomerEntity> {
     try {
-      const customer = await this._customerRepository.findOneBy({ cpf });
+      const customer = await this._customerRepository.findOne({ where: { cpf } });
 
       const mappedCustomer = plainToInstance(CustomerEntity, customer);
 
