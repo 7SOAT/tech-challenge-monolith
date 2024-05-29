@@ -24,6 +24,8 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
 
         if (resultProduct) {
           products.push(resultProduct);
+        } else {
+          throw new Error("Client/product not found")
         }
       }
 
@@ -44,8 +46,7 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
 
       this._orderRepository.insert(order);
     } catch (error) {
-      // IMPLEMENTS RETURN ERROR AND LOGGER NESTJS
-
+      throw error;
     }
   }
 }

@@ -1,5 +1,6 @@
 import ProductEntity from "Core/Domain/Entities/product.entity";
+import { UUID } from "crypto";
 
 export interface IFindOneProductByIdUseCase {
-  execute(id: string): Promise<ProductEntity>;
+  execute(id: UUID): Promise<ProductEntity>;
 }

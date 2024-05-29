@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { UUID } from 'crypto';
 
 export class CreateOrderDto {
   @IsUUID()
+  @IsOptional()
   @ApiProperty({ type: 'string', description: 'Customer Id' })
   customerId: UUID;
 
@@ -13,6 +14,7 @@ export class CreateOrderDto {
   productIds: Array<UUID>;
 
   @IsString()
+  @IsOptional()
   @ApiProperty({ type: 'string', description: 'Description' })
   description: string;
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import IProductInput from '../../../../../../Core/Application/Ports/Input/product.input';
 import { ProductCategory } from 'Core/Domain/Enums/productCategory.enum';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductDto implements IProductInput {
   @IsNotEmpty({ message: 'category product should be not empty' })
@@ -15,7 +15,7 @@ export class CreateProductDto implements IProductInput {
   name: string;
 
   @IsNotEmpty({ message: 'price product should be not empty' })
-  @IsInt({ message: 'price product should be string' })
+  @IsNumber()
   @ApiProperty({ type: 'number', description: 'price product' })
   price: number;
 
