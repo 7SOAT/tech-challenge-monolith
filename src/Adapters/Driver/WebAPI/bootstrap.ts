@@ -12,7 +12,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const config = new DocumentBuilder()
     .setTitle('Tech Challenge Monolith API')
-    .setDescription('API.')
+    .setDescription('Application for creating and tracking orders.')
     .setVersion('1.0')
     .build();
 
