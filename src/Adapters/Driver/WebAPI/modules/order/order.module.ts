@@ -58,7 +58,7 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/cu
         return new FindAllOrderUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
-    },
+    }
   ],
 })
 export class OrderModule {}

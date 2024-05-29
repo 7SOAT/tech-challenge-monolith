@@ -7,6 +7,8 @@ import {
   Put,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
 } from "@nestjs/common";
 
 import { CreateProductDto } from "./dto/create-product.dto";
@@ -39,29 +41,49 @@ export class ProductController {
   @Put("/:productId")
   @ApiParam({name: 'productId'})
   update(@Param("productId") id, @Body() input: UpdateProductDto) {
-    return this._updateProductUseCase.execute(id, input);
+    try {
+      return this._updateProductUseCase.execute(id, input);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Delete("/:productId")
   @ApiParam({name: 'productId'})
   delete(@Param("productId") id) {
-    return this._deleteProductUseCase.execute(id);
+    try {
+      return this._deleteProductUseCase.execute(id);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get()
-  find() {
-    return this._findAllProductsUseCase.execute();
+  async find() {
+    try {
+      return await this._findAllProductsUseCase.execute();
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get("/:productId")
   @ApiParam({name: 'productId'})
-  findOneById(@Param("productId") id) {
-    return this._findOneProductByIdUseCase.execute(id);
+  async findOneById(@Param("productId") id) {
+    try {
+      return await this._findOneProductByIdUseCase.execute(id);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get("/by-category/:productCategory")
   @ApiParam({name: 'productCategory'})
-  findByCategory(@Param("productCategory") category) {
-    return this._findProductsByCategoryUseCase.execute(category);
+  async findByCategory(@Param("productCategory") category) {
+    try {
+      return await this._findProductsByCategoryUseCase.execute(category);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Post,
   UseInterceptors,
@@ -36,7 +37,11 @@ export class OrderController {
     description: 'Internal server error',
   })
   async findAll() {
-    return await this._findAllOrderUseCase.execute();
+    try {
+      return await this._findAllOrderUseCase.execute();
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Post()
@@ -51,6 +56,10 @@ export class OrderController {
     description: 'Internal server error',
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
-    return await this._createOrderUseCase.execute(createOrderDto);
+    try {
+      return await this._createOrderUseCase.execute(createOrderDto);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

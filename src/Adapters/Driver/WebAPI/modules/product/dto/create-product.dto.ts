@@ -1,17 +1,25 @@
-import { ApiProperty } from "@nestjs/swagger";
-import IProductInput from "../../../../../../Core/Application/Ports/Input/product.input";
-import { ProductCategory } from "Core/Domain/Enums/productCategory.enum";
+import { ApiProperty } from '@nestjs/swagger';
+import IProductInput from '../../../../../../Core/Application/Ports/Input/product.input';
+import { ProductCategory } from 'Core/Domain/Enums/productCategory.enum';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProductDto implements IProductInput {
-  @ApiProperty()
+  @IsNotEmpty({ message: 'category product should be not empty' })
+  @IsString({ message: 'category product should be string' })
+  @ApiProperty({ type: 'enum', enum: ProductCategory, description: 'category product' })
   category: ProductCategory;
 
-  @ApiProperty()
+  @IsNotEmpty({ message: 'name product should be not empty' })
+  @IsString({ message: 'name product should be string' })
+  @ApiProperty({ type: 'string', description: 'name product' })
   name: string;
 
-  @ApiProperty()
+  @IsNotEmpty({ message: 'price product should be not empty' })
+  @IsInt({ message: 'price product should be string' })
+  @ApiProperty({ type: 'number', description: 'price product' })
   price: number;
 
-  @ApiProperty()
+  @IsString({ message: 'description product should be string' })
+  @ApiProperty({ type: 'string', description: 'description product' })
   description: string;
 }

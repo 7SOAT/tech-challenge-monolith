@@ -5,13 +5,13 @@ import OrderEntity from 'Core/Domain/Entities/order.entity';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
 import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
-import CustomerEntity from 'Core/Domain/Entities/customer.entity';
+import { Logger } from '@nestjs/common';
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
   constructor(
     private _orderRepository: IOrderRepository,
     private _productRepository: IProductRepository,
-    private _customerRepository: ICustomerRepository
+    private _customerRepository: ICustomerRepository,
   ) {}
 
   async execute(orderInput: IOrderInput): Promise<void> {
@@ -44,7 +44,8 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
 
       this._orderRepository.insert(order);
     } catch (error) {
-      throw error;
+      // IMPLEMENTS RETURN ERROR AND LOGGER NESTJS
+
     }
   }
 }
