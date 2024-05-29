@@ -19,9 +19,38 @@
 
 * [NodeJS e NPM](https://nodejs.org/en)
 * [Docker](https://www.docker.com/products/docker-desktop/)
+* [Miro](https://miro.com/welcomeonboard/ZXM3dDZEMWNYazBaZEcxMDQ4UGFSOHRUVUZhcjJsTHZDVEJuMUhkeUl3d2ZnTndZUmhncUxRbEJlYVVxREN4b3wzNDU4NzY0NTg2NjE5MjYzNTE1fDI=?share_link_id=439093219851)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+<h2>🏗️ Estrutura do projeto</h2>
 
+```
+src
+├── Adapters
+│   ├── Driven
+|       ├── Infra
+|           ├── TypeORM
+|               ├── Config
+|               ├── Entities
+|               ├── Mappers
+|               ├── Repositories
+│   ├── Driver
+|       ├── WebAPI
+|          ├── config
+|          ├── modules
+├── Core
+│   ├── Application
+|       ├── Port
+|          ├── Input
+|          ├── Output
+|       ├── UseCases
+│   ├── Domain
+|      ├── Entities
+|      ├── Enums
+|      ├── Repositories
+└── main.ts
+```
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 <h2 id="requisitos"> ⚙️ Rodando o projeto</h2>
 
 <ol start="1">
