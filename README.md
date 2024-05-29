@@ -12,9 +12,8 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-<img src="https://i.pinimg.com/originals/36/98/41/369841848d679cef173ae2b0f5ed6e39.png" width=115 >
-
-* [Miro](https://miro.com/welcomeonboard/ZXM3dDZEMWNYazBaZEcxMDQ4UGFSOHRUVUZhcjJsTHZDVEJuMUhkeUl3d2ZnTndZUmhncUxRbEJlYVVxREN4b3wzNDU4NzY0NTg2NjE5MjYzNTE1fDI=?share_link_id=439093219851)
+<h2>📄 Documentação do projeto</h2>
+[<img src="https://i.pinimg.com/originals/36/98/41/369841848d679cef173ae2b0f5ed6e39.png" width=115 >](https://miro.com/welcomeonboard/ZXM3dDZEMWNYazBaZEcxMDQ4UGFSOHRUVUZhcjJsTHZDVEJuMUhkeUl3d2ZnTndZUmhncUxRbEJlYVVxREN4b3wzNDU4NzY0NTg2NjE5MjYzNTE1fDI=?share_link_id=439093219851)
   
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
