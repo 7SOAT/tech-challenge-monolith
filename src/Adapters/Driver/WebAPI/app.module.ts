@@ -6,6 +6,7 @@ import { TypeOrmConfigSQL } from "./config/typeorm.config";
 import { ProductModule } from "./modules/product/product.module";
 import { CustomerModule } from "./modules/customer/customer.module";
 import { OrderModule } from "./modules/order/order.module";
+import { HealthModule } from "./config/health/health.module";
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { OrderModule } from "./modules/order/order.module";
     }),
     ProductModule,
     CustomerModule,
-    OrderModule
+    OrderModule,
+    HealthModule,
   ],
   controllers: [],
 })
