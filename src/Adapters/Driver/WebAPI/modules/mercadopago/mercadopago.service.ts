@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MercadoPagoConfig, Payment } from 'mercadopago';
+import { PaymentCreateRequest } from 'mercadopago/dist/clients/payment/create/types';
 
 @Injectable()
 export class MercadoPagoService {
@@ -8,21 +9,16 @@ export class MercadoPagoService {
 
   constructor() {
     this.client = new MercadoPagoConfig({
-      accessToken: 'YOUR_ACCESS_TOKEN',
-      options: { timeout: 5000, idempotencyKey: 'abc' },
+      accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
+      options: { timeout: 5000, idempotencyKey: process.env.MERCADOPAGO_IDEMPOTENCY_KEY },
     });
     this.payment = new Payment(this.client);
   }
 
 
-  async createPayment(paymentData: any) {
-    const requestOptions = {
-      idempotencyKey: 'UNIQUE_IDEMPOTENCY_KEY',
-    };
-
+  async createPayment(body: PaymentCreateRequest): Promise<any> {
     try {
-      const response = await this.payment.create({ body: paymentData, requestOptions });
-      return response;
+      return await this.payment.create({ body });
     } catch (error) {
       throw new Error(error.message);
     }
