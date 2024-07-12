@@ -7,6 +7,7 @@ import { ProductModule } from "./modules/product/product.module";
 import { CustomerModule } from "./modules/customer/customer.module";
 import { OrderModule } from "./modules/order/order.module";
 import { HealthModule } from "./config/health/health.module";
+import { WebhookModule } from "./modules/webhook/webhook.module";
 
 @Module({
   imports: [
@@ -14,10 +15,11 @@ import { HealthModule } from "./config/health/health.module";
     TypeOrmModule.forRootAsync({
       useFactory: TypeOrmConfigSQL,
     }),
+    HealthModule,
     ProductModule,
     CustomerModule,
     OrderModule,
-    HealthModule,
+    WebhookModule,
   ],
   controllers: [],
 })
