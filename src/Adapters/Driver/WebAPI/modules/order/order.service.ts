@@ -7,6 +7,7 @@ import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { plainToClass } from 'class-transformer';
 import { OrderStatus } from './enum/order-status.enum';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
+import { CheckoutOrderDto } from './dto/checkout-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -52,6 +53,25 @@ export class OrderService {
       return result;
     } catch (error) {
       this.logger.error(`[OrderService] Error updating order status: ${error}`);
+    }
+  }
+  async checkout(checkoutOrderDto: CheckoutOrderDto): Promise<{ orderId: string }> {
+    const { orderId } = checkoutOrderDto;
+    
+    try {
+      const order = await this.orderRepository.findOneByOrFail({ id: orderId });
+
+      if (!order) {
+        throw new Error('Order not found');
+      }
+
+      order.orderStatus = OrderStatus.CHECKED_OUT;
+      await this.orderRepository.save(order);
+
+      return { orderId: order.id };
+    } catch (error) {
+      this.logger.error(`Error checking out order: ${error}`);
+      throw error;
     }
   }
 }

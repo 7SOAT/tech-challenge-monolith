@@ -12,6 +12,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderService } from './order.service';
 import { Order } from './entities/order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { CheckoutOrderDto } from './dto/checkout-order.dto';
 
 @ApiTags('order')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -51,5 +52,21 @@ export class OrderController {
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
     return await this.orderService.create(createOrderDto);
+  }
+
+  @Post('/checkout')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Checkout an order' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Order checked out successfully',
+    type: Order,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  async checkout(@Body() checkoutOrderDto: CheckoutOrderDto) {
+    return await this.orderService.checkout(checkoutOrderDto);
   }
 }
