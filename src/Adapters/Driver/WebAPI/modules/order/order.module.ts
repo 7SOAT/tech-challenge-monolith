@@ -48,10 +48,24 @@ import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercad
     },
     {
       provide: CreateOrderUseCase,
-      useFactory: (_orderRepository: IOrderRepository, _productRepository: IProductRepository, _customerRepository: ICustomerRepository, _mercadoPagoService: IMercadoPagoService) => {
-        return new CreateOrderUseCase(_orderRepository, _productRepository, _customerRepository, _mercadoPagoService);
+      useFactory: (
+        _orderRepository: IOrderRepository,
+        _productRepository: IProductRepository,
+        _customerRepository: ICustomerRepository,
+        _mercadoPagoService: IMercadoPagoService
+      ) => {
+        return new CreateOrderUseCase(
+          _orderRepository,
+          _productRepository,
+          _customerRepository,
+          _mercadoPagoService
+        );
       },
-      inject: [OrderTypeOrmRepository, ProductTypeOrmRepository , CustomerTypeOrmRepository],
+      inject: [
+        OrderTypeOrmRepository,
+        ProductTypeOrmRepository,
+        CustomerTypeOrmRepository,
+      ],
     },
     {
       provide: FindAllOrderUseCase,
@@ -59,7 +73,7 @@ import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercad
         return new FindAllOrderUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
-    }
+    },
   ],
 })
 export class OrderModule {}
