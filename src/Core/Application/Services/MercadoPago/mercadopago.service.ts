@@ -1,20 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { MercadoPagoConfig, Payment } from 'mercadopago';
 import { PaymentCreateRequest } from 'mercadopago/dist/clients/payment/create/types';
+import { IMercadoPagoService } from '../interfaces/mercadopago.interface';
+import { MercadoPagoConfig, Payment } from 'mercadopago';
 
-@Injectable()
-export class MercadoPagoService {
+
+export class MercadoPagoService implements IMercadoPagoService {
   private client: MercadoPagoConfig;
   private payment: Payment;
 
   constructor() {
     this.client = new MercadoPagoConfig({
       accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
-      options: { timeout: 5000, idempotencyKey: process.env.MERCADOPAGO_IDEMPOTENCY_KEY },
+      options: { timeout: 5000 },
     });
     this.payment = new Payment(this.client);
   }
-
 
   async createPayment(body: PaymentCreateRequest): Promise<any> {
     try {
