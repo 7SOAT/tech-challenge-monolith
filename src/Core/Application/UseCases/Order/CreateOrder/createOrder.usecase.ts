@@ -5,14 +5,17 @@ import OrderEntity from 'Core/Domain/Entities/order.entity';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
 import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
+import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
+
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
   constructor(
     private _orderRepository: IOrderRepository,
     private _productRepository: IProductRepository,
     private _customerRepository: ICustomerRepository,
+    private _mercadoPagoService: IMercadoPagoService,
   ) {}
 
   async execute(orderInput: IOrderInput): Promise<void> {

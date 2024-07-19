@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import MockTables from 'Adapters/Driven/Infra/Database/Config/MockTables/mockTables.mock-function';
 
-async function bootstrap() {
+export async function bootstrap(): Promise<void> {
   const app: INestApplication<any> = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
@@ -28,5 +28,3 @@ async function bootstrap() {
 
   await app.listen(configService.get<number>('API_PORT'));
 }
-
-export default bootstrap;

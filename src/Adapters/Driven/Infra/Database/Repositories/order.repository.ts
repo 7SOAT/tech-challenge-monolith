@@ -3,12 +3,13 @@ import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { OrderTypeOrmEntity } from '../Entities/order.typeorm.entity';
 import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
-import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
-import CustomerEntity from 'Core/Domain/Entities/customer.entity';
-import ProductEntity from 'Core/Domain/Entities/product.entity';
-import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
 import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 import OrderStatusEntity from 'Core/Domain/Entities/orderStatus.entity';
+import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
+import CustomerEntity from 'Core/Domain/Entities/customer.entity';
+import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
+import ProductEntity from 'Core/Domain/Entities/product.entity';
+
 
 export class OrderTypeOrmRepository implements IOrderRepository {
   constructor(private _orderRepository: Repository<OrderTypeOrmEntity>) { }
@@ -27,7 +28,6 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       throw new Error(`Error finding all orders: ${error}`);
     }
   }
-
   async findQueue(): Promise<Array<OrderEntity>> {
     try {
       const result = await this._orderRepository.find({
@@ -76,6 +76,14 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       });
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
+    }
+  }
+  
+  async updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void> {
+    try {
+      await this._orderRepository.update(orderId, { status: new OrderStatusEntity(status) });
+    } catch (error) {
+      throw new Error(`Error updating status webhook: ${error}`);
     }
   }
 }
