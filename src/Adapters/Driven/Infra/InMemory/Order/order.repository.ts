@@ -14,4 +14,8 @@ export default class OrderRepository implements IOrderRepository {
   insert(order: OrderEntity): Promise<void> {
     throw new Error('Method not implemented.');
   }
+
+  updateStatusWebhook(orderId: string, status: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 }

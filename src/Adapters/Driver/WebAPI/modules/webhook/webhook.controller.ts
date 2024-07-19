@@ -1,12 +1,17 @@
-import { HttpService } from '@nestjs/axios';
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { firstValueFrom } from 'rxjs';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FindPaymentByPaymentIdUseCase } from 'Core/Application/UseCases/Webhook/FindPaymentByPaymentIdUseCase/findPaymentByPaymentId.usecase';
+import { WebhookDto } from './dto/webhook.dto';
 
 @ApiTags('webhook')
 @Controller('webhook')
 export class WebhookController {
-  constructor(private httpService: HttpService) { }
+  constructor(private _findPaymentByPaymentId: FindPaymentByPaymentIdUseCase) {}
 
   @Post()
   @ApiOperation({ summary: 'Webhook' })
@@ -14,23 +19,9 @@ export class WebhookController {
     status: HttpStatus.OK,
     description: 'Webhook verify payment approved or not',
   })
-  async webhook(@Body() body: any) {
-    try {
-      const paymentId = body.data?.id;
-
-      const response = await firstValueFrom(
-        this.httpService.get(`https://api.mercadopago.com/v1/payments/${paymentId}`)
-      );
-
-      const payment = response.data;
-
-      if (payment.status === 'approved') {
-        return 'Payment approved';
-      }
-
-      return 'Payment not approved';
-    } catch (error) {
-      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  @ApiBody({ type: WebhookDto })
+  async webhook(@Body() { data }: WebhookDto) {
+    const paymentId = String(data?.id);
+    return await this._findPaymentByPaymentId.execute(paymentId);
   }
 }

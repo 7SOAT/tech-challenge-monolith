@@ -19,7 +19,7 @@ export class MercadoPagoService implements IMercadoPagoService {
     try {
       return await this.payment.create({ body });
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(`Error create payment: ${error}`);
     }
   }
 }

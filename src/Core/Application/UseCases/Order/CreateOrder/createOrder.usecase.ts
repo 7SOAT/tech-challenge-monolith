@@ -5,7 +5,6 @@ import OrderEntity from 'Core/Domain/Entities/order.entity';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
 import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
-import { Logger } from '@nestjs/common';
 import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
