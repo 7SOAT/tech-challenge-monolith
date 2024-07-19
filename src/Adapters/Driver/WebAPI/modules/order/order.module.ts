@@ -13,6 +13,7 @@ import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Reposito
 import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/customer.repository';
 import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity';
 import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/customer.typeorm.entity';
+import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity])],
@@ -56,6 +57,13 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/cu
       provide: FindAllOrderUseCase,
       useFactory: (_orderRepository: IOrderRepository) => {
         return new FindAllOrderUseCase(_orderRepository);
+      },
+      inject: [OrderTypeOrmRepository],
+    },
+    {
+      provide: OrderCheckoutUseCase,
+      useFactory: (_orderRepository: IOrderRepository) => {
+        return new OrderCheckoutUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
     }

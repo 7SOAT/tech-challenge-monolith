@@ -7,6 +7,8 @@ import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
 import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
+import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 export class OrderTypeOrmRepository implements IOrderRepository {
   constructor(private _orderRepository: Repository<OrderTypeOrmEntity>) {}
@@ -48,6 +50,22 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       return resultMap;
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
+    }
+  }
+
+  async updateOrderStatus(id: UUID, status: OrderStatus): Promise<void> {
+    try {
+      await this._orderRepository.update(id.toString(), {orderStatus: status});
+    } catch (error) {
+      throw new Error(`Error while updating order: ${error}`)
+    }
+  }
+
+  async findById(id: UUID): Promise<OrderTypeOrmEntity> {
+    try {
+      return await this._orderRepository.findOneBy({id: id.toString()})
+    } catch (error) {
+      throw new Error(`Error finding order: ${error}`)
     }
   }
 }
