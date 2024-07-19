@@ -5,10 +5,10 @@ import { IWebhookService } from 'Core/Application/Services/interfaces/webhook.in
 import { WebhookService } from 'Core/Application/Services/MercadoPago/webhook.service';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
-import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/order.repository';
 import { DataSource } from 'typeorm';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/order.typeorm.entity';
 import { getDataSourceToken } from '@nestjs/typeorm';
+import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
 
 @Module({
   imports: [HttpModule],
@@ -39,4 +39,5 @@ import { getDataSourceToken } from '@nestjs/typeorm';
     },
   ],
 })
+
 export class WebhookModule {}

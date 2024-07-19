@@ -1,11 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { IWebhookService } from '../interfaces/webhook.interface';
 import { lastValueFrom } from 'rxjs';
-import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
 import { ResponseWebhook } from '../interfaces/response-webhook.interface';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
-import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
+import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 
 export class WebhookService implements IWebhookService {
   private readonly accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
@@ -29,7 +28,7 @@ export class WebhookService implements IWebhookService {
 
       const { status, order } = data;
 
-      this._orderRepository.updateStatusWebhook(order.id, OrderStatus.COMPLETED);
+      this._orderRepository.updateStatusWebhook(order.id, OrderStatusEnum.FINISHED);
 
       return data;
     } catch (error) {
