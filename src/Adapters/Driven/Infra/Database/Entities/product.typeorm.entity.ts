@@ -7,23 +7,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { UUID } from 'crypto';
+import { BaseTypeOrmEntity } from "./baseEntity.typeorm.entity";
 
 @Entity({ name: "product" })
-export class ProductTypeOrmEntity implements IProductOutput {
+export class ProductTypeOrmEntity extends BaseTypeOrmEntity<ProductTypeOrmEntity> implements IProductOutput {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "boolean", default: true })
   isActive: boolean;
-
-  @Column({ type: "boolean", default: false })
-  isArchived: boolean;
-
-  @CreateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: "timestamptz", default: () => "CURRENT_TIMESTAMP" })
-  updatedAt: Date;
 
   @Column({ type: "enum", enum: ProductCategory })
   category: ProductCategory;
@@ -37,7 +30,4 @@ export class ProductTypeOrmEntity implements IProductOutput {
   @Column({ type: "varchar", length: 1000 })
   description: string;
 
-  constructor(partial: Partial<ProductTypeOrmEntity>) {
-    Object.assign(this, partial);
-  }
 }

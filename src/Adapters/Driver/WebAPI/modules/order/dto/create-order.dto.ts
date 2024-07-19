@@ -9,7 +9,7 @@ export class CreateOrderDto {
   customerId: UUID;
 
   @IsNotEmpty()
-  @IsArray({ message: 'productIds should be array' })
+  @IsArray({ message: 'ProductIds should be an array' })
   @ApiProperty({ type: 'array', description: 'Product Ids', items: { type: 'string' } })
   productIds: Array<UUID>;
 

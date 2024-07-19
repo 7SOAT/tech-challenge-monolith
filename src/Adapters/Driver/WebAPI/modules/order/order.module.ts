@@ -1,23 +1,35 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, getDataSourceToken } from '@nestjs/typeorm';
 import { OrderController } from './order.controller';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/order.typeorm.entity';
-import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/order.repository';
 import { DataSource } from 'typeorm';
 import { CreateOrderUseCase } from 'Core/Application/UseCases/Order/CreateOrder/createOrder.usecase';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
-import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/product.repository';
-import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/customer.repository';
-import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity';
-import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/customer.typeorm.entity';
+import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/customer.typeorm.entity';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orderStatus.typeorm.entity';
+import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/product.typeorm.entity';
+import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/customer.repository';
+import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
+import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/product.repository';
+import { OrderStatusTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/orderStatus.repository';
+import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity])],
+  imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity, OrderStatusTypeOrmEntity])],
   controllers: [OrderController],
   providers: [
+    {
+      provide: OrderStatusTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new OrderStatusTypeOrmRepository(
+          dataSource.getRepository(OrderStatusTypeOrmEntity)
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
     {
       provide: OrderTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
@@ -56,6 +68,13 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/cu
       provide: FindAllOrderUseCase,
       useFactory: (_orderRepository: IOrderRepository) => {
         return new FindAllOrderUseCase(_orderRepository);
+      },
+      inject: [OrderTypeOrmRepository],
+    },
+    {
+      provide: FindOrderQueueUseCase,
+      useFactory: (_orderRepository: IOrderRepository) => {
+        return new FindOrderQueueUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
     }

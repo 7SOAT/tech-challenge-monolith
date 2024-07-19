@@ -5,8 +5,8 @@ import { CreateCustomerUseCase } from 'Core/Application/UseCases/Customer/Create
 import { FindCustomerByCPFUseCase } from 'Core/Application/UseCases/Customer/FindCustomerByCPF/findCustomerByCPF.usecase';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
 
-@ApiTags('customer')
-@Controller('customer')
+@ApiTags('customers')
+@Controller('customers')
 export class CustomerController {
   constructor(
     private _createCustomerUseCase: CreateCustomerUseCase,

@@ -1,19 +1,20 @@
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
 import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
-import { Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
-import { UUID } from 'crypto';
 import { plainToInstance } from 'class-transformer';
+import { UUID } from 'crypto';
 
 export class CustomerTypeOrmRepository implements ICustomerRepository {
   constructor(private _customerRepository: Repository<CustomerTypeOrmEntity>) {}
 
-  async insert(customer: CustomerEntity): Promise<void> {
+  async findOneById(id: UUID): Promise<CustomerEntity> {
     try {
-      const mappedCustomer = plainToInstance(CustomerTypeOrmEntity, customer);
-      await this._customerRepository.save(mappedCustomer);
+      const result = await this._customerRepository.findOneBy({ id });
+      const mappedCustomer = plainToInstance(CustomerEntity, result);
+      return mappedCustomer;
     } catch (error) {
-      throw new Error(`Error inserting customer: ${error}`);
+      throw new Error(`Error finding customer by id: ${error}`);
     }
   }
 
@@ -29,13 +30,12 @@ export class CustomerTypeOrmRepository implements ICustomerRepository {
     }
   }
 
-  async findOneById(id: UUID): Promise<CustomerEntity> {
+  async insert(customer: CustomerEntity): Promise<void> {
     try {
-      const result = await this._customerRepository.findOneBy({ id });
-      const mappedCustomer = plainToInstance(CustomerEntity, result);
-      return mappedCustomer;
+      const mappedCustomer = plainToInstance(CustomerTypeOrmEntity, customer);
+      await this._customerRepository.save(mappedCustomer);
     } catch (error) {
-      throw new Error(`Error finding customer by id: ${error}`);
+      throw new Error(`Error inserting customer: ${error}`);
     }
   }
 }

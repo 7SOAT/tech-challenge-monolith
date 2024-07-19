@@ -13,7 +13,6 @@ import {
 
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-
 import { CreateProductUseCase } from "Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
 import { UpdateProductUseCase } from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
 import { DeleteProductUseCase } from "Core/Application/UseCases/Product/DeleteProduct/deleteProduct.usecase";
@@ -22,10 +21,10 @@ import { FindOneProductByIdUseCase } from "Core/Application/UseCases/Product/Fin
 import { FindProductsByCategoryUseCase } from "Core/Application/UseCases/Product/FindProductsByCategory/findProductsByCategory.usecase";
 import { ProductCategory } from "Core/Domain/Enums/productCategory.enum";
 import ProductEntity from "Core/Domain/Entities/product.entity";
-import { UUID } from "crypto";
+import { UUID } from 'crypto';
 
-@ApiTags("product")
-@Controller("product")
+@ApiTags("products")
+@Controller("products")
 export class ProductController {
   constructor(
     private _createProductUseCase: CreateProductUseCase,
@@ -35,6 +34,22 @@ export class ProductController {
     private _findOneProductByIdUseCase: FindOneProductByIdUseCase,
     private _findProductsByCategoryUseCase: FindProductsByCategoryUseCase
   ) { }
+
+  @Get("/:productId")
+  @ApiParam({ name: 'productId' })
+  @ApiOperation({ summary: "Find product by Id", parameters: [{ name: "id", in: "path" }] })
+  @ApiResponse({ status: 200, description: 'Retrieve a product' })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  async findOneById(@Param("productId") id: UUID) {
+    try {
+      return await this._findOneProductByIdUseCase.execute(id);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   @Get()
   @ApiOperation({ summary: "Find all products" })
@@ -48,22 +63,6 @@ export class ProductController {
   async find(): Promise<ProductEntity[]> {
     try {
       return await this._findAllProductsUseCase.execute();
-    } catch (error) {
-      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @Get("/:productId")
-  @ApiParam({ name: 'productId' })
-  @ApiOperation({ summary: "Find product by Id", parameters: [{ name: "id", in: "path" }] })
-  @ApiResponse({ status: 200, description: 'Retrieve a product' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
-  async findOneById(@Param("productId") id: UUID) {
-    try {
-      return await this._findOneProductByIdUseCase.execute(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -155,7 +154,6 @@ export class ProductController {
           category: ProductCategory.Burger,
           description: "Hambúrguer, alface, tomate, queijo, presunto e maionese, servido em um pão de hambúrguer.",
           price: 23.50,
-          isActive: true
         } as UpdateProductDto
       },
       b: {
@@ -165,7 +163,6 @@ export class ProductController {
           category: ProductCategory.Side,
           description: "Batatas em tiras e fritas em óleo quente, com sal e alecrim.",
           price: 12.00,
-          isActive: false
         } as UpdateProductDto
       }
     }

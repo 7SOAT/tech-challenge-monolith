@@ -1,3 +1,5 @@
+import { UUID } from 'crypto';
+
 export interface IDeleteProductUseCase {
-  execute(id: string): void;
+  execute(id: UUID): void;
 }
