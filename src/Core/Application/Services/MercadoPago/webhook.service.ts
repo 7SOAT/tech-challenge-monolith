@@ -18,7 +18,7 @@ export class WebhookService implements IWebhookService {
   async findStatusByPaymentId(paymentId: string): Promise<ResponseWebhook> {
     try {
       const response = this._httpService
-        .get(`${this.baseUrl}/82895098649`, {
+        .get(`${this.baseUrl}/${paymentId}`, {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
           },
