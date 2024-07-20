@@ -2,7 +2,9 @@ import {
   Body,
   Controller,
   HttpStatus,
+  Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindPaymentByPaymentIdUseCase } from 'Core/Application/UseCases/Webhook/FindPaymentByPaymentIdUseCase/findPaymentByPaymentId.usecase';
@@ -20,8 +22,10 @@ export class WebhookController {
     description: 'Webhook verify payment approved or not',
   })
   @ApiBody({ type: WebhookDto })
-  async webhook(@Body() { data }: WebhookDto) {
-    console.log(data)
+  async webhook(@Body() { data } : WebhookDto, @Param() params, @Query() quer) {
+    console.log('data ' + data)
+    console.log('params ' + params)
+    console.log('quer ' + quer)
     // const paymentId = String(data?.id);
     // return await this._findPaymentByPaymentId.execute(paymentId);
   }
