@@ -21,7 +21,8 @@ export class WebhookController {
   })
   @ApiBody({ type: WebhookDto })
   async webhook(@Body() { data }: WebhookDto) {
-    const paymentId = String(data?.id);
-    return await this._findPaymentByPaymentId.execute(paymentId);
+    console.log(data)
+    // const paymentId = String(data?.id);
+    // return await this._findPaymentByPaymentId.execute(paymentId);
   }
 }
