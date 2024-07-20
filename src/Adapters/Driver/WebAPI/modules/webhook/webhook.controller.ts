@@ -22,8 +22,8 @@ export class WebhookController {
     description: 'Webhook verify payment approved or not',
   })
   @ApiBody({ type: WebhookDto })
-  async webhook(@Body() { data } : WebhookDto, @Query() query) {
-    console.log(query)
+  async webhook(@Body() body : WebhookDto, @Query() query) {
+    console.log(query, body)
     // const paymentId = String(data?.id);
     // return await this._findPaymentByPaymentId.execute(paymentId);
   }
