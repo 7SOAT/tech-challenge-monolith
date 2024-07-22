@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   HttpStatus,
-  Param,
   Post,
   Query,
 } from '@nestjs/common';

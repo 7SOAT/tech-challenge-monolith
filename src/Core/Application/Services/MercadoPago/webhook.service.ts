@@ -26,7 +26,7 @@ export class WebhookService implements IWebhookService {
 
       const { data } = await lastValueFrom<AxiosResponse<ResponseWebhook>>(response);
 
-      const { status, order } = data;
+      const { order } = data;
 
       this._orderRepository.updateStatusWebhook(order.id, OrderStatusEnum.FINISHED);
 

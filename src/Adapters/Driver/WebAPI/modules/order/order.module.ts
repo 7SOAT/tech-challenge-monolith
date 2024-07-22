@@ -92,7 +92,7 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/c
         return new FindOrderQueueUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
-    }
+    },
   ],
 })
 export class OrderModule {}
