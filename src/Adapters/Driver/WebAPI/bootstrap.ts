@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 
-async function bootstrap() {
+export async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
@@ -22,5 +22,3 @@ async function bootstrap() {
   SwaggerModule.setup('/', app, document);
   await app.listen(configService.get<number>('API_PORT'));
 }
-
-export default bootstrap;

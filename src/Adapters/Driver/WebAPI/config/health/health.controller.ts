@@ -17,6 +17,6 @@ export class HealthController {
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000/api')]);
+    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000')]);
   }
 }

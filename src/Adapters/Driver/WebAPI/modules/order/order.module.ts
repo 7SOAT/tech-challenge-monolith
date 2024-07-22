@@ -13,6 +13,7 @@ import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Reposito
 import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/TypeORM/Repositories/customer.repository';
 import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity';
 import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/customer.typeorm.entity';
+import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity])],
@@ -47,10 +48,24 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/cu
     },
     {
       provide: CreateOrderUseCase,
-      useFactory: (_orderRepository: IOrderRepository, _productRepository: IProductRepository, _customerRepository: ICustomerRepository) => {
-        return new CreateOrderUseCase(_orderRepository, _productRepository, _customerRepository);
+      useFactory: (
+        _orderRepository: IOrderRepository,
+        _productRepository: IProductRepository,
+        _customerRepository: ICustomerRepository,
+        _mercadoPagoService: IMercadoPagoService
+      ) => {
+        return new CreateOrderUseCase(
+          _orderRepository,
+          _productRepository,
+          _customerRepository,
+          _mercadoPagoService
+        );
       },
-      inject: [OrderTypeOrmRepository, ProductTypeOrmRepository , CustomerTypeOrmRepository],
+      inject: [
+        OrderTypeOrmRepository,
+        ProductTypeOrmRepository,
+        CustomerTypeOrmRepository,
+      ],
     },
     {
       provide: FindAllOrderUseCase,
@@ -58,7 +73,7 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/cu
         return new FindAllOrderUseCase(_orderRepository);
       },
       inject: [OrderTypeOrmRepository],
-    }
+    },
   ],
 })
 export class OrderModule {}

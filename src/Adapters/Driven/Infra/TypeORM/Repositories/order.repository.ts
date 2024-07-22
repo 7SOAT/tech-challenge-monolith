@@ -7,6 +7,7 @@ import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
 import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
+import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
 
 export class OrderTypeOrmRepository implements IOrderRepository {
   constructor(private _orderRepository: Repository<OrderTypeOrmEntity>) {}
@@ -48,6 +49,14 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       return resultMap;
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
+    }
+  }
+
+  async updateStatusWebhook(orderId: string, status: OrderStatus): Promise<void> {
+    try {
+      await this._orderRepository.update(orderId, { orderStatus: status });
+    } catch (error) {
+      throw new Error(`Error updating status webhook: ${error}`);
     }
   }
 }
