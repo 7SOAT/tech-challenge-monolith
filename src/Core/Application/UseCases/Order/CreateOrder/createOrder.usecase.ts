@@ -3,9 +3,12 @@ import { ICreateOrderUseCase } from './createOrder.usecase.port';
 import IOrderInput from 'Core/Application/Ports/Input/order.input';
 import OrderEntity from 'Core/Domain/Entities/order.entity';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
-import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
+import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
 import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
+import ProductEntity from 'Core/Domain/Entities/product.entity';
+import CustomerEntity from 'Core/Domain/Entities/customer.entity';
+
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
   constructor(
@@ -17,37 +20,34 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
 
   async execute(orderInput: IOrderInput): Promise<void> {
     try {
-      const products = [];
-      for (const productId of orderInput.productIds) {
-        const resultProduct = await this._productRepository.findOneById(
-          productId
-        );
 
-        if (resultProduct) {
-          products.push(resultProduct);
-        } else {
-          throw new Error("Client/product not found")
-        }
-      }
+      const products: ProductEntity[] = await this.ValidateProducts(orderInput);
 
-      const totalValueOrder: number = products
-        .map((product) => Number(product.price))
-        .reduce((a, b) => a + b, 0);
-
-      const customer = await this._customerRepository.findOneById(
+      const customer: CustomerEntity = await this._customerRepository.findOneById(
         orderInput.customerId
       );
 
-      const order = new OrderEntity(
-        OrderStatus.IN_PROGRESS,
-        totalValueOrder,
-        customer,
-        products
+      const order: OrderEntity = new OrderEntity(
+        OrderStatusEnum.PENDING,
+        products,
+        customer
       );
 
       this._orderRepository.insert(order);
     } catch (error) {
       throw error;
     }
+  }
+
+  private async ValidateProducts(orderInput: IOrderInput): Promise<ProductEntity[]> {
+    return await Promise.all(orderInput.productIds.map(async productId => {
+      const resultProduct = await this._productRepository.findOneById(productId);
+
+      if (!resultProduct) {
+        throw new Error(`Product not found: ${productId}`);
+      }
+
+      return resultProduct;
+    }));
   }
 }

@@ -7,7 +7,7 @@ export class FindAllProductsUseCase implements IFindAllProductsUseCase {
 
   execute(): Promise<Array<ProductEntity>> {
     return new Promise(async (resolve, reject) => {
-      const products = await this._productRepository.find();
+      const products = await this._productRepository.findAll();
       resolve(products);
     });
   }

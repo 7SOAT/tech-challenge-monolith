@@ -1,6 +1,6 @@
 import OrderEntity from 'Core/Domain/Entities/order.entity';
+import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
-
 
 export default class OrderRepository implements IOrderRepository {
   private _orders: Array<OrderEntity>;
@@ -11,11 +11,16 @@ export default class OrderRepository implements IOrderRepository {
     throw new Error('Method not implemented.');
   }
 
+  findQueue(): Promise<OrderEntity[]> {
+    throw new Error('Method not implemented.');
+  }
+
   insert(order: OrderEntity): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  updateStatusWebhook(orderId: string, status: string): Promise<void> {
+  updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void> {
     throw new Error('Method not implemented.');
   }
+  
 }

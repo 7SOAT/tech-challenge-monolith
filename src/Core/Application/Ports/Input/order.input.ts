@@ -1,4 +1,4 @@
-import { UUID } from "crypto";
+import { UUID } from 'crypto';
 
 export default interface IOrderInput {
   customerId: UUID;

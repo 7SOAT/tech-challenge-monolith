@@ -1,11 +1,12 @@
+import { UUID } from 'crypto';
 import ProductEntity from "../Entities/product.entity";
 import { ProductCategory } from "../Enums/productCategory.enum";
 
 export interface IProductRepository {
   insert(product: ProductEntity): void;
-  update(id: string, product: ProductEntity): void;
-  delete(id: string): void;
-  find(): Promise<Array<ProductEntity>>;
-  findOneById(id: string): Promise<ProductEntity>;
+  update(id: UUID, product: ProductEntity): void;
+  delete(id: UUID): void;
+  findAll(): Promise<Array<ProductEntity>>;
+  findOneById(id: UUID): Promise<ProductEntity>;
   findByCategory(category: ProductCategory): Promise<Array<ProductEntity>>;
 }

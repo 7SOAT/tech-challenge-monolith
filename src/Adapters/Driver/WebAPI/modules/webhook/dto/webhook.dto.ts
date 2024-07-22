@@ -1,4 +1,6 @@
 
 export class WebhookDto {
-  data: any;
+  type: 'payments';
+  action: 'payment.updated'
+  data: { id: string}
 }

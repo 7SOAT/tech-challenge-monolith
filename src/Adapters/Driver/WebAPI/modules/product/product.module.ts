@@ -1,9 +1,6 @@
 import { DataSource } from "typeorm";
-import { Logger, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { TypeOrmModule, getDataSourceToken } from "@nestjs/typeorm";
-
-import { ProductTypeOrmRepository } from "Adapters/Driven/Infra/TypeORM/Repositories/product.repository";
-import { ProductTypeOrmEntity } from "Adapters/Driven/Infra/TypeORM/Entities/product.typeorm.entity";
 import { IProductRepository } from "Core/Domain/Repositories/product.repository";
 import { CreateProductUseCase } from "Core/Application/UseCases/Product/CreateProduct/createProduct.usecase";
 import { UpdateProductUseCase } from "Core/Application/UseCases/Product/UpdateProduct/updateProduct.usecase";
@@ -12,6 +9,8 @@ import { ProductController } from "./product.controller";
 import { FindAllProductsUseCase } from "Core/Application/UseCases/Product/FindAllProducts/findAllProducts.usecase";
 import { FindOneProductByIdUseCase } from "Core/Application/UseCases/Product/FindOneProductById/findOneProductById.usecase";
 import { FindProductsByCategoryUseCase } from "Core/Application/UseCases/Product/FindProductsByCategory/findProductsByCategory.usecase";
+import { ProductTypeOrmEntity } from "Adapters/Driven/Infra/Database/Entities/product.typeorm.entity";
+import { ProductTypeOrmRepository } from "Adapters/Driven/Infra/Database/Repositories/product.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductTypeOrmEntity])],
@@ -71,4 +70,3 @@ import { FindProductsByCategoryUseCase } from "Core/Application/UseCases/Product
   ],
 })
 export class ProductModule {}
-//Logger,
