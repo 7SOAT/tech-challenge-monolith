@@ -6,16 +6,20 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { CreateOrderUseCase } from 'Core/Application/UseCases/Order/CreateOrder/createOrder.usecase';
 import { randomUUID } from 'crypto';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { CheckoutOrderDto } from './dto/checkout-order.dto';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
+import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
 import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
 
 @ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -25,6 +29,7 @@ export class OrderController {
     private _findAllOrderUseCase: FindAllOrderUseCase,
     private _findOrderQueueUseCase: FindOrderQueueUseCase,
     private _createOrderUseCase: CreateOrderUseCase,
+    private _orderCheckoutUseCase: OrderCheckoutUseCase
   ) { }
 
   @Get()
@@ -109,5 +114,28 @@ export class OrderController {
     }
   }
 
-  
+  @Post(':orderId/checkout')
+  @ApiParam({ name: 'orderId' })
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Checkout an order' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Order checked out',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Order not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  async checkout(@Body() checkoutOrderDto: CheckoutOrderDto, @Param("orderId") id: UUID ) {
+    try {
+      const result = this._orderCheckoutUseCase.execute(id)
+      return result
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

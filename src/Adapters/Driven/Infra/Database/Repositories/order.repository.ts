@@ -8,7 +8,9 @@ import OrderStatusEntity from 'Core/Domain/Entities/orderStatus.entity';
 import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
 import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
+import { OrderStatusTypeOrmEntity } from '../Entities/orderStatus.typeorm.entity';
 
 
 export class OrderTypeOrmRepository implements IOrderRepository {
@@ -28,6 +30,23 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       throw new Error(`Error finding all orders: ${error}`);
     }
   }
+
+  async updateOrderStatus(id: UUID, statusEnum: OrderStatusEnum): Promise<void> {
+    try {
+      await this._orderRepository.update(id.toString(), {status: {id: statusEnum}});
+    } catch (error) {
+      throw new Error(`Error while updating order: ${error}`)
+    }
+  }
+
+  async findById(id: UUID): Promise<OrderTypeOrmEntity> {
+    try {
+      return await this._orderRepository.findOneBy({ id: id.toString() })
+    } catch (error) {
+      throw new Error(`Error finding order: ${error}`)
+    }
+  }
+
   async findQueue(): Promise<Array<OrderEntity>> {
     try {
       const result = await this._orderRepository.find({
@@ -78,7 +97,7 @@ export class OrderTypeOrmRepository implements IOrderRepository {
       throw new Error(`Error inserting order: ${error}`);
     }
   }
-  
+
   async updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void> {
     try {
       await this._orderRepository.update(orderId, { status: new OrderStatusEntity(status) });

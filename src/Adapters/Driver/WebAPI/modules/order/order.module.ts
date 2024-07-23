@@ -7,16 +7,17 @@ import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { IProductRepository } from 'Core/Domain/Repositories/product.repository';
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
-import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
-import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
-import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
-import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orderStatus.typeorm.entity';
-import { OrderStatusTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/orderStatus.repository';
+import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
 import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/product.repository';
 import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/product.typeorm.entity';
 import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/customer.repository';
 import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/customer.typeorm.entity';
+import { OrderStatusTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/orderStatus.repository';
+import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orderStatus.typeorm.entity';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
+import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
+import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity, OrderStatusTypeOrmEntity])],
@@ -93,6 +94,13 @@ import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/c
       },
       inject: [OrderTypeOrmRepository],
     },
+    {
+      provide: OrderCheckoutUseCase,
+      useFactory: (_orderRepository: IOrderRepository) => {
+        return new OrderCheckoutUseCase(_orderRepository);
+      },
+      inject: [OrderTypeOrmRepository],
+    }
   ],
 })
 export class OrderModule {}
