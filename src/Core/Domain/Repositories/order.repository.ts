@@ -2,7 +2,6 @@ import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orde
 import OrderEntity from '../Entities/order.entity';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderStatusEnum } from '../Enums/orderStatus.enum';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
 
 export interface IOrderRepository {
   insert(order: OrderEntity): Promise<OrderTypeOrmEntity>;
