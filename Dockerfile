@@ -1,34 +1,26 @@
-#Build stage
-FROM node:20-slim AS build
+FROM node:20-slim AS base
 
-WORKDIR /tech-app
+WORKDIR /app
 
 COPY package*.json ./
 
+FROM base AS development
+
 RUN npm install
 
-COPY . . 
+COPY . .
 
 RUN npm run build
 
-#################################################################
+FROM base AS production
 
-#Production stage
-#Instala imagem do Node.js
-FROM node:20-slim AS production
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-#Cria um diretório app
-WORKDIR /tech-app
+RUN npm ci --only=production
 
-#Cria uma cópia dos arquivos para dir criado
-COPY package*.json ./
+COPY --from=development /app/dist ./dist
 
-RUN npm install
-
-COPY --from=build /tech-app/dist .
-
-#Expõe porta
 EXPOSE 3000
 
-#Roda o script de build e start do servidor (duvida)
-CMD ["node","main.js"]
+CMD ["node", "dist/main"]
