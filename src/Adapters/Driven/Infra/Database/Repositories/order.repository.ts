@@ -54,7 +54,7 @@ export class OrderTypeOrmRepository implements IOrderRepository {
     }
   }
 
-  async insert(order: OrderEntity): Promise<void> {
+  async insert(order: OrderEntity): Promise<OrderTypeOrmEntity> {
     try {
       const { id, products, status, totalValue, customer } = order;
       const mappedCustomer = plainToInstance<
@@ -67,7 +67,7 @@ export class OrderTypeOrmRepository implements IOrderRepository {
         ProductEntity
       >(ProductTypeOrmEntity, products);
 
-      await this._orderRepository.save({
+      return await this._orderRepository.save({
         id: id,
         totalValue: totalValue,
         customer: mappedCustomer,

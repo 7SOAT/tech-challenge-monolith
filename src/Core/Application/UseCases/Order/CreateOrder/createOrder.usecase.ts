@@ -33,7 +33,7 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
         customer
       );
 
-      this._orderRepository.insert(order);
+      await this._orderRepository.insert(order);
     } catch (error) {
       throw error;
     }
