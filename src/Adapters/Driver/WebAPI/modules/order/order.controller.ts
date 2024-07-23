@@ -14,20 +14,20 @@ import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/s
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { CreateOrderUseCase } from 'Core/Application/UseCases/Order/CreateOrder/createOrder.usecase';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/TypeORM/Entities/order.typeorm.entity';
 import { randomUUID } from 'crypto';
-import { NotFoundError } from 'rxjs';
 import { CheckoutOrderDto } from './dto/checkout-order.dto';
-import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
+import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
 
-@ApiTags('order')
+@ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller({ path: 'order', version: '1' })
+@Controller({ path: 'orders', version: '1' })
 export class OrderController {
   constructor(
     private _findAllOrderUseCase: FindAllOrderUseCase,
+    private _findOrderQueueUseCase: FindOrderQueueUseCase,
     private _createOrderUseCase: CreateOrderUseCase,
     private _orderCheckoutUseCase: OrderCheckoutUseCase
   ) { }
@@ -47,6 +47,26 @@ export class OrderController {
   async findAll() {
     try {
       return await this._findAllOrderUseCase.execute();
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get("/queue")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Retrieve orders queue' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Orders queue retrieved successfully',
+    type: Array<OrderTypeOrmEntity>,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  async findQueue() {
+    try {
+      return await this._findOrderQueueUseCase.execute();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

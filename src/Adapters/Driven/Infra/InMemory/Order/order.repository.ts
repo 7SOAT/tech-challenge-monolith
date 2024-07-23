@@ -1,9 +1,8 @@
 import OrderEntity from 'Core/Domain/Entities/order.entity';
+import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
-import { OrderTypeOrmEntity } from '../../TypeORM/Entities/order.typeorm.entity';
-import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
-
+import { OrderTypeOrmEntity } from '../../Database/Entities/order.typeorm.entity';
 
 export default class OrderRepository implements IOrderRepository {
   private _orders: Array<OrderEntity>;
@@ -14,7 +13,7 @@ export default class OrderRepository implements IOrderRepository {
     throw new Error('Method not implemented.');
   }
 
-  insert(order: OrderEntity): Promise<void> {
+  findQueue(): Promise<OrderEntity[]> {
     throw new Error('Method not implemented.');
   }
 
@@ -22,7 +21,16 @@ export default class OrderRepository implements IOrderRepository {
     throw new Error('Method not implemented.');
   }
 
-  updateOrderStatus(id: UUID, status: OrderStatus): Promise<void> {
+  updateOrderStatus(id: UUID, status: OrderStatusEnum): Promise<void> {
     throw new Error('Method not implemented.');
   }
+  
+  insert(order: OrderEntity): Promise<OrderTypeOrmEntity> {
+    throw new Error('Method not implemented.');
+  }
+
+  updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  
 }

@@ -9,6 +9,7 @@ export default new DataSource({
   database: process.env.POSTGRES_DATABASE,
   synchronize: true,
   entities: [__dirname + "..\\Entities\\*.entity.ts"],
+  ssl: true,
   extra: {
     socketPath: process.env.SOCKET_PATH,
   },

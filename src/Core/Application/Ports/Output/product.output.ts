@@ -1,12 +1,11 @@
 import { ProductCategory } from "Core/Domain/Enums/productCategory.enum";
+import { UUID } from 'crypto';
 
 export default interface IProductOutput {
-  id: string;
+  id: UUID;
   category: ProductCategory;
   name: string;
   price: number;
   description: string;
-  createdAt: Date;
-  updatedAt: Date;
   isActive: boolean;
 }

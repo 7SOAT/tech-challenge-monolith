@@ -8,8 +8,7 @@ export class FindOneProductByIdUseCase implements IFindOneProductByIdUseCase {
 
   async execute(id: UUID): Promise<ProductEntity> {
     try {
-      const product = await this._productRepository.findOneById(id);
-      return product;
+      return await this._productRepository.findOneById(id);
     } catch (error) {
       throw error;
     }

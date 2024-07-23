@@ -1,28 +1,18 @@
-import IOrderOutput from 'Core/Application/Ports/Output/order.outpu';
-import { OrderStatus } from 'Core/Domain/Enums/orderStatus.enum';
+import IOrderOutput from 'Core/Application/Ports/Output/order.output';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ProductTypeOrmEntity } from './product.typeorm.entity';
 import { CustomerTypeOrmEntity } from './customer.typeorm.entity';
+import { OrderStatusTypeOrmEntity } from './orderStatus.typeorm.entity';
+import { BaseTypeOrmEntity } from './baseEntity.typeorm.entity';
 
 @Entity({ name: 'order' })
-export class OrderTypeOrmEntity implements IOrderOutput {
+export class OrderTypeOrmEntity extends BaseTypeOrmEntity<OrderTypeOrmEntity> implements IOrderOutput {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'boolean', default: true })
-  isActive: boolean;
-
-  @Column({ type: 'boolean', default: false })
-  isArchived: boolean;
-
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
-
-  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
-  orderStatus: OrderStatus;
+  @ManyToOne(() => OrderStatusTypeOrmEntity, (orderStatus) => orderStatus.id)
+  @JoinTable()
+  status: OrderStatusTypeOrmEntity;
 
   @Column({ type: 'float', default: 0 })
   totalValue: number;
@@ -36,8 +26,4 @@ export class OrderTypeOrmEntity implements IOrderOutput {
 
   @Column({ type: 'int', unique: true, nullable: false, generated: 'increment' })
   orderNumber: number;
-
-  constructor(partial: Partial<OrderTypeOrmEntity>) {
-    Object.assign(this, partial);
-  }
 }

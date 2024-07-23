@@ -4,11 +4,23 @@ import { IProductRepository } from "Core/Domain/Repositories/product.repository"
 import ProductEntity from "Core/Domain/Entities/product.entity";
 import { ProductCategory } from "Core/Domain/Enums/productCategory.enum";
 import { plainToInstance } from "class-transformer";
+import { UUID } from 'crypto';
 
 export class ProductTypeOrmRepository implements IProductRepository {
   constructor(private _productRepository: Repository<ProductTypeOrmEntity>) {}
 
-  async find(): Promise<Array<ProductEntity>> {
+  async findOneById(id: UUID): Promise<ProductEntity> {
+    const product = await this._productRepository.findOneBy({id});
+
+    const mappedProduct = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
+      ProductEntity,
+      product
+    );
+
+    return mappedProduct;
+  }
+
+  async findAll(): Promise<Array<ProductEntity>> {
     const products = await this._productRepository.find();
 
     const mappedProducts = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
@@ -17,17 +29,6 @@ export class ProductTypeOrmRepository implements IProductRepository {
     );
 
     return mappedProducts;
-  }
-
-  async findOneById(id: string): Promise<ProductEntity> {
-    const product = await this._productRepository.findOneBy({ id });
-
-    const mappedProduct = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
-      ProductEntity,
-      product
-    );
-
-    return mappedProduct;
   }
 
   async findByCategory(
@@ -41,18 +42,18 @@ export class ProductTypeOrmRepository implements IProductRepository {
     );
     return mappedProducts;
   }
-
+  
   insert(product: ProductEntity): void {
     const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(ProductTypeOrmEntity, product);
     this._productRepository.save(mappedProduct);
   }
 
-  update(id: string, product: ProductEntity): void {
+  update(id: UUID, product: ProductEntity): void {
     const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(ProductTypeOrmEntity, product);
-    this._productRepository.update(id, mappedProduct);
+    this._productRepository.update(id.toString(), mappedProduct);
   }
 
-  delete(id: string): void {
-    this._productRepository.delete(id);
+  delete(id: UUID): void {
+    this._productRepository.delete(id.toString());
   }
 }

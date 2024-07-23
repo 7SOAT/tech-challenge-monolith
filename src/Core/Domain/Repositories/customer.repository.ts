@@ -1,4 +1,4 @@
-import { UUID } from "crypto";
+import { UUID } from 'crypto';
 import CustomerEntity from "../Entities/customer.entity";
 
 export interface ICustomerRepository {
