@@ -16,20 +16,18 @@ spec:
     spec:
       containers:
         - name: tech-challenge-monolith
-          image: aureobueno/tech-challenge-monolith:latest
+          image: aureobueno/tech-challenge-monolith:4.0
           ports:
             - containerPort: 3000
           env:
             - name: NODE_ENV
               value: "production"
             - name: CONFIG_FILE
-              valueFrom:
-                configMapKeyRef:
-                  name: tech-challenge-config
-                  key: config.yaml
+              value: "/app/config/config.yaml"
           volumeMounts:
             - name: config-volume
               mountPath: /app/config
+              subPath: config.yaml
           resources:
             requests:
               memory: "64Mi"
