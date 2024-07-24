@@ -3,11 +3,13 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Header,
   HttpCode,
   HttpException,
   HttpStatus,
   Param,
   Post,
+  Response,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -19,7 +21,7 @@ import { CheckoutOrderDto } from './dto/checkout-order.dto';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
 import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
 
 @ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -53,7 +55,6 @@ export class OrderController {
   }
 
   @Get("/queue")
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve orders queue' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -108,7 +109,7 @@ export class OrderController {
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
     try {
-      return await this._createOrderUseCase.execute(createOrderDto);
+      return this._createOrderUseCase.execute(createOrderDto);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -120,7 +121,7 @@ export class OrderController {
   @ApiOperation({ summary: 'Checkout an order' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Order checked out',
+    description: 'Order checked out'
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,

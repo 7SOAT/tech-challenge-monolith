@@ -1,5 +1,5 @@
 import { ProductCategory } from "Core/Domain/Enums/productCategory.enum";
-import { ProductTypeOrmEntity } from "../../../Entities/product.typeorm.entity";
+import { ProductTypeOrmEntity } from "../../../../../Driven/Entities/product.typeorm.entity";
 import ProductEntity from "Core/Domain/Entities/product.entity";
 
 export const ProductMockList: ProductEntity[] = [

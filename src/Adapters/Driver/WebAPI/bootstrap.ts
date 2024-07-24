@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
-import MockTables from 'Adapters/Driven/Infra/Database/Config/MockTables/mockTables.mock-function';
+import MockTables from 'Adapters/Driver/WebAPI/config/MockTables/mockTables.mock-function';
 
 export async function bootstrap(): Promise<void> {
   const app: INestApplication<any> = await NestFactory.create(AppModule, {

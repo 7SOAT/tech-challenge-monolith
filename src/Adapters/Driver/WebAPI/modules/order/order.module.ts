@@ -8,21 +8,28 @@ import { IProductRepository } from 'Core/Domain/Repositories/product.repository'
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
 import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
-import { ProductTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/product.repository';
-import { ProductTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/product.typeorm.entity';
-import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/customer.repository';
-import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/customer.typeorm.entity';
-import { OrderStatusTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/orderStatus.repository';
-import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orderStatus.typeorm.entity';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
-import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
+import { ProductTypeOrmRepository } from 'Adapters/Driven/Repositories/product.repository';
+import { ProductTypeOrmEntity } from 'Adapters/Driven/Entities/product.typeorm.entity';
+import { CustomerTypeOrmRepository } from 'Adapters/Driven/Repositories/customer.repository';
+import { CustomerTypeOrmEntity } from 'Adapters/Driven/Entities/customer.typeorm.entity';
+import { OrderStatusTypeOrmRepository } from 'Adapters/Driven/Repositories/orderStatus.repository';
+import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Entities/orderStatus.typeorm.entity';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
+import { OrderTypeOrmRepository } from 'Adapters/Driven/Repositories/order.repository';
 import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
+import { MercadoPagoService } from 'Core/Application/Services/MercadoPago/mercadopago.service';
+import { ProvidersModule } from 'Adapters/Driven/Providers/providers.module';
+import { MercadoPagoProvider } from 'Adapters/Driven/Providers/MercadoPago/MecadoPago.provider';
+import { HttpService } from '@nestjs/axios';
+import { QRCodeGeneratorProvider } from 'Adapters/Driven/Providers/QRCodeGenerator/QRCodeGenerator.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity, OrderStatusTypeOrmEntity])],
   controllers: [OrderController],
   providers: [
+    ProvidersModule,
+    MercadoPagoService,
     {
       provide: OrderStatusTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
@@ -71,13 +78,15 @@ import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrder
           _orderRepository,
           _productRepository,
           _customerRepository,
-          _mercadoPagoService
+          new MercadoPagoService(new MercadoPagoProvider(new HttpService())),
+          new QRCodeGeneratorProvider(new HttpService())
         );
       },
       inject: [
         OrderTypeOrmRepository,
         ProductTypeOrmRepository,
         CustomerTypeOrmRepository,
+        MercadoPagoService
       ],
     },
     {

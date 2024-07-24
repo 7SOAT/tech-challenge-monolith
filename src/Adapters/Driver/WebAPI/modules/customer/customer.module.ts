@@ -5,8 +5,8 @@ import { DataSource } from 'typeorm';
 import { CreateCustomerUseCase } from 'Core/Application/UseCases/Customer/CreateCustomer/createCustomer.usecase';
 import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repository';
 import { FindCustomerByCPFUseCase } from 'Core/Application/UseCases/Customer/FindCustomerByCPF/findCustomerByCPF.usecase';
-import { CustomerTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/customer.typeorm.entity';
-import { CustomerTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/customer.repository';
+import { CustomerTypeOrmEntity } from 'Adapters/Driven/Entities/customer.typeorm.entity';
+import { CustomerTypeOrmRepository } from 'Adapters/Driven/Repositories/customer.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CustomerTypeOrmEntity])],

@@ -25,6 +25,7 @@ export class WebhookController {
     console.log( "Webhook recebido!")
     console.log(body, c)
     const paymentId = body?.data?.id;
-    return await this._findPaymentByPaymentId.execute(paymentId);
+    return {result: "sucesso"}
+    //return await this._findPaymentByPaymentId.execute(paymentId);
   }
 }

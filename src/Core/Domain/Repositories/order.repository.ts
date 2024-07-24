@@ -1,4 +1,4 @@
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
 import OrderEntity from '../Entities/order.entity';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderStatusEnum } from '../Enums/orderStatus.enum';

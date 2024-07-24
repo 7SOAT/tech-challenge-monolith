@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
-import { OrderTypeOrmRepository } from "../../Repositories/order.repository";
-import { OrderStatusTypeOrmRepository } from "../../Repositories/orderStatus.repository";
-import { ProductTypeOrmRepository } from "../../Repositories/product.repository";
+import { OrderTypeOrmRepository } from "../../../../Driven/Repositories/order.repository";
+import { OrderStatusTypeOrmRepository } from "../../../../Driven/Repositories/orderStatus.repository";
+import { ProductTypeOrmRepository } from "../../../../Driven/Repositories/product.repository";
 import { OrdersMock } from "./MockFiles/Orders.mock";
 import { OrderStatusMock } from "./MockFiles/OrderStatus.mock";
 import { ProductsMock } from "./MockFiles/Products.mock";

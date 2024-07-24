@@ -7,8 +7,8 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { DataSource } from 'typeorm';
 import { getDataSourceToken } from '@nestjs/typeorm';
-import { OrderTypeOrmRepository } from 'Adapters/Driven/Infra/Database/Repositories/order.repository';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/order.typeorm.entity';
+import { OrderTypeOrmRepository } from 'Adapters/Driven/Repositories/order.repository';
+import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
 
 @Module({
   imports: [HttpModule],

@@ -1,5 +1,5 @@
 import { randomInt } from "crypto";
-import { OrderTypeOrmEntity } from "../../../Entities/order.typeorm.entity";
+import { OrderTypeOrmEntity } from "../../../../../Driven/Entities/order.typeorm.entity";
 import { ProductsMock } from "./Products.mock";
 import { OrderStatusMock } from "./OrderStatus.mock";
 import { OrderStatusEnum } from "Core/Domain/Enums/orderStatus.enum";

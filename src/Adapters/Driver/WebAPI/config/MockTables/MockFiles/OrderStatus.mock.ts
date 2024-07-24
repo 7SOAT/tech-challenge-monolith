@@ -1,5 +1,5 @@
 import { OrderStatusEnum } from "Core/Domain/Enums/orderStatus.enum";
-import { OrderStatusTypeOrmEntity } from "../../../Entities/orderStatus.typeorm.entity";
+import { OrderStatusTypeOrmEntity } from "../../../../../Driven/Entities/orderStatus.typeorm.entity";
 
 export const OrderStatusMock: OrderStatusTypeOrmEntity[] = [
     new OrderStatusTypeOrmEntity({

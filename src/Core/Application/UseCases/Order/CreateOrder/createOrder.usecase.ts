@@ -8,7 +8,7 @@ import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repositor
 import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
-
+import { QRCodeGeneratorProvider } from 'Adapters/Driven/Providers/QRCodeGenerator/QRCodeGenerator.provider';
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
   constructor(
@@ -16,13 +16,12 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
     private _productRepository: IProductRepository,
     private _customerRepository: ICustomerRepository,
     private _mercadoPagoService: IMercadoPagoService,
+    private _qrCodeGeneratorProvider: QRCodeGeneratorProvider
   ) {}
 
-  async execute(orderInput: IOrderInput): Promise<void> {
+  async execute(orderInput: IOrderInput): Promise<{in_store_order_id: string, qr_data: string}> {
     try {
-
       const products: ProductEntity[] = await this.ValidateProducts(orderInput);
-
       const customer: CustomerEntity = await this._customerRepository.findOneById(
         orderInput.customerId
       );
@@ -34,6 +33,7 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
       );
 
       await this._orderRepository.insert(order);
+      return await this._mercadoPagoService.createOrder();
     } catch (error) {
       throw error;
     }

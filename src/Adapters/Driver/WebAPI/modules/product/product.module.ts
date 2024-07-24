@@ -9,8 +9,8 @@ import { ProductController } from "./product.controller";
 import { FindAllProductsUseCase } from "Core/Application/UseCases/Product/FindAllProducts/findAllProducts.usecase";
 import { FindOneProductByIdUseCase } from "Core/Application/UseCases/Product/FindOneProductById/findOneProductById.usecase";
 import { FindProductsByCategoryUseCase } from "Core/Application/UseCases/Product/FindProductsByCategory/findProductsByCategory.usecase";
-import { ProductTypeOrmEntity } from "Adapters/Driven/Infra/Database/Entities/product.typeorm.entity";
-import { ProductTypeOrmRepository } from "Adapters/Driven/Infra/Database/Repositories/product.repository";
+import { ProductTypeOrmEntity } from "Adapters/Driven/Entities/product.typeorm.entity";
+import { ProductTypeOrmRepository } from "Adapters/Driven/Repositories/product.repository";
 
 @Module({
   imports: [TypeOrmModule.forFeature([ProductTypeOrmEntity])],

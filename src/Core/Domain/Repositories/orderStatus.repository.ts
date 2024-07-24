@@ -1,4 +1,4 @@
-import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Infra/Database/Entities/orderStatus.typeorm.entity';
+import { OrderStatusTypeOrmEntity } from 'Adapters/Driven/Entities/orderStatus.typeorm.entity';
 
 export interface IOrderStatusRepository {
   insert(orderStatus: OrderStatusTypeOrmEntity): Promise<void>;
