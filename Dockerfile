@@ -2,7 +2,7 @@ FROM node:20-slim AS base
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 FROM base AS development
 
@@ -15,8 +15,8 @@ RUN npm run build
 FROM base AS production
 
 ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
 
+ENV NODE_ENV=${NODE_ENV}
 ENV POSTGRES_HOST=dpg-cqd4stmehbks73bpl570-a.oregon-postgres.render.com \
     POSTGRES_PORT=5432 \
     POSTGRES_DATABASE=fiaptech \
@@ -24,7 +24,7 @@ ENV POSTGRES_HOST=dpg-cqd4stmehbks73bpl570-a.oregon-postgres.render.com \
     POSTGRES_PASSWORD=meZxka6zIaROJ1lJQ27jFEhGJVZE8tgv \
     API_PORT=3000
 
-RUN npm ci --only=production
+RUN npm install --only=production
 
 COPY --from=development /app/dist ./dist
 
