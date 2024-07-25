@@ -17,7 +17,7 @@ export type CreatePaymentRequest = {
     unit_measure: "unit" | "",
     total_amount: number,
    }[],
-   notification_url: string,
+   notification_url?: string,
    sponsor: {
     id: number
    },

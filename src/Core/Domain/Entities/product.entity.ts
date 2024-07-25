@@ -9,6 +9,7 @@ export default class ProductEntity {
     public readonly category: ProductCategory,
     public readonly id: UUID = null
   ) {
+    this.price = parseFloat(price?.toFixed(2))
     id = id ?? randomUUID()
   }
 }

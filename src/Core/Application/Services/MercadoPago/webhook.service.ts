@@ -1,10 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { IWebhookService } from '../interfaces/webhook.interface';
-import { lastValueFrom } from 'rxjs';
-import { AxiosResponse } from '@nestjs/terminus/dist/health-indicator/http/axios.interfaces';
-import { ResponseWebhook } from '../interfaces/response-webhook.interface';
 import { IOrderRepository } from 'Core/Domain/Repositories/order.repository';
 import { OrderStatusEnum } from 'Core/Domain/Enums/orderStatus.enum';
+import { PaymentResponse } from 'mercadopago/dist/clients/payment/commonTypes';
+import { UUID } from 'crypto';
 
 export class WebhookService implements IWebhookService {
   private readonly accessToken = process.env.MERCADO_PAGO_ACCESS_TOKEN;
@@ -14,23 +13,18 @@ export class WebhookService implements IWebhookService {
     private readonly _orderRepository: IOrderRepository,
   ) { }
 
-  async findStatusByPaymentId(paymentId: string): Promise<ResponseWebhook> {
+  async findStatusByPaymentId(paymentId: string): Promise<PaymentResponse> {
     try {
-      const response = this._httpService
-        .get(`${this.baseUrl}/${paymentId}`, {
+      const responseData = (await this._httpService
+        .axiosRef.get(`${this.baseUrl}/v1/payments/${paymentId}`, {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
           },
-        })
-        .pipe();
-
-      const { data } = await lastValueFrom<AxiosResponse<ResponseWebhook>>(response);
-
-      const { order } = data;
-
-      this._orderRepository.updateStatusWebhook(order.id, OrderStatusEnum.FINISHED);
-
-      return data;
+        })).data;
+        
+      const {status: externalPaymentstatus, external_reference}: PaymentResponse = responseData;
+      await this._orderRepository.updateStatusWebhook((<UUID> external_reference), OrderStatusEnum.RECEPTED);
+      return responseData;
     } catch (error) {
       throw new Error(`Error find status payment: ${error}`);
     }

@@ -16,12 +16,11 @@ import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/s
 import { CreateOrderDto } from './dto/create-order.dto';
 import { FindAllOrderUseCase } from 'Core/Application/UseCases/Order/FindAllOrder/findAllOrder.usecase';
 import { CreateOrderUseCase } from 'Core/Application/UseCases/Order/CreateOrder/createOrder.usecase';
-import { randomUUID } from 'crypto';
+import { randomUUID, UUID } from 'crypto';
 import { CheckoutOrderDto } from './dto/checkout-order.dto';
-import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderCheckoutUseCase } from 'Core/Application/UseCases/Order/OrderCheckout/orderCheckout.usecase';
 import { FindOrderQueueUseCase } from 'Core/Application/UseCases/Order/FindOrderQueue/findOrderQueue.usecase';
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
+import OrderEntity from 'Core/Domain/Entities/order.entity';
 
 @ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -40,7 +39,7 @@ export class OrderController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Orders retrieved successfully',
-    type: Array<OrderTypeOrmEntity>,
+    type: Array<OrderEntity>,
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -59,7 +58,7 @@ export class OrderController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Orders queue retrieved successfully',
-    type: Array<OrderTypeOrmEntity>,
+    type: Array<OrderEntity>,
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,

@@ -14,7 +14,7 @@ export class OrderTypeOrmEntity extends BaseTypeOrmEntity<OrderTypeOrmEntity> im
   @JoinTable()
   status: OrderStatusTypeOrmEntity;
 
-  @Column({ type: 'float', default: 0 })
+  @Column({ type: 'numeric', scale: 2 })
   totalValue: number;
 
   @ManyToMany(() => ProductTypeOrmEntity, (product) => product.id)

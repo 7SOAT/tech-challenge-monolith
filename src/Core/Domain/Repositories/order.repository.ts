@@ -1,14 +1,12 @@
-import { OrderTypeOrmEntity } from 'Adapters/Driven/Entities/order.typeorm.entity';
+import { UUID } from 'crypto';
 import OrderEntity from '../Entities/order.entity';
-import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import { OrderStatusEnum } from '../Enums/orderStatus.enum';
 
 export interface IOrderRepository {
-  insert(order: OrderEntity): Promise<OrderTypeOrmEntity>;
+  insert(order: OrderEntity): Promise<OrderEntity>;
   findAll(): Promise<Array<OrderEntity>>;
-  findById(id: UUID): Promise<OrderTypeOrmEntity>
+  findById(id: UUID): Promise<OrderEntity>
   updateOrderStatus(id: UUID, status: OrderStatusEnum): Promise<void>
-  updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void>;
+  updateStatusWebhook(orderId: UUID, status: OrderStatusEnum): Promise<void>;
   findQueue(): Promise<Array<OrderEntity>>;
 }
-

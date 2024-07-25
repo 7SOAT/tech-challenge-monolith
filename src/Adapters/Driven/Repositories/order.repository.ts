@@ -8,9 +8,8 @@ import OrderStatusEntity from 'Core/Domain/Entities/orderStatus.entity';
 import { CustomerTypeOrmEntity } from '../Entities/customer.typeorm.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
 import { ProductTypeOrmEntity } from '../Entities/product.typeorm.entity';
-import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
-import { OrderStatusTypeOrmEntity } from '../Entities/orderStatus.typeorm.entity';
+import { UUID } from 'crypto';
 
 
 export class OrderTypeOrmRepository implements IOrderRepository {
@@ -18,14 +17,12 @@ export class OrderTypeOrmRepository implements IOrderRepository {
 
   async findAll(): Promise<Array<OrderEntity>> {
     try {
-      const result = await this._orderRepository.find({ relations: ['products'] });
-
-      const resultMap = plainToInstance<OrderEntity, OrderTypeOrmEntity>(
+      const result = await this._orderRepository.find({ relations: ['products']});
+      return plainToInstance<OrderEntity, OrderTypeOrmEntity>(
         OrderEntity,
-        result
+        result,
+        { enableImplicitConversion: true }
       );
-
-      return resultMap;
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
     }
@@ -33,15 +30,20 @@ export class OrderTypeOrmRepository implements IOrderRepository {
 
   async updateOrderStatus(id: UUID, statusEnum: OrderStatusEnum): Promise<void> {
     try {
-      await this._orderRepository.update(id.toString(), {status: {id: statusEnum}});
+      await this._orderRepository.update(id.toString(), { status: { id: statusEnum } });
     } catch (error) {
       throw new Error(`Error while updating order: ${error}`)
     }
   }
 
-  async findById(id: UUID): Promise<OrderTypeOrmEntity> {
+  async findById(id: UUID): Promise<OrderEntity> {
     try {
-      return await this._orderRepository.findOneBy({ id: id.toString() })
+      const result = await this._orderRepository.findOneBy({ id: id.toString() });
+      return plainToInstance<OrderEntity, OrderTypeOrmEntity>(
+        OrderEntity,
+        result,
+        { enableImplicitConversion: true }
+      );
     } catch (error) {
       throw new Error(`Error finding order: ${error}`)
     }
@@ -64,7 +66,8 @@ export class OrderTypeOrmRepository implements IOrderRepository {
 
       const resultMap = plainToInstance<OrderEntity, OrderTypeOrmEntity>(
         OrderEntity,
-        result
+        result,
+        { enableImplicitConversion: true }
       );
 
       return resultMap;
@@ -73,34 +76,31 @@ export class OrderTypeOrmRepository implements IOrderRepository {
     }
   }
 
-  async insert(order: OrderEntity): Promise<OrderTypeOrmEntity> {
+  async insert(order: OrderEntity): Promise<OrderEntity> {
     try {
-      const { id, products, status, totalValue, customer } = order;
-      const mappedCustomer = plainToInstance<
-        CustomerTypeOrmEntity,
-        CustomerEntity
-      >(CustomerTypeOrmEntity, customer);
 
-      const mappedProducts = plainToInstance<
-        ProductTypeOrmEntity,
-        ProductEntity
-      >(ProductTypeOrmEntity, products);
+      const orderDataModel = plainToInstance<OrderTypeOrmEntity, OrderEntity>(
+        OrderTypeOrmEntity,
+        order,
+        { enableImplicitConversion: true }
+      );
 
-      return await this._orderRepository.save({
-        id: id,
-        totalValue: totalValue,
-        customer: mappedCustomer,
-        products: mappedProducts,
-        status: new OrderStatusEntity(status)
-      });
+      const result = await this._orderRepository.save(orderDataModel);
+
+      return plainToInstance<OrderEntity, OrderTypeOrmEntity>(
+        OrderEntity,
+        result,
+        { enableImplicitConversion: true }
+      );
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
     }
   }
 
-  async updateStatusWebhook(orderId: string, status: OrderStatusEnum): Promise<void> {
+  async updateStatusWebhook(orderId: UUID, status: OrderStatusEnum): Promise<void> {
     try {
-      await this._orderRepository.update(orderId, { status: new OrderStatusEntity(status) });
+      await this._orderRepository.update(orderId.toString(), { status: new OrderStatusEntity(status) });
+      console.log("Pedido atualizado!")
     } catch (error) {
       throw new Error(`Error updating status webhook: ${error}`);
     }

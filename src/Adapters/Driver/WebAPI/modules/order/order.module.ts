@@ -78,8 +78,7 @@ import { QRCodeGeneratorProvider } from 'Adapters/Driven/Providers/QRCodeGenerat
           _orderRepository,
           _productRepository,
           _customerRepository,
-          new MercadoPagoService(new MercadoPagoProvider(new HttpService())),
-          new QRCodeGeneratorProvider(new HttpService())
+          new MercadoPagoService(new MercadoPagoProvider(new HttpService()))
         );
       },
       inject: [

@@ -1,5 +1,5 @@
-import { ResponseWebhook } from './response-webhook.interface';
+import { PaymentResponse } from 'mercadopago/dist/clients/payment/commonTypes';
 
 export interface IWebhookService {
-  findStatusByPaymentId(paymentId: string): Promise<ResponseWebhook>;
+  findStatusByPaymentId(paymentId: string): Promise<PaymentResponse>;
 }

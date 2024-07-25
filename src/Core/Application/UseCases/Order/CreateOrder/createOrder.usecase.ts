@@ -8,18 +8,16 @@ import { ICustomerRepository } from 'Core/Domain/Repositories/customer.repositor
 import { IMercadoPagoService } from 'Core/Application/Services/interfaces/mercadopago.interface';
 import ProductEntity from 'Core/Domain/Entities/product.entity';
 import CustomerEntity from 'Core/Domain/Entities/customer.entity';
-import { QRCodeGeneratorProvider } from 'Adapters/Driven/Providers/QRCodeGenerator/QRCodeGenerator.provider';
 
 export class CreateOrderUseCase implements ICreateOrderUseCase {
   constructor(
     private _orderRepository: IOrderRepository,
     private _productRepository: IProductRepository,
     private _customerRepository: ICustomerRepository,
-    private _mercadoPagoService: IMercadoPagoService,
-    private _qrCodeGeneratorProvider: QRCodeGeneratorProvider
+    private _mercadoPagoService: IMercadoPagoService
   ) {}
-
-  async execute(orderInput: IOrderInput): Promise<{in_store_order_id: string, qr_data: string}> {
+s
+  async execute(orderInput: IOrderInput): Promise<{qr_data: string}> {
     try {
       const products: ProductEntity[] = await this.ValidateProducts(orderInput);
       const customer: CustomerEntity = await this._customerRepository.findOneById(
@@ -33,7 +31,7 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
       );
 
       await this._orderRepository.insert(order);
-      return await this._mercadoPagoService.createOrder();
+      return await this._mercadoPagoService.createOrder(order);
     } catch (error) {
       throw error;
     }
@@ -41,7 +39,7 @@ export class CreateOrderUseCase implements ICreateOrderUseCase {
 
   private async ValidateProducts(orderInput: IOrderInput): Promise<ProductEntity[]> {
     return await Promise.all(orderInput.productIds.map(async productId => {
-      const resultProduct = await this._productRepository.findOneById(productId);
+      const resultProduct: ProductEntity = await this._productRepository.findOneById(productId);
 
       if (!resultProduct) {
         throw new Error(`Product not found: ${productId}`);

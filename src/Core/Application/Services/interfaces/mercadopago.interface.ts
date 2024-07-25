@@ -1,5 +1,5 @@
-import { PaymentCreateRequest } from 'mercadopago/dist/clients/payment/create/types';
+import OrderEntity from "Core/Domain/Entities/order.entity";
 
 export interface IMercadoPagoService {
-  createOrder(): Promise<any>;
+  createOrder(order: OrderEntity): Promise<{qr_data: string}>;
 }

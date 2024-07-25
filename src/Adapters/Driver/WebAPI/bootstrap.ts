@@ -24,7 +24,7 @@ export async function bootstrap(): Promise<void> {
   SwaggerModule.setup('/', app, document);
 
   const enableMockTables: string = configService.get<string>('ENABLE_MOCK_TABLES');
-  MockTables(app, enableMockTables);
+  await MockTables(app, enableMockTables);
 
   await app.listen(configService.get<number>('API_PORT'));
 }

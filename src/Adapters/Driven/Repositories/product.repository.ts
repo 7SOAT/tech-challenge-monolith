@@ -10,11 +10,11 @@ export class ProductTypeOrmRepository implements IProductRepository {
   constructor(private _productRepository: Repository<ProductTypeOrmEntity>) {}
 
   async findOneById(id: UUID): Promise<ProductEntity> {
-    const product = await this._productRepository.findOneBy({id});
-
-    const mappedProduct = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
-      ProductEntity,
-      product
+    const product: ProductTypeOrmEntity = await this._productRepository.findOneBy({id});
+    const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(
+      ProductTypeOrmEntity,
+      product,
+      {enableImplicitConversion: true}
     );
 
     return mappedProduct;
@@ -25,7 +25,8 @@ export class ProductTypeOrmRepository implements IProductRepository {
 
     const mappedProducts = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
       ProductEntity,
-      products
+      products,
+      {enableImplicitConversion: true}
     );
 
     return mappedProducts;
@@ -38,18 +39,27 @@ export class ProductTypeOrmRepository implements IProductRepository {
 
     const mappedProducts = plainToInstance<ProductEntity, ProductTypeOrmEntity>(
       ProductEntity,
-      products
+      products,
+      {enableImplicitConversion: true}
     );
     return mappedProducts;
   }
   
   insert(product: ProductEntity): void {
-    const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(ProductTypeOrmEntity, product);
+    const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(
+      ProductTypeOrmEntity, 
+      product, 
+      {enableImplicitConversion: true}
+    );
     this._productRepository.save(mappedProduct);
   }
 
   update(id: UUID, product: ProductEntity): void {
-    const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(ProductTypeOrmEntity, product);
+    const mappedProduct = plainToInstance<ProductTypeOrmEntity, ProductEntity>(
+      ProductTypeOrmEntity, 
+      product,
+      {enableImplicitConversion: true}
+    );
     this._productRepository.update(id.toString(), mappedProduct);
   }
 

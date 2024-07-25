@@ -24,7 +24,7 @@ export class ProductTypeOrmEntity extends BaseTypeOrmEntity<ProductTypeOrmEntity
   @Column({ type: "varchar", length: 200 })
   name: string;
 
-  @Column({ type: "numeric" })
+  @Column({ type: "numeric", scale: 2})
   price: number;
 
   @Column({ type: "varchar", length: 1000 })

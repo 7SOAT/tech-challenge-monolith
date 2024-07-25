@@ -23,9 +23,10 @@ export class WebhookController {
   @ApiBody({ type: WebhookDto})
   async webhook(@Body() body, @Query() c) {
     console.log( "Webhook recebido!")
-    console.log(body, c)
-    const paymentId = body?.data?.id;
+    if(body?.type === "payment"){
+      const paymentId = body?.data?.id;
+      return await this._findPaymentByPaymentId.execute(paymentId);
+    }
     return {result: "sucesso"}
-    //return await this._findPaymentByPaymentId.execute(paymentId);
   }
 }

@@ -1,37 +1,39 @@
+import { UUID } from 'crypto';
 import { IMercadoPagoService } from '../interfaces/mercadopago.interface';
-import { MercadoPagoProvider } from 'Adapters/Driven/Providers/MercadoPago/MecadoPago.provider';
+import { CreatePaymentRequest, MercadoPagoProvider } from 'Adapters/Driven/Providers/MercadoPago/MecadoPago.provider';
+import OrderEntity from 'Core/Domain/Entities/order.entity';
 
 
 export class MercadoPagoService implements IMercadoPagoService {
-  constructor(private _mercadoPagoProvider: MercadoPagoProvider) {}
+  constructor(private _mercadoPagoProvider: MercadoPagoProvider) { }
 
-  async createOrder(): Promise<any> {
+  async createOrder(order: OrderEntity): Promise<{ qr_data: string }> {
     try {
-      return await this._mercadoPagoProvider.createOrder({
+      const request: CreatePaymentRequest = {
         cash_out: {
           amount: 0
         },
         description: "Purchase description.",
-        external_reference: "reference_12345",
-        items: [
-          {
-            sku_number: "A123K9191938",
-            category: "marketplace",
-            title: "Point Mini",
-            description: "This is the Point Mini",
-            unit_price: 10,
+        external_reference: order.id.toString(),
+        items: order.products.map((product) => {
+          return {
+            sku_number: product.id.toString(),
+            category: product.category,
+            title: product.name,
+            description: product.description,
+            unit_price: product.price,
             quantity: 1,
             unit_measure: "unit",
-            total_amount: 10
+            total_amount: product.price
           }
-        ],
-        notification_url: "https://tech-challenge-monolith.onrender.com/webhook",
+        }),
         sponsor: {
           id: 1907353240
         },
-        title: "Product order",
-        total_amount: 10
-      });
+        title: "Combo Completo",
+        total_amount: order.totalValue
+      };
+      return await this._mercadoPagoProvider.createOrder(request);
     } catch (error) {
       throw new Error(`Error create payment: ${error}`);
     }

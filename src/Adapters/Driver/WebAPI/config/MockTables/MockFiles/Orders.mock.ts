@@ -13,6 +13,7 @@ export const OrdersMock: OrderTypeOrmEntity[] = [...Array(30)].map((x, i) => {
         products: ProductsMock,
         orderNumber: randomInt(100, 500),
         status: OrderStatusEnum[OrderStatusEnum[randomStatusId].valueOf()],
-        createdAt: new Date(currentDate.setMonth(currentDate.getMonth() + i))
+        createdAt: new Date(currentDate.setMonth(currentDate.getMonth() + i)),
+        totalValue: parseFloat(ProductsMock?.reduce<number>((a, b) => a + b.price, 0).toString())
     })
 })
