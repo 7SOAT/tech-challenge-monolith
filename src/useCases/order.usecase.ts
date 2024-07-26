@@ -83,11 +83,3 @@ export class OrderUseCase {
     }
   }
 }
-
-// async createOrder(order: OrderModel): Promise<{ qr_data: string }> {
-//   try {
-//     
-//     return await this._mercadoPagoProvider.createOrder(request);
-//   } catch (error) {
-//     throw new Error(`Error create payment: ${error}`);
-//   }

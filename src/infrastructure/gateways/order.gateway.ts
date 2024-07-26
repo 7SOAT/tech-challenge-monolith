@@ -99,7 +99,8 @@ export class OrderGateway implements IOrderGateway {
           id,
         )),
         new CustomerModel("a", "b", "c"),
-        result.orderNumber
+        result.orderNumber,
+        <UUID> result.id
       );
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);

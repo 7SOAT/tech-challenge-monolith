@@ -10,13 +10,14 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WebhookUseCase } from 'useCases/webhook.usecase';
 import { WebhookDto } from './dto/webhook.dto';
 import { UsecasesProxyModule } from 'infrastructure/usecases-proxy/usecases-proxy.module';
+import { UseCaseProxy } from 'infrastructure/usecases-proxy/usecases-proxy';
 
 @ApiTags('webhook')
 @Controller('webhook')
 export class WebhookController {
   constructor(
-    @Inject(UsecasesProxyModule.CUSTOMER_USE_CASE)
-    private _weebhookUseCase: WebhookUseCase
+    @Inject(UsecasesProxyModule.WEBHOOK_USE_CASE)
+    private _webhookUseCase: UseCaseProxy<WebhookUseCase>
   ) {}
 
   @Post()
@@ -30,7 +31,7 @@ export class WebhookController {
     console.log( "Webhook recebido!")
     if(body?.type === "payment"){
       const paymentId = body?.data?.id;
-      return await this._weebhookUseCase.findPaymentByPaymentId(paymentId);
+      return await this._webhookUseCase.getInstance().findPaymentByPaymentId(paymentId);
     }
     return {result: "sucesso"}
   }
