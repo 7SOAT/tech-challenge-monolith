@@ -1,4 +1,4 @@
 require('dotenv').config();
-import { bootstrap } from "api/bootstrap";
+import { bootstrap } from "./bootstrap";
 
 bootstrap();

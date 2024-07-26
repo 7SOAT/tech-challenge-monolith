@@ -1,11 +1,11 @@
-import CustomerEntity from "Entities/customer.entity";
-import { ICustomerRepository } from "interfaces/gateways/customer.gateway";
-import ICustomerInput from "types/input/customer.input";
+import { ICustomerGateway } from "domain/interfaces/gateways/customer.gateway";
+import CustomerModel from "domain/models/customer.model";
+import ICustomerInput from "domain/types/input/customer.input";
 
 export class CustomerUseCase {
-    constructor(private _customerRepository: ICustomerRepository) { }
+    constructor(private _customerRepository: ICustomerGateway) { }
 
-    findCustomerByCPF(cpf: string): Promise<CustomerEntity> {
+    findCustomerByCPF(cpf: string): Promise<CustomerModel> {
         return new Promise(async (resolve) => {
             resolve(this._customerRepository.findOneByCPF(cpf))
         });
@@ -13,7 +13,7 @@ export class CustomerUseCase {
 
     createCustomer(input: ICustomerInput): void {
         try {
-            const newCustomer = new CustomerEntity(
+            const newCustomer = new CustomerModel(
                 input.name,
                 input.email,
                 input.cpf
