@@ -7,6 +7,9 @@ import { Repository } from 'typeorm';
 import { OrderEntity } from 'infrastructure/entities/order.entity';
 import OrderModel from 'domain/models/order.model';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProductEntity } from 'infrastructure/entities/product.entity';
+import ProductModel from 'domain/models/product.model';
+import CustomerModel from 'domain/models/customer.model';
 
 
 export class OrderGateway implements IOrderGateway {
@@ -85,13 +88,19 @@ export class OrderGateway implements IOrderGateway {
       );
 
       const result = await this._orderRepository.save(orderDataModel);
-      const sla = plainToInstance<OrderModel, OrderEntity>(
-        OrderModel,
-        result,
-        { enableImplicitConversion: true,
-          enableCircularCheck: true}
+      
+      return new OrderModel(
+        result.status.id,
+        result.products.map(({name, description,price, category, id}) => new ProductModel(
+          name,
+          description,
+          price,
+          category,
+          id,
+        )),
+        new CustomerModel("a", "b", "c"),
+        result.orderNumber
       );
-      return sla;
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
     }

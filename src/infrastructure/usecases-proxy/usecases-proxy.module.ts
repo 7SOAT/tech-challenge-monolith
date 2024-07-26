@@ -9,7 +9,6 @@ import { WebhookService } from "../../useCases/Services/MercadoPago/webhook.serv
 import { CustomerUseCase } from "../../useCases/customer.usecase";
 import { OrderUseCase } from "../../useCases/order.usecase";
 import { ProductUseCase } from "../../useCases/product.usecase";
-import { WebhookUseCase } from "../../useCases/webhook.usecase";
 import { MercadoPagoProvider } from "infrastructure/providers/mercadoPago/mecadoPago.provider";
 import { HttpModule, HttpService } from "@nestjs/axios";
 import { ProvidersModule } from "infrastructure/providers/providers.module";
@@ -22,43 +21,39 @@ export class UsecasesProxyModule {
   static WEBHOOK_SERVICE = "WebhookService";
   static WEBHOOK_USE_CASE = "WebhookUseCase";
 
-  static useCases = [
-    WebhookService,
-    ProductUseCase
-  ];
-
   static register(): DynamicModule {
 
     const providers: Provider[] = [
-      ...this.useCases,
       {
-        inject: [WebhookService],
+        inject: [HttpService, OrderGateway],
         provide: this.WEBHOOK_USE_CASE,
         useFactory: (
-        ) => new UseCaseProxy(WebhookService),
+          httpService: HttpService,
+          orderGateway: OrderGateway
+        ) => new UseCaseProxy(new WebhookService(httpService, orderGateway)),
       },
       {
-        inject: [ProductGateway, WebhookService],
+        inject: [ProductGateway, this.WEBHOOK_USE_CASE],
         provide: this.PRODUCT_USE_CASE,
         useFactory: (
           productGateway: ProductGateway,
         ) => new UseCaseProxy(new ProductUseCase(productGateway)),
       },
       {
-        inject: [OrderGateway, CustomerGateway, MercadoPagoProvider, ProductUseCase],
+        inject: [OrderGateway, CustomerGateway, MercadoPagoProvider, this.PRODUCT_USE_CASE, HttpService],
         provide: this.ORDER_USE_CASE,
         useFactory: (
           orderGateway: OrderGateway,
           customerGateway: CustomerGateway,
           mercadoPagoProvider: MercadoPagoProvider,
-          produtUseCase: ProductUseCase
+          produtUseCase: UseCaseProxy<ProductUseCase>
         ) => {
           return new UseCaseProxy(
             new OrderUseCase(
               orderGateway,
               customerGateway,
               mercadoPagoProvider,
-              produtUseCase
+              produtUseCase.getInstance()
             ))
         },
       },

@@ -9,7 +9,7 @@ export default class ProductModel {
     public readonly category: ProductCategory,
     public readonly id: UUID = null
   ) {
-    this.price = parseFloat(price?.toFixed(2))
+    this.price = parseFloat(parseFloat(price?.toString()).toFixed(2))
     this.id = id ?? randomUUID()
   }
 }

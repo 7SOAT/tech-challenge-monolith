@@ -50,13 +50,15 @@ export class OrderUseCase {
         customer
       );
 
+      const orderRegistered = await this._orderGateway.insert(order);
+
       const request: CreatePaymentRequest = {
         cash_out: {
           amount: 0
         },
         description: "Purchase description.",
-        external_reference: order.id.toString(),
-        items: order.products.map((product) => {
+        external_reference: orderRegistered.id.toString(),
+        items: orderRegistered.products.map((product) => {
           return {
             sku_number: product.id.toString(),
             category: product.category,
@@ -72,11 +74,9 @@ export class OrderUseCase {
           id: 1907353240
         },
         title: "Combo Completo",
-        total_amount: order.totalValue
+        total_amount: orderRegistered.totalValue
       };
 
-      const orderRegistered = await this._orderGateway.insert(order);
-      await this._mercadoPagoProvider.createOrder(request)
       return await this._mercadoPagoProvider.createOrder(request);
     } catch (error) {
       throw error;

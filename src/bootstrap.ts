@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import MockTables from 'infrastructure/config/typeorm/seed/mockTables.mock-function';
 
 export async function bootstrap(): Promise<void> {
   const app: INestApplication<any> = await NestFactory.create(AppModule, {
@@ -23,7 +24,7 @@ export async function bootstrap(): Promise<void> {
   SwaggerModule.setup('/', app, document);
 
   const enableMockTables: string = configService.get<string>('ENABLE_MOCK_TABLES');
-  //await MockTables(app, enableMockTables);
+  await MockTables(app, enableMockTables);
 
   await app.listen(configService.get<number>('API_PORT'));
 }
