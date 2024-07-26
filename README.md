@@ -32,28 +32,23 @@
 
 ```
 src
-├── Adapters
-│   ├── Driven
-|       ├── Infra
-|           ├── TypeORM
-|               ├── Config
-|               ├── Entities
-|               ├── Mappers
-|               ├── Repositories
-│   ├── Driver
-|       ├── WebAPI
-|          ├── config
-|          ├── modules
-├── Core
-│   ├── Application
-|       ├── Port
-|          ├── Input
-|          ├── Output
-|       ├── UseCases
-│   ├── Domain
-|      ├── Entities
-|      ├── Enums
-|      ├── Repositories
+├── domain
+|   ├── config
+|   ├── enums
+|   ├── interfaces/gateways
+|   ├── models
+|   ├── types
+├── infrastructure
+|   ├── config
+|   ├── controllers
+|   ├── entities
+|   ├── gateways
+|   ├── providers
+|   ├── usecases-proxy
+├── useCases
+|
+├── app.module.ts
+├── bootstrap.ts
 └── main.ts
 ```
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
