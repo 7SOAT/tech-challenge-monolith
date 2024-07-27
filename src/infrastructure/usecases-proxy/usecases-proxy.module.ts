@@ -23,14 +23,14 @@ export class UsecasesProxyModule {
     const providers: Provider[] = [
       EnvironmentConfigService,
       {
-        inject: [ProductGateway, this.WEBHOOK_USE_CASE],
+        inject: [ProductGateway],
         provide: this.PRODUCT_USE_CASE,
         useFactory: (
           productGateway: ProductGateway,
         ) => new UseCaseProxy(new ProductUseCase(productGateway)),
       },
       {
-        inject: [EnvironmentConfigService, OrderGateway, CustomerGateway, MercadoPagoProvider, this.PRODUCT_USE_CASE],
+        inject: [OrderGateway, CustomerGateway, MercadoPagoProvider, this.PRODUCT_USE_CASE],
         provide: this.ORDER_USE_CASE,
         useFactory: (
           orderGateway: OrderGateway,
