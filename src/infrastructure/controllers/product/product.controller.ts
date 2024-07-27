@@ -4,7 +4,7 @@ import UpdateProductDto from "./dto/update-product.dto";
 import { UUID } from 'crypto';
 import { Controller, Get, HttpStatus, Param, HttpException, Post, Body, Put, Delete, Inject } from "@nestjs/common";
 import ProductCategory from "domain/enums/product-category.enum";
-import ProductUseCase from "usecases/product.usecase";
+import ProductUseCase from "domain/usecases/product.usecase";
 import ProductModel from "domain/models/product.model";
 import UsecasesProxyModule from "infrastructure/usecases-proxy/usecases-proxy.module";
 import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
