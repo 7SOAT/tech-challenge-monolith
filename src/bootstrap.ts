@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import AppModule from './app.module';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import MockTables from 'infrastructure/config/typeorm/seed/mockTables.mock-function';
-import { EnvironmentConfigService } from 'infrastructure/config/environment-config/environment-config.service';
-import { DatabaseConfig } from 'domain/config/database.config';
-import { AppConfig } from 'domain/config/app.config';
+import EnvironmentConfigService from 'infrastructure/config/environment-config/environment-config.service';
+import DatabaseConfig from 'domain/config/database.config';
+import AppConfig from 'domain/config/app.config';
 
-export async function bootstrap(): Promise<void> {
+export default async function bootstrap(): Promise<void> {
   const app: INestApplication<any> = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });

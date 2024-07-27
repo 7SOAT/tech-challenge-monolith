@@ -1,10 +1,10 @@
 import { UUID } from "crypto";
-import { IProductGateway as IProductGateway } from "domain/interfaces/gateways/product.gateway";
-import { ProductCategory } from "domain/enums/productCategory.enum";
+import IProductGateway from "domain/interfaces/gateways/product.gateway";
+import ProductCategory from "domain/enums/productCategory.enum";
 import IProductInput from "domain/types/input/product.input";
 import ProductModel from "domain/models/product.model";
 
-export class ProductUseCase {
+export default class ProductUseCase {
     constructor(private _productGateway: IProductGateway) { }
 
     updateProduct(id: UUID, input: IProductInput): void {

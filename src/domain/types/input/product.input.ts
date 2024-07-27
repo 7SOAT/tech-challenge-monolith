@@ -1,4 +1,4 @@
-import { ProductCategory } from "domain/enums/productCategory.enum";
+import ProductCategory from "domain/enums/productCategory.enum";
 
 export default interface IProductInput {
   category: ProductCategory;

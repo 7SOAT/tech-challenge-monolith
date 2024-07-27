@@ -2,12 +2,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UUID } from 'crypto';
-import { ICustomerGateway } from 'domain/interfaces/gateways/customer.gateway';
+import ICustomerGateway from 'domain/interfaces/gateways/customer.gateway';
 import CustomerModel from 'domain/models/customer.model';
-import { CustomerEntity } from 'infrastructure/entities/customer.entity';
+import CustomerEntity  from 'infrastructure/entities/customer.entity';
 import { Repository } from 'typeorm';
 
-export class CustomerGateway implements ICustomerGateway {
+export default class CustomerGateway implements ICustomerGateway {
   constructor(
     @InjectRepository(CustomerEntity)
     private _customerRepository: Repository<CustomerEntity>

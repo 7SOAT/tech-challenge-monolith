@@ -1,8 +1,4 @@
-import { Inject } from "@nestjs/common";
-import { UUID } from "crypto"
-import { MercadoPagoConfig } from "domain/config/mercado-pago.config";
-import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
-
+import { UUID } from "crypto";
 
 type OrderItem = {
    sku_number: string,
@@ -15,7 +11,7 @@ type OrderItem = {
    total_amount: number,
 }
 
-export class MPCreateOrderRequest {
+export default class MPCreateOrderRequest {
    constructor(
       public title: string,
       public total_amount: number,

@@ -1,3 +1,3 @@
-export interface AppConfig{
+export default interface AppConfig{
     getApiPort(): number;
 }

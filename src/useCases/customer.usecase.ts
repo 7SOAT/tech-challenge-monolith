@@ -1,8 +1,8 @@
-import { ICustomerGateway } from "domain/interfaces/gateways/customer.gateway";
+import ICustomerGateway from "domain/interfaces/gateways/customer.gateway";
 import CustomerModel from "domain/models/customer.model";
 import ICustomerInput from "domain/types/input/customer.input";
 
-export class CustomerUseCase {
+export default class CustomerUseCase {
     constructor(private _customerRepository: ICustomerGateway) { }
 
     findCustomerByCPF(cpf: string): Promise<CustomerModel> {

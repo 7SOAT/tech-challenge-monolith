@@ -2,13 +2,13 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { plainToInstance } from "class-transformer";
 import { UUID } from 'crypto';
-import { ProductCategory } from "domain/enums/productCategory.enum";
-import { IProductGateway } from "domain/interfaces/gateways/product.gateway";
+import ProductCategory from "domain/enums/productCategory.enum";
+import IProductGateway from "domain/interfaces/gateways/product.gateway";
 import ProductModel from "domain/models/product.model";
-import { ProductEntity } from "infrastructure/entities/product.entity";
+import ProductEntity from "infrastructure/entities/product.entity";
 import { Repository } from "typeorm";
 
-export class ProductGateway implements IProductGateway {
+export default class ProductGateway implements IProductGateway {
   constructor(
     @InjectRepository(ProductEntity)
     private _productRepository: Repository<ProductEntity>

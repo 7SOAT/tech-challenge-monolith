@@ -1,7 +1,7 @@
-import { OrderStatusEnum } from "domain/enums/orderStatus.enum";
-import { OrderStatusEntity } from "infrastructure/entities/orderStatus.entity";
+import OrderStatusEnum from "domain/enums/orderStatus.enum";
+import OrderStatusEntity  from "infrastructure/entities/orderStatus.entity";
 
-export const OrderStatusMock: OrderStatusEntity[] = [
+const OrderStatusMock: OrderStatusEntity[] = [
     new OrderStatusEntity({
         id: OrderStatusEnum.PENDING,
         name: "Pendente",
@@ -39,3 +39,5 @@ export const OrderStatusMock: OrderStatusEntity[] = [
         priorityOrder: 6
     })
 ]
+
+export default OrderStatusMock;

@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Param, Req, Query, HttpException, HttpStatus, Inject } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
+import { Body, Controller, Get, HttpException, HttpStatus, Inject, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CustomerUseCase } from 'useCases/customer.usecase';
 import CustomerModel from 'domain/models/customer.model';
-import { UsecasesProxyModule } from 'infrastructure/usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from 'infrastructure/usecases-proxy/usecases-proxy';
+import UseCaseProxy from 'infrastructure/usecases-proxy/usecases-proxy';
+import UsecasesProxyModule from 'infrastructure/usecases-proxy/usecases-proxy.module';
+import CustomerUseCase from 'useCases/customer.usecase';
+import CreateCustomerDto from './dto/create-customer.dto';
 
 @ApiTags('customers')
 @Controller('customers')
-export class CustomerController {
+export default class CustomerController {
   constructor(
     @Inject(UsecasesProxyModule.CUSTOMER_USE_CASE)
     private _customerUseCase: UseCaseProxy<CustomerUseCase>

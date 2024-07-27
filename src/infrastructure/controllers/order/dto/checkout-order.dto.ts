@@ -1,5 +1,5 @@
 import ProductModel from "domain/models/product.model";
 
-export class CheckoutOrderDto {
+export default class CheckoutOrderDto {
   products: ProductModel[]
 }

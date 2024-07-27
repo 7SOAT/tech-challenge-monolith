@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { EnvironmentConfigService } from './environment-config.service';
+import EnvironmentConfigService from './environment-config.service';
 
 @Module({
   imports: [
@@ -13,4 +13,4 @@ import { EnvironmentConfigService } from './environment-config.service';
   providers: [EnvironmentConfigService],
   exports: [EnvironmentConfigService],
 })
-export class EnvironmentConfigModule {}
+export default class EnvironmentConfigModule {}

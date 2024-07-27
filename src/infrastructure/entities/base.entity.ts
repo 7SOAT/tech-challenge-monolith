@@ -1,7 +1,7 @@
 import IBaseOutput from "domain/types/output/base.output";
 import { CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-export class BaseEntity<T> implements IBaseOutput {
+export default class BaseEntity<T> implements IBaseOutput {
     constructor(partial: Partial<T>) {
         Object.assign(this, partial);
     }

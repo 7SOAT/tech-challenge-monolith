@@ -1,4 +1,4 @@
-import { EnvironmentConfigService } from "../environment-config/environment-config.service";
+import EnvironmentConfigService  from "../environment-config/environment-config.service";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
 export const postgresDataSource = (config: EnvironmentConfigService): TypeOrmModuleOptions =>

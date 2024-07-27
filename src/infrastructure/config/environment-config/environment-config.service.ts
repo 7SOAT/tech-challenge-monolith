@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseConfig } from 'domain/config/database.config';
-import { MercadoPagoConfig } from 'domain/config/mercado-pago.config';
+import DatabaseConfig from 'domain/config/database.config';
+import MercadoPagoConfig from 'domain/config/mercado-pago.config';
 
 @Injectable()
-export class EnvironmentConfigService implements MercadoPagoConfig, DatabaseConfig{
+export default class EnvironmentConfigService implements MercadoPagoConfig, DatabaseConfig{
   constructor(private configService: ConfigService) {}
 
   public getApiPort(): number{

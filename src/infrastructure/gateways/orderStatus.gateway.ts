@@ -1,11 +1,11 @@
 import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import OrderStatusModel from 'domain/models/orderStatus.model';
-import { IOrderStatusRepository } from 'domain/interfaces/gateways/orderStatus.gateway';
-import { OrderStatusEntity } from 'infrastructure/entities/orderStatus.entity';
+import IOrderStatusRepository from 'domain/interfaces/gateways/orderStatus.gateway';
+import OrderStatusEntity  from 'infrastructure/entities/orderStatus.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
-export class OrderStatusGateway implements IOrderStatusRepository {
+export default class OrderStatusGateway implements IOrderStatusRepository {
   constructor(
     @InjectRepository(OrderStatusEntity)
     private _orderRepository: Repository<OrderStatusEntity>

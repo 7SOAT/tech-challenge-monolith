@@ -1,5 +1,5 @@
 import { randomUUID, UUID } from 'crypto';
-import { ProductCategory } from 'domain/enums/productCategory.enum';
+import ProductCategory from 'domain/enums/productCategory.enum';
 
 export default class ProductModel {
   constructor(

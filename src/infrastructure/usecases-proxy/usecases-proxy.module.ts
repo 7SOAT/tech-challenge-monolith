@@ -1,23 +1,21 @@
 import { DynamicModule, Provider } from "@nestjs/common";
-import { CustomerGateway } from "infrastructure/gateways/customer.gateway";
-import { GatewaysModule } from "infrastructure/gateways/gateways.module";
-import { OrderGateway } from "infrastructure/gateways/order.gateway";
-import { ProductGateway } from "infrastructure/gateways/product.gateway";
-import { MercadoPagoProvider } from "infrastructure/providers/mercadoPago/mecadoPago.provider";
-import { ProvidersModule } from "infrastructure/providers/providers.module";
-import { UseCaseProxy } from "infrastructure/usecases-proxy/usecases-proxy";
-import { WebhookUseCase } from "useCases/webhook.usecase";
-import { CustomerUseCase } from "../../useCases/customer.usecase";
-import { OrderUseCase } from "../../useCases/order.usecase";
-import { ProductUseCase } from "../../useCases/product.usecase";
-import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
+import CustomerGateway from "infrastructure/gateways/customer.gateway";
+import GatewaysModule  from "infrastructure/gateways/gateways.module";
+import OrderGateway from "infrastructure/gateways/order.gateway";
+import ProductGateway from "infrastructure/gateways/product.gateway";
+import MercadoPagoProvider   from "infrastructure/providers/mercadoPago/mecadoPago.provider";
+import ProvidersModule from "infrastructure/providers/providers.module";
+import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
+import CustomerUseCase from "../../useCases/customer.usecase";
+import OrderUseCase from "../../useCases/order.usecase";
+import ProductUseCase  from "../../useCases/product.usecase";
+import EnvironmentConfigService  from "infrastructure/config/environment-config/environment-config.service";
 
-export class UsecasesProxyModule {
+export default class UsecasesProxyModule {
 
   static PRODUCT_USE_CASE = "ProductUseCase";
   static ORDER_USE_CASE = "OrderUseCase";
   static CUSTOMER_USE_CASE = "CustomerUseCase";
-  static WEBHOOK_USE_CASE = "WebhookUseCase";
 
   static register(): DynamicModule {
     const providers: Provider[] = [
@@ -52,14 +50,6 @@ export class UsecasesProxyModule {
         useFactory: (
           customerGateway: CustomerGateway,
         ) => new UseCaseProxy(new CustomerUseCase(customerGateway)),
-      },
-      {
-        inject: [MercadoPagoProvider, OrderGateway ],
-        provide: this.WEBHOOK_USE_CASE,
-        useFactory: (
-          mercadoPagoProvider: MercadoPagoProvider,
-          orderGateway: OrderGateway
-        ) => new UseCaseProxy(new WebhookUseCase(mercadoPagoProvider, orderGateway))
       }
     ]
     
@@ -70,8 +60,7 @@ export class UsecasesProxyModule {
       exports: [
         this.CUSTOMER_USE_CASE,
         this.ORDER_USE_CASE,
-        this.PRODUCT_USE_CASE,
-        this.WEBHOOK_USE_CASE
+        this.PRODUCT_USE_CASE
       ],
     };
   }

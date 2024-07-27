@@ -1,7 +1,7 @@
 import { randomUUID, UUID } from 'crypto';
 import ProductModel from './product.model';
 import CustomerModel from './customer.model';
-import { OrderStatusEnum } from 'domain/enums/orderStatus.enum';
+import OrderStatusEnum from 'domain/enums/orderStatus.enum';
 
 export default class OrderModel {
   public readonly totalValue: number;

@@ -1,17 +1,17 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UUID } from 'crypto';
-import { OrderStatusEnum } from 'domain/enums/orderStatus.enum';
-import { IOrderGateway } from 'domain/interfaces/gateways/order.gateway';
+import OrderStatusEnum from 'domain/enums/orderStatus.enum';
+import IOrderGateway from 'domain/interfaces/gateways/order.gateway';
 import CustomerModel from 'domain/models/customer.model';
 import OrderModel from 'domain/models/order.model';
 import OrderStatusModel from 'domain/models/orderStatus.model';
 import ProductModel from 'domain/models/product.model';
-import { OrderEntity } from 'infrastructure/entities/order.entity';
+import OrderEntity  from 'infrastructure/entities/order.entity';
 import { Repository } from 'typeorm';
 
 
-export class OrderGateway implements IOrderGateway {
+export default class OrderGateway implements IOrderGateway {
   constructor(
     @InjectRepository(OrderEntity)
     private _orderRepository: Repository<OrderEntity>
@@ -27,14 +27,6 @@ export class OrderGateway implements IOrderGateway {
       );
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
-    }
-  }
-
-  async updateOrderStatus(id: UUID, statusEnum: OrderStatusEnum): Promise<void> {
-    try {
-      await this._orderRepository.update(id.toString(), { status: { id: statusEnum } });
-    } catch (error) {
-      throw new Error(`Error while updating order: ${error}`)
     }
   }
 
@@ -106,11 +98,12 @@ export class OrderGateway implements IOrderGateway {
     }
   }
 
-  async updateStatusWebhook(orderId: UUID, status: OrderStatusEnum): Promise<void> {
+  async updateOrderStatus(orderId: UUID, statusEnum: OrderStatusEnum): Promise<number> {
     try {
-      await this._orderRepository.update(orderId.toString(), { status: new OrderStatusModel(status) });
+      const result = await this._orderRepository.update(orderId.toString(), { status: new OrderStatusModel(statusEnum) });
+      return result.affected;
     } catch (error) {
-      throw new Error(`Error updating status webhook: ${error}`);
+      throw new Error(`Error updating status: ${error}`);
     }
   }
 }

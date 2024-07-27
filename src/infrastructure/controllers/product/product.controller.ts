@@ -1,17 +1,17 @@
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags, getSchemaPath } from "@nestjs/swagger";
-import { CreateProductDto } from "./dto/create-product.dto";
-import { UpdateProductDto } from "./dto/update-product.dto";
+import CreateProductDto from "./dto/create-product.dto";
+import UpdateProductDto  from "./dto/update-product.dto";
 import { UUID } from 'crypto';
 import { Controller, Get, HttpStatus, Param, HttpException, Post, Body, Put, Delete, Inject } from "@nestjs/common";
-import { ProductCategory } from "domain/enums/productCategory.enum";
-import { ProductUseCase } from "useCases/product.usecase";
+import ProductCategory from "domain/enums/productCategory.enum";
+import ProductUseCase  from "useCases/product.usecase";
 import ProductModel from "domain/models/product.model";
-import { UsecasesProxyModule } from "infrastructure/usecases-proxy/usecases-proxy.module";
-import { UseCaseProxy } from "infrastructure/usecases-proxy/usecases-proxy";
+import UsecasesProxyModule  from "infrastructure/usecases-proxy/usecases-proxy.module";
+import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
 
 @ApiTags("products")
 @Controller("products")
-export class ProductController {
+export default class ProductController {
   constructor(
     @Inject(UsecasesProxyModule.PRODUCT_USE_CASE)
     private _productUseCase: UseCaseProxy<ProductUseCase>

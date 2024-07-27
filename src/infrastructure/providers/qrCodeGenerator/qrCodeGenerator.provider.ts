@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 
 
-export class QRCodeGeneratorProvider {
+export default class QRCodeGeneratorProvider {
    private readonly qrCodeGeneratorUrl: string = "https://api.qr-code-generator.com/v1/create";
    private readonly accessToken = `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
     

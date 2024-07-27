@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { UUID } from 'crypto';
 
-export class CreateOrderDto {
+export default class CreateOrderDto {
   @IsUUID()
   @IsOptional()
   @ApiProperty({ type: 'string', description: 'Customer Id' })

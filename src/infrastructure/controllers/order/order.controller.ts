@@ -7,23 +7,22 @@ import {
   HttpException,
   HttpStatus,
   Inject,
-  Param,
   Post,
+  Query,
   UseInterceptors
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { randomUUID, UUID } from 'crypto';
-import { OrderUseCase } from 'useCases/order.usecase';
-import { CheckoutOrderDto } from './dto/checkout-order.dto';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { randomUUID } from 'crypto';
 import OrderModel from 'domain/models/order.model';
-import { UsecasesProxyModule } from 'infrastructure/usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from 'infrastructure/usecases-proxy/usecases-proxy';
+import UseCaseProxy from 'infrastructure/usecases-proxy/usecases-proxy';
+import UsecasesProxyModule from 'infrastructure/usecases-proxy/usecases-proxy.module';
+import OrderUseCase from 'useCases/order.usecase';
+import CreateOrderDto from './dto/create-order.dto';
 
 @ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({ path: 'orders', version: '1' })
-export class OrderController {
+export default class OrderController {
   constructor(
     @Inject(UsecasesProxyModule.ORDER_USE_CASE)
     private _orderUseCase: UseCaseProxy<OrderUseCase>
@@ -111,7 +110,7 @@ export class OrderController {
   }
 
   @Post(':orderId/checkout')
-  @ApiParam({ name: 'orderId' })
+  @ApiQuery({examples: {a: {summary: "Exemplo de pagamento", value: { id: '83786085280', topic: 'payment' }}}})
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Checkout an order' })
   @ApiResponse({
@@ -126,10 +125,11 @@ export class OrderController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async checkout(@Body() checkoutOrderDto: CheckoutOrderDto, @Param("orderId") id: UUID ) {
+  async checkout(@Query() { id, topic }) {
     try {
-      const result = this._orderUseCase.getInstance().orderCheckout(id)
-      return result
+      if (topic === "payment") {
+        await this._orderUseCase.getInstance().orderCheckout(id);
+      }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

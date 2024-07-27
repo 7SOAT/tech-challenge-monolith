@@ -1,4 +1,4 @@
-export interface MercadoPagoConfig{
+export default interface MercadoPagoConfig{
     getMercadoPagoVendedorUserId(): number;
     getMercadoPagoSponsorUserId(): number;
     getMercadoPagoAccessToken(): string;

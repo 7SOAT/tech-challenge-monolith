@@ -1,4 +1,4 @@
-export enum OrderStatusEnum {
+enum OrderStatusEnum {
   PENDING = 0,
   RECEPTED = 1,
   IN_PREPARATION = 2,
@@ -6,3 +6,5 @@ export enum OrderStatusEnum {
   FINISHED = 4,
   CANCELLED = 5
 }
+
+export default OrderStatusEnum;

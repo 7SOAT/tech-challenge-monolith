@@ -1,11 +1,11 @@
 import { DynamicModule } from "@nestjs/common";
-import { MercadoPagoProvider } from "./mercadoPago/mecadoPago.provider";
+import MercadoPagoProvider   from "./mercadoPago/mecadoPago.provider";
 import { HttpModule, HttpService } from "@nestjs/axios";
-import { QRCodeGeneratorProvider } from "./qrCodeGenerator/qrCodeGenerator.provider";
-import { EnvironmentConfigModule } from "infrastructure/config/environment-config/environment-config.module";
-import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
+import QRCodeGeneratorProvider  from "./qrCodeGenerator/qrCodeGenerator.provider";
+import EnvironmentConfigModule from "infrastructure/config/environment-config/environment-config.module";
+import EnvironmentConfigService  from "infrastructure/config/environment-config/environment-config.service";
 
-export class ProvidersModule {
+export default class ProvidersModule {
     static register(): DynamicModule {
         return {
             module: this,
