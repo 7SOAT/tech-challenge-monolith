@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "paths": {
-            "@routes/*": ["./infrastructure/controllers/*"],
-            "@gateways/*": ["./infrastructure/gateways/*"],
-            "@usecases/*": ["./domain/usecases/*"],
-            "@entities/*": ["./domain/models/*"],
-            "@enums/*": ["./domain/enums/*"],
-            "@interfaces/*": ["./domain/interfaces/*"],
-            "@providers/*": ["./infrastructure/providers/*"],
-            "@type*": ["./domain/types/*"]
+            "@api/*": ["./api/*"],
+            "@routes/*": ["./api/routes/*"],
+            "@gateways/*": ["./package/gateways/*"],
+            "@usecases/*": ["./core/usecases/*"],
+            "@entities/*": ["./core/entities/*"],
+            "@enums/*": ["./core/enums/*"],
+            "@interfaces/*": ["./package/interfaces/*"],
+            "@type/*": ["./core/types/*"],
+            "@datasource/*": ["./externals/datasource/*"],
+            "@providers/*": ["./externals/providers/*"],
+            "@config/*": ["./api/config/*"],
+            "@models/*": ["./package/models/*"]
         },
     "module": "commonjs",
     "declaration": true,
@@ -18,7 +22,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./dist/",
     "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
@@ -27,6 +31,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "rootDir": "./src"
+   // "rootDir": "./src"
   }
 }

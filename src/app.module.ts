@@ -1,10 +1,10 @@
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
-import EnvironmentConfigModule from "infrastructure/config/environment-config/environment-config.module";
-import ControllersModule from "@routes/controllers.module";
-import GatewaysModule  from "@gateways/gateways.module";
-import ProvidersModule from "@providers//providers.module";
-import UsecasesProxyModule  from "infrastructure/usecases-proxy/usecases-proxy.module";
+import EnvironmentConfigModule from "api/config/environment-config/environment-config.module";
+import RoutesModule from "api/routes/routes.module";
+import GatewaysModule  from "package/gateways/gateways.module";
+import ProvidersModule from "@providers/providers.module";
+import UsecasesProxyModule  from "api/usecases-proxy/usecases-proxy.module";
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import UsecasesProxyModule  from "infrastructure/usecases-proxy/usecases-proxy.m
     GatewaysModule.register(),
     ProvidersModule.register(),
     UsecasesProxyModule.register(),
-    ControllersModule.resgister(),
+    RoutesModule.resgister(),
   ],
 })
 
