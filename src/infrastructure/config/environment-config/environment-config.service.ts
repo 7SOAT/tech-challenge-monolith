@@ -58,4 +58,8 @@ export class EnvironmentConfigService implements MercadoPagoConfig, DatabaseConf
   public getMercadoPagoCaixaExternalId(): string{
     return this.configService.get<string>('MERCADO_PAGO__EXTERNAL_CAIXA_ID');
   }
+
+  public getMercadoPagoNotificationUrl(): string{
+    return this.configService.get<string>('MERCADO_PAGO__NOTIFICATION_URL');
+  }
 }

@@ -40,7 +40,8 @@ export class MercadoPagoProvider {
          }),
          {id: parseInt(this._mercadoPagoConfig.getMercadoPagoSponsorUserId().toString())},
          { amount: 0},
-         "Description"
+         "Description",
+         this._mercadoPagoConfig.getMercadoPagoNotificationUrl()
       );
 
       const headers = { Authorization: this.accessToken };

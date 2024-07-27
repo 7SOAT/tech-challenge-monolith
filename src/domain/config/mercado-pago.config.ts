@@ -5,4 +5,5 @@ export interface MercadoPagoConfig{
     getMercadoPagoBaseUrl(): string;
     getMercadoPagoVersion(): string;
     getMercadoPagoCaixaExternalId(): string;
+    getMercadoPagoNotificationUrl(): string;
 }
