@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
-import OrderStatusModel from 'domain/models/order-status.model';
-import IOrderStatusGateway from 'domain/interfaces/gateways/order-status.gateway';
+import OrderStatusModel from '@entities/order-status.model';
+import IOrderStatusGateway from '@interfaces/gateways/order-status.gateway';
 import OrderStatusEntity  from 'infrastructure/entities/order-status.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 

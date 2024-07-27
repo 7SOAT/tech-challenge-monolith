@@ -2,9 +2,9 @@ import { INestApplication } from "@nestjs/common";
 import OrdersMock from "./seed-tables/order.seed";
 import OrderStatusMock from "./seed-tables/order-status.seed";
 import ProductsMock from "./seed-tables/product.seed";
-import ProductGateway from "infrastructure/gateways/product.gateway";
-import OrderStatusGateway  from "infrastructure/gateways/order-status.gateway";
-import OrderGateway from "infrastructure/gateways/order.gateway";
+import ProductGateway from "@gateways/product.gateway";
+import OrderStatusGateway  from "@gateways/order-status.gateway";
+import OrderGateway from "@gateways/order.gateway";
 
 export default async function MockTables(app: INestApplication<any>, enableMockTables: boolean) {
   await HandleDomainTablesData(app);

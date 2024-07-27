@@ -2,9 +2,9 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { plainToInstance } from "class-transformer";
 import { UUID } from 'crypto';
-import ProductCategory from "domain/enums/product-category.enum";
-import IProductGateway from "domain/interfaces/gateways/product.gateway";
-import ProductModel from "domain/models/product.model";
+import ProductCategory from "@enums/product-category.enum";
+import IProductGateway from "@interfaces/gateways/product.gateway";
+import ProductModel from "@entities/product.model";
 import ProductEntity from "infrastructure/entities/product.entity";
 import { Repository } from "typeorm";
 

@@ -1,4 +1,4 @@
-import IOrderOutput from 'domain/types/output/order.output';
+import IOrderOutput from '@type/output/order.output';
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
 import BaseEntity from './base.entity';
 import CustomerEntity from './customer.entity';

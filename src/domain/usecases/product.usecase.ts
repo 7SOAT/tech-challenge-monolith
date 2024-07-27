@@ -1,8 +1,8 @@
 import { UUID } from "crypto";
-import IProductGateway from "domain/interfaces/gateways/product.gateway";
-import ProductCategory from "domain/enums/product-category.enum";
-import IProductInput from "domain/types/input/product.input";
-import ProductModel from "domain/models/product.model";
+import ProductModel from "@entities/product.model";
+import ProductCategory from "@enums/product-category.enum";
+import IProductGateway from "@interfaces/gateways/product.gateway";
+import IProductInput from "@type/input/product.input";
 
 export default class ProductUseCase {
   constructor(private _productGateway: IProductGateway) { }

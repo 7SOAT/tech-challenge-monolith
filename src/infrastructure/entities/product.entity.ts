@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
-import ProductCategory from "domain/enums/product-category.enum";
-import IProductOutput from "domain/types/output/product.output";
+import ProductCategory from "@enums/product-category.enum";
+import IProductOutput from "@type/output/product.output";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import BaseEntity from "./base.entity";
 

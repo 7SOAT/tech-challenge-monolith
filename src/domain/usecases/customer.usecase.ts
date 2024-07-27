@@ -1,6 +1,6 @@
-import ICustomerGateway from "domain/interfaces/gateways/customer.gateway";
-import CustomerModel from "domain/models/customer.model";
-import ICustomerInput from "domain/types/input/customer.input";
+import ICustomerGateway from "@interfaces/gateways/customer.gateway";
+import CustomerModel from "@entities/customer.model";
+import ICustomerInput from "@type/input/customer.input";
 
 export default class CustomerUseCase {
     constructor(private _customerGateway: ICustomerGateway) { }

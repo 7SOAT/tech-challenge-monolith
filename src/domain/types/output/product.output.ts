@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import ProductCategory from 'domain/enums/product-category.enum';
+import ProductCategory from '@enums/product-category.enum';
 
 export default interface IProductOutput {
   id: UUID;

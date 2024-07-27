@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Inject, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import CustomerModel from 'domain/models/customer.model';
+import CustomerModel from '@entities/customer.model';
 import UseCaseProxy from 'infrastructure/usecases-proxy/usecases-proxy';
 import UsecasesProxyModule from 'infrastructure/usecases-proxy/usecases-proxy.module';
-import CustomerUseCase from 'domain/usecases/customer.usecase';
+import CustomerUseCase from '@usecases/customer.usecase';
 import CreateCustomerDto from './dto/create-customer.dto';
 
 @ApiTags('customers')

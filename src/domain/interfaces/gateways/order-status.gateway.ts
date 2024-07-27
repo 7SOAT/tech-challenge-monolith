@@ -1,4 +1,4 @@
-import OrderStatusModel from "domain/models/order-status.model";
+import OrderStatusModel from "@entities/order-status.model";
 
 export default interface IOrderStatusGateway {
   insert(orderStatus: OrderStatusModel): Promise<void>;

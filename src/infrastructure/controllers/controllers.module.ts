@@ -7,7 +7,7 @@ import CustomerController from "./customer/customer.controller";
 import HealthController from "./health/health.controller";
 import OrderController from "./order/order.controller";
 import ProductController from "./product/product.controller";
-import MercadoPagoProvider from "infrastructure/providers/mercado-pago/mercado-pago.provider";
+import MercadoPagoProvider from "@providers//mercado-pago/mercado-pago.provider";
 
 export default class ControllersModule {
     static resgister(): DynamicModule {

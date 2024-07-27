@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
-import ProductCategory from 'domain/enums/product-category.enum';
-import ProductModel from 'domain/models/product.model';
+import ProductCategory from '@enums/product-category.enum';
+import ProductModel from '@entities/product.model';
 
 export default interface IProductGateway {
   insert(product: ProductModel): void;

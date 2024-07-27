@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import CustomerModel from 'domain/models/customer.model';
+import CustomerModel from '@entities/customer.model';
 
 export default interface ICustomerGateway {
   insert(customer: CustomerModel): void;

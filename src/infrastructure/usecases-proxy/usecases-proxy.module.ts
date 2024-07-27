@@ -1,14 +1,14 @@
 import { DynamicModule, Provider } from "@nestjs/common";
-import CustomerGateway from "infrastructure/gateways/customer.gateway";
-import GatewaysModule  from "infrastructure/gateways/gateways.module";
-import OrderGateway from "infrastructure/gateways/order.gateway";
-import ProductGateway from "infrastructure/gateways/product.gateway";
-import MercadoPagoProvider   from "infrastructure/providers/mercado-pago/mercado-pago.provider";
-import ProvidersModule from "infrastructure/providers/providers.module";
+import CustomerGateway from "@gateways/customer.gateway";
+import GatewaysModule  from "@gateways/gateways.module";
+import OrderGateway from "@gateways/order.gateway";
+import ProductGateway from "@gateways/product.gateway";
+import MercadoPagoProvider   from "@providers//mercado-pago/mercado-pago.provider";
+import ProvidersModule from "@providers//providers.module";
 import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
-import CustomerUseCase from "../../domain/usecases/customer.usecase";
-import OrderUseCase from "../../domain/usecases/order.usecase";
-import ProductUseCase  from "../../domain/usecases/product.usecase";
+import CustomerUseCase from "@usecases/customer.usecase";
+import OrderUseCase from "@usecases/order.usecase";
+import ProductUseCase  from "@usecases/product.usecase";
 import EnvironmentConfigService  from "infrastructure/config/environment-config/environment-config.service";
 
 export default class UsecasesProxyModule {

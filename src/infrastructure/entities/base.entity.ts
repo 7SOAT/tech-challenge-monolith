@@ -1,4 +1,4 @@
-import IBaseOutput from "domain/types/output/base.output";
+import IBaseOutput from "@type/output/base.output";
 import { CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export default class BaseEntity<T> implements IBaseOutput {

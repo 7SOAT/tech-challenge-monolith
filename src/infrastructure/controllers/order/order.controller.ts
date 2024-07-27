@@ -13,10 +13,10 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
-import OrderModel from 'domain/models/order.model';
+import OrderModel from '@entities/order.model';
 import UseCaseProxy from 'infrastructure/usecases-proxy/usecases-proxy';
 import UsecasesProxyModule from 'infrastructure/usecases-proxy/usecases-proxy.module';
-import OrderUseCase from 'domain/usecases/order.usecase';
+import OrderUseCase from '@usecases/order.usecase';
 import CreateOrderDto from './dto/create-order.dto';
 
 @ApiTags('orders')

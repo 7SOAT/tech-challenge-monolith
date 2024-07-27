@@ -1,12 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UUID } from 'crypto';
-import OrderStatusEnum from 'domain/enums/order-status.enum';
-import IOrderGateway from 'domain/interfaces/gateways/order.gateway';
-import CustomerModel from 'domain/models/customer.model';
-import OrderModel from 'domain/models/order.model';
-import OrderStatusModel from 'domain/models/order-status.model';
-import ProductModel from 'domain/models/product.model';
+import OrderStatusEnum from '@enums/order-status.enum';
+import IOrderGateway from '@interfaces/gateways/order.gateway';
+import CustomerModel from '@entities/customer.model';
+import OrderModel from '@entities/order.model';
+import OrderStatusModel from '@entities/order-status.model';
+import ProductModel from '@entities/product.model';
 import OrderEntity  from 'infrastructure/entities/order.entity';
 import { Repository } from 'typeorm';
 

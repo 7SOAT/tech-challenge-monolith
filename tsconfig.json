@@ -1,5 +1,15 @@
 {
   "compilerOptions": {
+    "paths": {
+            "@routes/*": ["./infrastructure/controllers/*"],
+            "@gateways/*": ["./infrastructure/gateways/*"],
+            "@usecases/*": ["./domain/usecases/*"],
+            "@entities/*": ["./domain/models/*"],
+            "@enums/*": ["./domain/enums/*"],
+            "@interfaces/*": ["./domain/interfaces/*"],
+            "@providers/*": ["./infrastructure/providers/*"],
+            "@type*": ["./domain/types/*"]
+        },
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -16,6 +26,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "rootDir": "./src"
   }
 }

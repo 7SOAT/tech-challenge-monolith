@@ -1,12 +1,12 @@
 import { UUID } from "crypto";
-import OrderStatusEnum from "domain/enums/order-status.enum";
-import ICustomerGateway from "domain/interfaces/gateways/customer.gateway";
-import IOrderGateway from "domain/interfaces/gateways/order.gateway";
-import CustomerModel from "domain/models/customer.model";
-import OrderModel from "domain/models/order.model";
-import ProductModel from "domain/models/product.model";
-import IOrderInput from "domain/types/input/order.input";
-import MercadoPagoProvider from "infrastructure/providers/mercado-pago/mercado-pago.provider";
+import OrderStatusEnum from "@enums/order-status.enum";
+import ICustomerGateway from "@interfaces/gateways/customer.gateway";
+import IOrderGateway from "@interfaces/gateways/order.gateway";
+import CustomerModel from "@entities/customer.model";
+import OrderModel from "@entities/order.model";
+import ProductModel from "@entities/product.model";
+import IOrderInput from "@type/input/order.input";
+import MercadoPagoProvider from "@providers//mercado-pago/mercado-pago.provider";
 import ProductUseCase from "./product.usecase";
 
 export default class OrderUseCase {
