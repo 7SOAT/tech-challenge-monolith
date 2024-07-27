@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import OrderStatusEnum from 'domain/enums/orderStatus.enum';
+import OrderStatusEnum from 'domain/enums/order-status.enum';
 import OrderModel from 'domain/models/order.model';
 
 export default interface IOrderGateway {

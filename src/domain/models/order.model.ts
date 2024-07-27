@@ -1,7 +1,7 @@
 import { randomUUID, UUID } from 'crypto';
 import ProductModel from './product.model';
 import CustomerModel from './customer.model';
-import OrderStatusEnum from 'domain/enums/orderStatus.enum';
+import OrderStatusEnum from 'domain/enums/order-status.enum';
 
 export default class OrderModel {
   public readonly totalValue: number;
@@ -13,6 +13,8 @@ export default class OrderModel {
     public readonly orderNumber: number = null,
     public readonly id: UUID = randomUUID()
   ) {
-    this.totalValue = parseFloat(products?.reduce<number>((a, b) => a + parseFloat(b.price.toString()), 0).toFixed(2));
+    this.totalValue = parseFloat(
+      products.reduce<number>((a, b) => 
+        a + parseFloat(b.price.toString()), 0).toFixed(2));
   }
 }

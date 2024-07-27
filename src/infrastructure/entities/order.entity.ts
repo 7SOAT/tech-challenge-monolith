@@ -1,13 +1,13 @@
 import IOrderOutput from 'domain/types/output/order.output';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
 import BaseEntity from './base.entity';
 import CustomerEntity from './customer.entity';
-import OrderStatusEntity from './orderStatus.entity';
+import OrderStatusEntity from './order-status.entity';
 import ProductEntity from './product.entity';
 
 @Entity({ name: 'order' })
 export default class OrderEntity extends BaseEntity<OrderEntity> implements IOrderOutput {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: string;
 
   @ManyToOne(() => OrderStatusEntity, (orderStatus) => orderStatus.id)

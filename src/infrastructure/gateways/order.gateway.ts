@@ -1,11 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UUID } from 'crypto';
-import OrderStatusEnum from 'domain/enums/orderStatus.enum';
+import OrderStatusEnum from 'domain/enums/order-status.enum';
 import IOrderGateway from 'domain/interfaces/gateways/order.gateway';
 import CustomerModel from 'domain/models/customer.model';
 import OrderModel from 'domain/models/order.model';
-import OrderStatusModel from 'domain/models/orderStatus.model';
+import OrderStatusModel from 'domain/models/order-status.model';
 import ProductModel from 'domain/models/product.model';
 import OrderEntity  from 'infrastructure/entities/order.entity';
 import { Repository } from 'typeorm';
@@ -20,8 +20,8 @@ export default class OrderGateway implements IOrderGateway {
   async findAll(): Promise<Array<OrderModel>> {
     try {
       const result: OrderEntity[] = await this._orderRepository.find({ relations: ['products'] });
-      return plainToInstance<OrderModel, OrderEntity>(
-        OrderModel,
+      return plainToInstance<Array<OrderModel>, Array<OrderEntity>>(
+        Array<OrderModel>,
         result,
         { enableImplicitConversion: true }
       );

@@ -1,5 +1,5 @@
-import OrderStatusEnum from "domain/enums/orderStatus.enum";
-import OrderStatusEntity  from "infrastructure/entities/orderStatus.entity";
+import OrderStatusEnum from "domain/enums/order-status.enum";
+import OrderStatusEntity  from "infrastructure/entities/order-status.entity";
 
 const OrderStatusMock: OrderStatusEntity[] = [
     new OrderStatusEntity({

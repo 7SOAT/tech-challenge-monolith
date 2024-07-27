@@ -1,6 +1,6 @@
 import { randomInt } from "crypto";
 import ProductsMock from "./product.seed";
-import OrderStatusEnum from "domain/enums/orderStatus.enum";
+import OrderStatusEnum from "domain/enums/order-status.enum";
 import OrderEntity  from "infrastructure/entities/order.entity";
 
 const currentDate = new Date();

@@ -1,5 +1,5 @@
 import { randomUUID, UUID } from 'crypto';
-import ProductCategory from 'domain/enums/productCategory.enum';
+import ProductCategory from 'domain/enums/product-category.enum';
 
 export default class ProductModel {
   constructor(
@@ -7,9 +7,8 @@ export default class ProductModel {
     public readonly description: string,
     public readonly price: number,
     public readonly category: ProductCategory,
-    public readonly id: UUID = null
+    public readonly id: UUID = randomUUID()
   ) {
     this.price = parseFloat(parseFloat(price?.toString()).toFixed(2))
-    this.id = id ?? randomUUID()
   }
 }

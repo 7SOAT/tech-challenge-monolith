@@ -6,9 +6,9 @@ import ProductGateway from "infrastructure/gateways/product.gateway";
 import MercadoPagoProvider   from "infrastructure/providers/mercadoPago/mecadoPago.provider";
 import ProvidersModule from "infrastructure/providers/providers.module";
 import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
-import CustomerUseCase from "../../useCases/customer.usecase";
-import OrderUseCase from "../../useCases/order.usecase";
-import ProductUseCase  from "../../useCases/product.usecase";
+import CustomerUseCase from "../../usecases/customer.usecase";
+import OrderUseCase from "../../usecases/order.usecase";
+import ProductUseCase  from "../../usecases/product.usecase";
 import EnvironmentConfigService  from "infrastructure/config/environment-config/environment-config.service";
 
 export default class UsecasesProxyModule {

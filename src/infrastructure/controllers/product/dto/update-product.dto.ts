@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import ProductCategory from "domain/enums/productCategory.enum";
+import ProductCategory from "domain/enums/product-category.enum";
 import IProductInput from "domain/types/input/product.input";
 
 export default class UpdateProductDto implements IProductInput {

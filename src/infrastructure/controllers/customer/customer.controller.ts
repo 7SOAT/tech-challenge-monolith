@@ -3,7 +3,7 @@ import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/s
 import CustomerModel from 'domain/models/customer.model';
 import UseCaseProxy from 'infrastructure/usecases-proxy/usecases-proxy';
 import UsecasesProxyModule from 'infrastructure/usecases-proxy/usecases-proxy.module';
-import CustomerUseCase from 'useCases/customer.usecase';
+import CustomerUseCase from 'usecases/customer.usecase';
 import CreateCustomerDto from './dto/create-customer.dto';
 
 @ApiTags('customers')

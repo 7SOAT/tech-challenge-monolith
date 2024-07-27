@@ -1,12 +1,12 @@
-import IProductOutput from "domain/types/output/product.output";
-import ProductCategory from "domain/enums/productCategory.enum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { UUID } from 'crypto';
-import BaseEntity  from "./base.entity";
+import ProductCategory from "domain/enums/product-category.enum";
+import IProductOutput from "domain/types/output/product.output";
+import { Column, Entity, PrimaryColumn } from "typeorm";
+import BaseEntity from "./base.entity";
 
 @Entity({ name: "product" })
 export default class ProductEntity extends BaseEntity<ProductEntity> implements IProductOutput {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryColumn("uuid")
   id: UUID;
 
   @Column({ type: "boolean", default: true })

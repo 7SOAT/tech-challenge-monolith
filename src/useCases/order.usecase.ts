@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import OrderStatusEnum from "domain/enums/orderStatus.enum";
+import OrderStatusEnum from "domain/enums/order-status.enum";
 import ICustomerGateway from "domain/interfaces/gateways/customer.gateway";
 import IOrderGateway from "domain/interfaces/gateways/order.gateway";
 import CustomerModel from "domain/models/customer.model";

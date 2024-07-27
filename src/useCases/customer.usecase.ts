@@ -3,11 +3,11 @@ import CustomerModel from "domain/models/customer.model";
 import ICustomerInput from "domain/types/input/customer.input";
 
 export default class CustomerUseCase {
-    constructor(private _customerRepository: ICustomerGateway) { }
+    constructor(private _customerGateway: ICustomerGateway) { }
 
     findCustomerByCPF(cpf: string): Promise<CustomerModel> {
         return new Promise(async (resolve) => {
-            resolve(this._customerRepository.findOneByCPF(cpf))
+            resolve(this._customerGateway.findOneByCPF(cpf))
         });
     }
 
@@ -19,7 +19,7 @@ export default class CustomerUseCase {
                 input.cpf
             );
 
-            this._customerRepository.insert(newCustomer);
+            this._customerGateway.insert(newCustomer);
         } catch (err) {
             throw err;
         }
