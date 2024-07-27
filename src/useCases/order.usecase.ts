@@ -6,14 +6,14 @@ import CustomerModel from "domain/models/customer.model";
 import OrderModel from "domain/models/order.model";
 import ProductModel from "domain/models/product.model";
 import IOrderInput from "domain/types/input/order.input";
-import { CreatePaymentRequest, MercadoPagoProvider } from "infrastructure/providers/mercadoPago/mecadoPago.provider";
-import { ProductUseCase } from "./product.usecase";
+import { MercadoPagoProvider } from "infrastructure/providers/mercadoPago/mecadoPago.provider";
+import { ProductUseCase } from "./product.usecase";import { MercadoPagoConfig } from "domain/config/mercado-pago.config";
+import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
 import { Inject } from "@nestjs/common";
-import { UsecasesProxyModule } from "infrastructure/usecases-proxy/usecases-proxy.module";
-import { UseCaseProxy } from "infrastructure/usecases-proxy/usecases-proxy";
-
 export class OrderUseCase {
   constructor(
+    @Inject(EnvironmentConfigService)
+    private _mercadoPagoConfig: MercadoPagoConfig,
     private _orderGateway: IOrderGateway,
     private _customerGateway: ICustomerGateway,
     private _mercadoPagoProvider: MercadoPagoProvider,
@@ -37,7 +37,7 @@ export class OrderUseCase {
   }
 
   async createOrder(orderInput: IOrderInput): Promise<{ qr_data: string }> {
-    
+
     try {
       const products: ProductModel[] = await this._productUseCase.validateProducts(orderInput.productIds);
       const customer: CustomerModel = await this._customerGateway.findOneById(
@@ -51,33 +51,7 @@ export class OrderUseCase {
       );
 
       const orderRegistered = await this._orderGateway.insert(order);
-
-      const request: CreatePaymentRequest = {
-        cash_out: {
-          amount: 0
-        },
-        description: "Purchase description.",
-        external_reference: orderRegistered.id.toString(),
-        items: orderRegistered.products.map((product) => {
-          return {
-            sku_number: product.id.toString(),
-            category: product.category,
-            title: product.name,
-            description: product.description,
-            unit_price: product.price,
-            quantity: 1,
-            unit_measure: "unit",
-            total_amount: product.price
-          }
-        }),
-        sponsor: {
-          id: 1907353240
-        },
-        title: "Combo Completo",
-        total_amount: orderRegistered.totalValue
-      };
-
-      return await this._mercadoPagoProvider.createOrder(request);
+      return await this._mercadoPagoProvider.createOrder(orderRegistered);
     } catch (error) {
       throw error;
     }

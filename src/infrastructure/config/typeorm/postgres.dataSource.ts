@@ -12,8 +12,5 @@ export const postgresDataSource = (config: EnvironmentConfigService): TypeOrmMod
     synchronize: true,
     entities: [__dirname + "..\\models\\*.model.ts"],
     ssl: true,
-    extra: {
-      socketPath: process.env.SOCKET_PATH,
-    },
     autoLoadEntities: true
   } as TypeOrmModuleOptions);

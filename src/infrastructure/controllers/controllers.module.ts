@@ -10,6 +10,7 @@ import { OrderController } from "./order/order.controller";
 import { ProductController } from "./product/product.controller";
 import { WebhookController } from "./webhook/webhook.controller";
 import { UseCaseProxy } from "infrastructure/usecases-proxy/usecases-proxy";
+import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
 
 export class ControllersModule {
     static resgister(): DynamicModule {
@@ -17,6 +18,7 @@ export class ControllersModule {
             module: this,
             imports: [TerminusModule, HttpModule, UsecasesProxyModule.register()],
             providers: [
+                EnvironmentConfigService,
                 MercadoPagoProvider
             ],
             controllers: [

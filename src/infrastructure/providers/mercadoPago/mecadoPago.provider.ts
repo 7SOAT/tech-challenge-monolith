@@ -1,62 +1,71 @@
 import { HttpService } from "@nestjs/axios";
 import { Inject } from "@nestjs/common";
-import { PaymentResponse } from 'mercadopago/dist/clients/payment/commonTypes';
-
-export type CreatePaymentRequest = {
-   cash_out: {
-      amount: number
-   },
-   description: string,
-   external_reference: string,
-   items: {
-      sku_number: string,
-      category: string,
-      title: string,
-      description: string,
-      unit_price: number,
-      quantity: number,
-      unit_measure: "unit" | "",
-      total_amount: number,
-   }[],
-   notification_url?: string,
-   sponsor: {
-      id: number
-   },
-   title: string,
-   total_amount: number
-}
+import { UUID } from "crypto";
+import { MercadoPagoConfig } from "domain/config/mercado-pago.config";
+import { MPCreateOrderRequest } from "./types/mercadoPago.request.types";
+import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
+import OrderModel from "domain/models/order.model";
 
 export class MercadoPagoProvider {
-
-   private readonly baseUrl = process.env.MERCADO_PAGO_BASE_URL;
-   private readonly notification_url: string = "https://api.mercadopago.com/instore/orders/qr/seller/collectors/1910982443/pos/CAIXAEID/qrs";
-   private readonly accessToken = `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
+   private readonly baseUrl: string = this._mercadoPagoConfig.getMercadoPagoBaseUrl();
+   private readonly vendedorId: number = this._mercadoPagoConfig.getMercadoPagoVendedorUserId();
+   private readonly caixaID: string = this._mercadoPagoConfig.getMercadoPagoCaixaExternalId();
+   private readonly apiVersion: string = this._mercadoPagoConfig.getMercadoPagoVersion();
+   private readonly accessToken: string = `Bearer ${this._mercadoPagoConfig.getMercadoPagoAccessToken()}`
 
    constructor(
       @Inject(HttpService)
       private readonly _httpService: HttpService,
 
+      @Inject(EnvironmentConfigService)
+      private readonly _mercadoPagoConfig: MercadoPagoConfig
    ) { }
 
-   async createOrder(request: CreatePaymentRequest) {
+   async createOrder(order: OrderModel) {
+      // TODO: Adapter
+      const request: MPCreateOrderRequest = new MPCreateOrderRequest(
+         `Pedido ${order.orderNumber}`,
+         order.totalValue,
+         order.id,
+         order.products.map((product) => {
+            return {
+               sku_number: product.id.toString(),
+               category: product.category,
+               title: product.name,
+               description: product.description,
+               unit_price: product.price,
+               unit_measure: "unit",
+               quantity: 1,
+               total_amount: product.price
+            }
+         }),
+         {id: parseInt(this._mercadoPagoConfig.getMercadoPagoSponsorUserId().toString())},
+         { amount: 0},
+         "Description"
+      );
+
       const headers = { Authorization: this.accessToken };
+      const url: string = `${this.baseUrl}/instore/orders/qr/seller/collectors/${this.vendedorId}/pos/${this.caixaID}/qrs`;
       try {
-         const requested = await this._httpService.axiosRef.put(this.notification_url, request, { headers: headers });
+         const requested = await this._httpService.axiosRef.put(
+            url,
+            request,
+            { headers }
+         );
          return requested.data;
       } catch (err) {
-         console.log(err)
+         throw Error(err);
       }
-
    }
 
-   async findPaymentById(paymentId: string) {
+   async findPaymentById(paymentId: number) {
       try {
-         const responseData = (await this._httpService
-            .axiosRef.get(`${this.baseUrl}/v1/payments/${paymentId}`, {
-               headers: {
-                  Authorization: this.accessToken,
-               },
-            }));
+         const headers = { Authorization: this.accessToken }
+         const responseData = (
+            await this._httpService
+               .axiosRef
+               .get(`${this.baseUrl}/${this.apiVersion}/payments/${paymentId}`, { headers })
+         );
          return responseData.data;
       } catch (err) {
          throw Error(err);

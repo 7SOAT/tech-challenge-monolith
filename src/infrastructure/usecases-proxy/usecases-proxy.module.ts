@@ -10,6 +10,8 @@ import { WebhookUseCase } from "useCases/webhook.usecase";
 import { CustomerUseCase } from "../../useCases/customer.usecase";
 import { OrderUseCase } from "../../useCases/order.usecase";
 import { ProductUseCase } from "../../useCases/product.usecase";
+import { MercadoPagoConfig } from "domain/config/mercado-pago.config";
+import { EnvironmentConfigService } from "infrastructure/config/environment-config/environment-config.service";
 
 export class UsecasesProxyModule {
 
@@ -20,6 +22,7 @@ export class UsecasesProxyModule {
 
   static register(): DynamicModule {
     const providers: Provider[] = [
+      EnvironmentConfigService,
       {
         inject: [ProductGateway, this.WEBHOOK_USE_CASE],
         provide: this.PRODUCT_USE_CASE,
@@ -28,9 +31,10 @@ export class UsecasesProxyModule {
         ) => new UseCaseProxy(new ProductUseCase(productGateway)),
       },
       {
-        inject: [OrderGateway, CustomerGateway, MercadoPagoProvider, this.PRODUCT_USE_CASE],
+        inject: [EnvironmentConfigService, OrderGateway, CustomerGateway, MercadoPagoProvider, this.PRODUCT_USE_CASE],
         provide: this.ORDER_USE_CASE,
         useFactory: (
+          mercadoPagoConfig: EnvironmentConfigService,
           orderGateway: OrderGateway,
           customerGateway: CustomerGateway,
           mercadoPagoProvider: MercadoPagoProvider,
@@ -38,6 +42,7 @@ export class UsecasesProxyModule {
         ) => {
           return new UseCaseProxy(
             new OrderUseCase(
+              mercadoPagoConfig,
               orderGateway,
               customerGateway,
               mercadoPagoProvider,
@@ -52,7 +57,7 @@ export class UsecasesProxyModule {
         ) => new UseCaseProxy(new CustomerUseCase(customerGateway)),
       },
       {
-        inject: [MercadoPagoProvider, OrderGateway],
+        inject: [MercadoPagoProvider, OrderGateway ],
         provide: this.WEBHOOK_USE_CASE,
         useFactory: (
           mercadoPagoProvider: MercadoPagoProvider,

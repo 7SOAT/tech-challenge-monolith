@@ -11,6 +11,7 @@ import { WebhookUseCase } from 'useCases/webhook.usecase';
 import { WebhookDto } from './dto/webhook.dto';
 import { UsecasesProxyModule } from 'infrastructure/usecases-proxy/usecases-proxy.module';
 import { UseCaseProxy } from 'infrastructure/usecases-proxy/usecases-proxy';
+import { UUID } from 'crypto';
 
 @ApiTags('webhook')
 @Controller('webhook')
@@ -27,12 +28,12 @@ export class WebhookController {
     description: 'Webhook verify payment approved or not',
   })
   @ApiBody({ type: WebhookDto})
-  async webhook(@Body() body, @Query() c) {
+  async webhook(@Body() {type, data}, @Query() c) {
     console.log( "Webhook recebido!")
-    if(body?.type === "payment"){
-      const paymentId = body?.data?.id;
+    if(type === "payment"){
+      const paymentId = data?.id;
       return await this._webhookUseCase.getInstance().findPaymentByPaymentId(paymentId);
     }
-    return {result: "sucesso"}
+    return {result: "Falha"}
   }
 }
