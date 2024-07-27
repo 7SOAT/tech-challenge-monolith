@@ -1,9 +1,9 @@
 import { HttpService } from "@nestjs/axios";
 import { Inject } from "@nestjs/common";
 import MercadoPagoConfig from "domain/config/mercado-pago.config";
-import MPCreateOrderRequest from "./types/mercadoPago.request.types";
 import EnvironmentConfigService from "infrastructure/config/environment-config/environment-config.service";
 import OrderModel from "domain/models/order.model";
+import MPCreateOrderRequest from "./types/mercado-pago.request.types";
 
 export default class MercadoPagoProvider {
    private readonly baseUrl: string = this._mercadoPagoConfig.getMercadoPagoBaseUrl();

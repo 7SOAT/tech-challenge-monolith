@@ -109,7 +109,7 @@ export default class OrderController {
     }
   }
 
-  @Post(':orderId/checkout')
+  @Post('/checkout')
   @ApiQuery({examples: {a: {summary: "Exemplo de pagamento", value: { id: '83786085280', topic: 'payment' }}}})
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Checkout an order' })

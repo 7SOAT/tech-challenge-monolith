@@ -1,13 +1,14 @@
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags, getSchemaPath } from "@nestjs/swagger";
 import CreateProductDto from "./dto/create-product.dto";
-import UpdateProductDto  from "./dto/update-product.dto";
+import UpdateProductDto from "./dto/update-product.dto";
 import { UUID } from 'crypto';
 import { Controller, Get, HttpStatus, Param, HttpException, Post, Body, Put, Delete, Inject } from "@nestjs/common";
 import ProductCategory from "domain/enums/product-category.enum";
-import ProductUseCase  from "usecases/product.usecase";
+import ProductUseCase from "usecases/product.usecase";
 import ProductModel from "domain/models/product.model";
-import UsecasesProxyModule  from "infrastructure/usecases-proxy/usecases-proxy.module";
+import UsecasesProxyModule from "infrastructure/usecases-proxy/usecases-proxy.module";
 import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
+import ProductsMock from "infrastructure/config/typeorm/seed/seed-tables/product.seed";
 
 @ApiTags("products")
 @Controller("products")
@@ -75,51 +76,24 @@ export default class ProductController {
   })
   @ApiBody({
     type: CreateProductDto,
-    examples: {
-      a: {
-        summary: "Exemplo Lanche",
+    examples: Object.call(() => { }, ProductsMock.map((item, i) => {
+      return {
+        summary: `Exemplo ${i}`,
         value: {
-          name: "X-Salada",
-          category: ProductCategory.Burger,
-          description: "Hambúrguer, alface, tomate, queijo, presunto e maionese, servido em um pão de hambúrguer.",
-          price: 23.50
-        } as CreateProductDto
-      },
-      b: {
-        summary: "Exemplo Acompanhamento",
-        value: {
-          name: "Batata Frita",
-          category: ProductCategory.Side,
-          description: "Batatas em tiras e fritas em óleo quente, com sal e alecrim.",
-          price: 12.00
-        } as CreateProductDto
-      },
-      c: {
-        summary: "Exemplo Bebida",
-        value: {
-          name: "Coca cola (lata)",
-          category: ProductCategory.Beverage,
-          description: "Lata de Coca Cola de 350ml.",
-          price: 5.00
-        } as CreateProductDto
-      },
-      d: {
-        summary: "Exemplo Sobremesa",
-        value: {
-          name: "Sorvete com Nutella",
-          category: ProductCategory.Dessert,
-          description: "4 deliciosas bolas de sorvete com corbertura de Nutella.",
-          price: 27.00
+          name: item.name,
+          category: item.category,
+          description: item.description,
+          price: item.price
         } as CreateProductDto
       }
-    }
+    }))
   })
   create(@Body() input: CreateProductDto) {
     return this._productUseCase.getInstance().createProductUseCase(input);
   }
 
   @Put("/:productId")
-  @ApiParam({ name: 'productId', schema: {description: "product UUID"} })
+  @ApiParam({ name: 'productId', schema: { description: "product UUID" } })
   @ApiOperation({ summary: 'Update product' })
   @ApiResponse({ status: 200, description: 'Product updated' })
   @ApiResponse({
@@ -158,7 +132,7 @@ export default class ProductController {
   }
 
   @Delete("/:productId")
-  @ApiParam({ name: 'productId', schema: {description: "product UUID"} })
+  @ApiParam({ name: 'productId', schema: { description: "product UUID" } })
   @ApiOperation({ summary: 'Delete product' })
   @ApiResponse({ status: 200, description: 'Product deleted' })
   @ApiResponse({

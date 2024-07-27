@@ -3,7 +3,7 @@ import CustomerGateway from "infrastructure/gateways/customer.gateway";
 import GatewaysModule  from "infrastructure/gateways/gateways.module";
 import OrderGateway from "infrastructure/gateways/order.gateway";
 import ProductGateway from "infrastructure/gateways/product.gateway";
-import MercadoPagoProvider   from "infrastructure/providers/mercadoPago/mecadoPago.provider";
+import MercadoPagoProvider   from "infrastructure/providers/mercado-pago/mercado-pago.provider";
 import ProvidersModule from "infrastructure/providers/providers.module";
 import UseCaseProxy from "infrastructure/usecases-proxy/usecases-proxy";
 import CustomerUseCase from "../../usecases/customer.usecase";
