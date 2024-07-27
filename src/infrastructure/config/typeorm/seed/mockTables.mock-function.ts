@@ -6,9 +6,9 @@ import { ProductGateway } from "infrastructure/gateways/product.gateway";
 import { OrderStatusGateway } from "infrastructure/gateways/orderStatus.gateway";
 import { OrderGateway } from "infrastructure/gateways/order.gateway";
 
-export default async function MockTables(app: INestApplication<any>, enableMockTables: string) {
+export default async function MockTables(app: INestApplication<any>, enableMockTables: boolean) {
   await HandleDomainTablesData(app);
-  if (enableMockTables === "true") {
+  if (enableMockTables) {
     await HandleExtraTablesData(app);
   }
 }

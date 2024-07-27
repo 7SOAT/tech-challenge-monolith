@@ -1,15 +1,14 @@
+import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { UUID } from 'crypto';
-import { IOrderGateway } from 'domain/interfaces/gateways/order.gateway';
-import OrderStatusModel from 'domain/models/orderStatus.model';
 import { OrderStatusEnum } from 'domain/enums/orderStatus.enum';
-import { Repository } from 'typeorm';
-import { OrderEntity } from 'infrastructure/entities/order.entity';
-import OrderModel from 'domain/models/order.model';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ProductEntity } from 'infrastructure/entities/product.entity';
-import ProductModel from 'domain/models/product.model';
+import { IOrderGateway } from 'domain/interfaces/gateways/order.gateway';
 import CustomerModel from 'domain/models/customer.model';
+import OrderModel from 'domain/models/order.model';
+import OrderStatusModel from 'domain/models/orderStatus.model';
+import ProductModel from 'domain/models/product.model';
+import { OrderEntity } from 'infrastructure/entities/order.entity';
+import { Repository } from 'typeorm';
 
 
 export class OrderGateway implements IOrderGateway {
@@ -20,7 +19,7 @@ export class OrderGateway implements IOrderGateway {
 
   async findAll(): Promise<Array<OrderModel>> {
     try {
-      const result: OrderEntity[] = await this._orderRepository.find({ relations: ['products']});
+      const result: OrderEntity[] = await this._orderRepository.find({ relations: ['products'] });
       return plainToInstance<OrderModel, OrderEntity>(
         OrderModel,
         result,
@@ -88,10 +87,10 @@ export class OrderGateway implements IOrderGateway {
       );
 
       const result = await this._orderRepository.save(orderDataModel);
-      
+
       return new OrderModel(
         result.status.id,
-        result.products.map(({name, description,price, category, id}) => new ProductModel(
+        result.products.map(({ name, description, price, category, id }) => new ProductModel(
           name,
           description,
           price,
@@ -100,7 +99,7 @@ export class OrderGateway implements IOrderGateway {
         )),
         new CustomerModel("a", "b", "c"),
         result.orderNumber,
-        <UUID> result.id
+        <UUID>result.id
       );
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
@@ -110,7 +109,6 @@ export class OrderGateway implements IOrderGateway {
   async updateStatusWebhook(orderId: UUID, status: OrderStatusEnum): Promise<void> {
     try {
       await this._orderRepository.update(orderId.toString(), { status: new OrderStatusModel(status) });
-      console.log("Pedido atualizado!")
     } catch (error) {
       throw new Error(`Error updating status webhook: ${error}`);
     }
