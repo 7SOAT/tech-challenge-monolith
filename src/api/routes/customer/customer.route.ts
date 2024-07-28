@@ -1,17 +1,16 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Inject, Post, Query } from '@nestjs/common';
+import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
+import CustomerGateway from '@gateways/customer.gateway';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import CustomerEntity from 'core/entities/customer.entity';
-import UseCaseProxy from 'api/usecases-proxy/usecases-proxy';
-import UsecasesProxyModule from 'api/usecases-proxy/usecases-proxy.module';
-import CustomerUseCase from '@usecases/customer.usecase';
 import CreateCustomerDto from '@routes/customer/dto/create-customer.dto';
+import CustomerUseCase from '@usecases/customer.usecase';
+import CustomerEntity from 'core/entities/customer.entity';
 
 @ApiTags('customers')
 @Controller('customers')
 export default class CustomerRoute {
   constructor(
-    @Inject(UsecasesProxyModule.CUSTOMER_USE_CASE)
-    private _customerUseCase: UseCaseProxy<CustomerUseCase>
+    private _customerRepository: CustomerRepository
   ) { }
   
   @Get('by-params')
@@ -19,7 +18,9 @@ export default class CustomerRoute {
   @ApiQuery({ name: "cpf", description: "Customer CPF number" })
   async findOne(@Query() query: { cpf: string }): Promise<CustomerEntity> {
     try {
-      return await this._customerUseCase.getInstance().findCustomerByCPF(query.cpf);
+      const customerGateway = new CustomerGateway(this._customerRepository);
+      const customerUseCase = new CustomerUseCase(customerGateway);
+      return await customerUseCase.findCustomerByCPF(query.cpf);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -43,7 +44,9 @@ export default class CustomerRoute {
   })
   create(@Body() createCustomerDto: CreateCustomerDto) {
     try {
-      return this._customerUseCase.getInstance().createCustomer(createCustomerDto);
+      const customerGateway = new CustomerGateway(this._customerRepository);
+      const customerUseCase = new CustomerUseCase(customerGateway);
+      return customerUseCase.createCustomer(createCustomerDto);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

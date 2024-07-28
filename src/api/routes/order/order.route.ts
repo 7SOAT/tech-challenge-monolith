@@ -1,3 +1,9 @@
+import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
+import OrderRepository from '@datasource/typeorm/repositories/order.repository';
+import ProductRepository from '@datasource/typeorm/repositories/product.repository';
+import CustomerGateway from '@gateways/customer.gateway';
+import OrderGateway from '@gateways/order.gateway';
+import ProductGateway from '@gateways/product.gateway';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -6,26 +12,26 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
-  Inject,
   Post,
   Query,
   UseInterceptors
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { randomUUID } from 'crypto';
-import OrderEntity from 'core/entities/order.entity';
-import UseCaseProxy from 'api/usecases-proxy/usecases-proxy';
-import UsecasesProxyModule from 'api/usecases-proxy/usecases-proxy.module';
-import OrderUseCase from '@usecases/order.usecase';
+import MercadoPagoProvider from '@providers/mercado-pago/mercado-pago.provider';
 import CreateOrderDto from '@routes/order/dto/create-order.dto';
+import OrderUseCase from '@usecases/order.usecase';
+import OrderEntity from 'core/entities/order.entity';
+import { randomUUID } from 'crypto';
 
 @ApiTags('orders')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({ path: 'orders', version: '1' })
 export default class OrderRoute {
   constructor(
-    @Inject(UsecasesProxyModule.ORDER_USE_CASE)
-    private _orderUseCase: UseCaseProxy<OrderUseCase>
+    private _orderRepository: OrderRepository,
+    private _customerRepository: CustomerRepository,
+    private _productRepository: ProductRepository,
+    private _mercadoPagoProvider: MercadoPagoProvider
   ) { }
 
   @Get()
@@ -42,7 +48,8 @@ export default class OrderRoute {
   })
   async findAll() {
     try {
-      return await this._orderUseCase.getInstance().findAllOrderUseCase();
+      const orderOrderUseCase = this.createOrderUseCase();
+      return await orderOrderUseCase.findAllOrderUseCase();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -61,7 +68,8 @@ export default class OrderRoute {
   })
   async findQueue() {
     try {
-      return await this._orderUseCase.getInstance().findOrderQueue();
+      const orderOrderUseCase = this.createOrderUseCase();
+      return await orderOrderUseCase.findOrderQueue();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -103,7 +111,8 @@ export default class OrderRoute {
   })
   async create(@Body() createOrderDto: CreateOrderDto) {
     try {
-      return this._orderUseCase.getInstance().createOrder(createOrderDto);
+      const orderOrderUseCase = this.createOrderUseCase();
+      return orderOrderUseCase.createOrder(createOrderDto);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -128,10 +137,19 @@ export default class OrderRoute {
   async checkout(@Query() { id, topic }) {
     try {
       if (topic === "payment") {
-        await this._orderUseCase.getInstance().orderCheckout(id);
+        const orderOrderUseCase = this.createOrderUseCase();
+        await orderOrderUseCase.orderCheckout(id);
       }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  private createOrderUseCase(): OrderUseCase {
+    const orderGateway = new OrderGateway(this._orderRepository);
+    const customerGateway = new CustomerGateway(this._customerRepository);
+    const productGateway = new ProductGateway(this._productRepository);
+    const orderOrderUseCase = new OrderUseCase(orderGateway, customerGateway, productGateway, this._mercadoPagoProvider);
+    return orderOrderUseCase;
   }
 }

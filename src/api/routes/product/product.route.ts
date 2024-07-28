@@ -1,21 +1,19 @@
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags, getSchemaPath } from "@nestjs/swagger";
+import ProductRepository from "@datasource/typeorm/repositories/product.repository";
+import ProductsMock from "@datasource/typeorm/seed/seed-tables/product.seed";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from "@nestjs/common";
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import CreateProductDto from "@routes/product/dto/create-product.dto";
 import UpdateProductDto from "@routes/product/dto/update-product.dto";
-import { UUID } from 'crypto';
-import { Controller, Get, HttpStatus, Param, HttpException, Post, Body, Put, Delete, Inject } from "@nestjs/common";
-import ProductCategory from "core/enums/product-category.enum";
 import ProductUseCase from "@usecases/product.usecase";
 import ProductEntity from "core/entities/product.entity";
-import UsecasesProxyModule from "api/usecases-proxy/usecases-proxy.module";
-import UseCaseProxy from "api/usecases-proxy/usecases-proxy";
-import ProductsMock from "@datasource/typeorm/seed/seed-tables/product.seed";
+import ProductCategory from "core/enums/product-category.enum";
+import { UUID } from 'crypto';
 
 @ApiTags("products")
 @Controller("products")
 export default class ProductRoute {
   constructor(
-    @Inject(UsecasesProxyModule.PRODUCT_USE_CASE)
-    private _productUseCase: UseCaseProxy<ProductUseCase>
+    private _productRepository: ProductRepository
   ) { }
 
   @Get("/:productId")
@@ -28,7 +26,8 @@ export default class ProductRoute {
   })
   async findOneById(@Param("productId") id: UUID) {
     try {
-      return await this._productUseCase.getInstance().findOneProductByIdUseCase(id);
+      const productUseCase = new ProductUseCase(this._productRepository)
+      return await productUseCase.findOneProductByIdUseCase(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -45,7 +44,8 @@ export default class ProductRoute {
   })
   async find(): Promise<ProductEntity[]> {
     try {
-      return await this._productUseCase.getInstance().findAllProductsUseCase();
+      const productUseCase = new ProductUseCase(this._productRepository)
+      return await productUseCase.findAllProductsUseCase();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -61,7 +61,8 @@ export default class ProductRoute {
   })
   async findByCategory(@Param("productCategory") category): Promise<ProductEntity[]> {
     try {
-      return await this._productUseCase.getInstance().findProductsByCategory(category);
+      const productUseCase = new ProductUseCase(this._productRepository)
+      return await productUseCase.findProductsByCategory(category);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -88,8 +89,9 @@ export default class ProductRoute {
       }
     }))
   })
-  create(@Body() input: CreateProductDto) {
-    return this._productUseCase.getInstance().createProductUseCase(input);
+  async create(@Body() input: CreateProductDto) {
+    const productUseCase = new ProductUseCase(this._productRepository)
+    return await productUseCase.createProductUseCase(input);
   }
 
   @Put("/:productId")
@@ -123,9 +125,10 @@ export default class ProductRoute {
       }
     }
   })
-  update(@Param("productId") id: UUID, @Body() input: UpdateProductDto) {
+  async update(@Param("productId") id: UUID, @Body() input: UpdateProductDto) {
     try {
-      return this._productUseCase.getInstance().updateProduct(id, input);
+      const productUseCase = new ProductUseCase(this._productRepository)
+      return await productUseCase.updateProduct(id, input);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -139,9 +142,10 @@ export default class ProductRoute {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  delete(@Param("productId") id: UUID) {
+  async delete(@Param("productId") id: UUID) {
     try {
-      return this._productUseCase.getInstance().deleteProductUseCase(id);
+      const productUseCase = new ProductUseCase(this._productRepository)
+      return await productUseCase.deleteProductUseCase(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,21 +1,22 @@
 import { UUID } from "crypto";
 import OrderStatusEnum from "core/enums/order-status.enum";
-import ICustomerGateway from "@interfaces/gateways/customer.gateway";
-import IOrderGateway from "@interfaces/gateways/order.gateway";
+import ICustomerGateway from "@interfaces/datasource/customer.gateway";
+import IOrderGateway from "@interfaces/datasource/order.gateway";
 import CustomerEntity from "core/entities/customer.entity";
 import OrderEntity from "core/entities/order.entity";
 import ProductEntity from "core/entities/product.entity";
 import IOrderInput from "core/types/input/order.input";
 import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
-import ProductUseCase from "@usecases/product.usecase";
+import IProductGateway from "@interfaces/datasource/product.gateway";
 
 export default class OrderUseCase {
   constructor(
     private _orderGateway: IOrderGateway,
     private _customerGateway: ICustomerGateway,
+    private _productGateway: IProductGateway,
     private _mercadoPagoProvider: MercadoPagoProvider,
-    private _productUseCase: ProductUseCase
-  ) { }
+  ) { 
+  }
 
   async orderCheckout(orderId: UUID): Promise<{ orderNumber: number }> {
     try {
@@ -41,7 +42,7 @@ export default class OrderUseCase {
 
   async createOrder(orderInput: IOrderInput): Promise<{ qr_data: string }> {
     try {
-      const products: ProductEntity[] = await this._productUseCase.validateProducts(orderInput.productIds);
+      const products: ProductEntity[] = await this.validateProducts(orderInput.productIds);
       const customer: CustomerEntity = await this._customerGateway.findOneById(
         orderInput.customerId
       );
@@ -57,5 +58,17 @@ export default class OrderUseCase {
     } catch (error) {
       throw error;
     }
+  }
+
+  private async validateProducts(productIds: UUID[]): Promise<ProductEntity[]> {
+    return await Promise.all(productIds.map(async productId => {
+      const resultProduct: ProductEntity = await this._productGateway.findOneById(productId);
+
+      if (!resultProduct) {
+        throw new Error(`Product not found: ${productId}`);
+      }
+
+      return resultProduct;
+    }));
   }
 }

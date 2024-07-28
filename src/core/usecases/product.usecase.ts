@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
 import ProductEntity from "core/entities/product.entity";
 import ProductCategory from "core/enums/product-category.enum";
-import IProductGateway from "@interfaces/gateways/product.gateway";
+import IProductGateway from "@interfaces/datasource/product.gateway";
 import IProductInput from "core/types/input/product.input";
 
 export default class ProductUseCase {
@@ -55,17 +55,5 @@ export default class ProductUseCase {
     } catch (err) {
       throw err;
     }
-  }
-
-  async validateProducts(productIds: UUID[]): Promise<ProductEntity[]> {
-    return await Promise.all(productIds.map(async productId => {
-      const resultProduct: ProductEntity = await this._productGateway.findOneById(productId);
-
-      if (!resultProduct) {
-        throw new Error(`Product not found: ${productId}`);
-      }
-
-      return resultProduct;
-    }));
   }
 }

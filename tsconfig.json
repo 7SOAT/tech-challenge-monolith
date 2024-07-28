@@ -3,7 +3,7 @@
     "paths": {
             "@api/*": ["./api/*"],
             "@routes/*": ["./api/routes/*"],
-            "@gateways/*": ["./package/gateways/*"],
+            "@gateways/*": ["./adapters/gateways/*"],
             "@usecases/*": ["./core/usecases/*"],
             "@entities/*": ["./core/entities/*"],
             "@enums/*": ["./core/enums/*"],
@@ -12,7 +12,8 @@
             "@datasource/*": ["./externals/datasource/*"],
             "@providers/*": ["./externals/providers/*"],
             "@config/*": ["./api/config/*"],
-            "@models/*": ["./package/models/*"]
+            "@models/*": ["./package/models/*"],
+            "@repositories/*": ["./externals/datasource/typeorm/repositories/*"]
         },
     "module": "commonjs",
     "declaration": true,

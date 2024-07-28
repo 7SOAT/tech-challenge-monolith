@@ -1,4 +1,4 @@
-import ICustomerGateway from "@interfaces/gateways/customer.gateway";
+import ICustomerGateway from "@interfaces/datasource/customer.gateway";
 import CustomerEntity from "core/entities/customer.entity";
 import ICustomerInput from "core/types/input/customer.input";
 
