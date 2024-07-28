@@ -4,11 +4,12 @@ import BaseModel from '@models/base.model';
 import CustomerModel from '@models/customer.model';
 import OrderStatusModel from '@models/order-status.model';
 import ProductModel from '@models/product.model';
+import { UUID } from 'crypto';
 
 @Entity({ name: 'order' })
 export default class OrderModel extends BaseModel<OrderModel> implements IOrderOutput {
   @PrimaryColumn('uuid')
-  id: string;
+  id: UUID;
 
   @ManyToOne(() => OrderStatusModel, (orderStatus) => orderStatus.id)
   @JoinTable()

@@ -1,25 +1,25 @@
 import ICustomerGateway from "@interfaces/datasource/customer.gateway";
 import CustomerEntity from "core/entities/customer.entity";
-import ICustomerInput from "core/types/input/customer.input";
+import { ICreateCustomerInput, IFindCustomerByParamsInput } from "core/types/input/customer.input";
 
 export default class CustomerUseCase {
     constructor(private _customerGateway: ICustomerGateway) { }
 
-    findCustomerByCPF(cpf: string): Promise<CustomerEntity> {
+    findCustomerByParams(params: IFindCustomerByParamsInput): Promise<CustomerEntity> {
         return new Promise(async (resolve) => {
-            resolve(this._customerGateway.findOneByCPF(cpf))
+            resolve(this._customerGateway.findOneByParams(params))
         });
     }
 
-    createCustomer(input: ICustomerInput): void {
+    async createCustomer(customer: ICreateCustomerInput): Promise<CustomerEntity> {
         try {
             const newCustomer = new CustomerEntity(
-                input.name,
-                input.email,
-                input.cpf
+                customer.name,
+                customer.email,
+                customer.cpf
             );
 
-            this._customerGateway.insert(newCustomer);
+            return await this._customerGateway.insert(newCustomer);
         } catch (err) {
             throw err;
         }

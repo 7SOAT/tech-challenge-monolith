@@ -1,32 +1,27 @@
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Query } from '@nestjs/common';
+import { CheckoutOrderSwaggerConfig } from '@api/swagger/order/checkout-order.swagger';
+import { CreateOrderSwaggerConfig } from '@api/swagger/order/create-order.swagger';
+import { FindAllSwaggerConfig } from '@api/swagger/order/find-all-orders.swagger';
+import { FindQueueSwaggerConfig } from '@api/swagger/order/find-orders-queue.swagger';
+import { ApiTags } from '@nestjs/swagger';
+import CreateOrderDto from '@api/dtos/order/input/create-order.dto';
 import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import ProductRepository from '@datasource/typeorm/repositories/product.repository';
-import CustomerGateway from '@gateways/customer.gateway';
-import OrderGateway from '@gateways/order.gateway';
-import ProductGateway from '@gateways/product.gateway';
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  HttpCode,
-  HttpException,
-  HttpStatus,
-  Post,
-  Query,
-  UseInterceptors
-} from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import MercadoPagoProvider from '@providers/mercado-pago/mercado-pago.provider';
-import CreateOrderDto from '@routes/order/dto/create-order.dto';
-import OrderUseCase from '@usecases/order.usecase';
-import OrderEntity from 'core/entities/order.entity';
-import { randomUUID } from 'crypto';
+import OrderController from 'adapters/controllers/order.controller';
+import CheckoutOrderDto from '@api/dtos/order/input/checkout-order.dto';
 
 @ApiTags('orders')
-@UseInterceptors(ClassSerializerInterceptor)
-@Controller({ path: 'orders', version: '1' })
+@Controller("orders")
 export default class OrderRoute {
+  private readonly _orderController: OrderController = new OrderController(
+    this._orderRepository,
+    this._customerRepository,
+    this._productRepository,
+    this._mercadoPagoProvider
+  );
+
   constructor(
     private _orderRepository: OrderRepository,
     private _customerRepository: CustomerRepository,
@@ -36,40 +31,20 @@ export default class OrderRoute {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Retrieve all orders' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Orders retrieved successfully',
-    type: Array<OrderEntity>,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @FindAllSwaggerConfig()
   async findAll() {
     try {
-      const orderOrderUseCase = this.createOrderUseCase();
-      return await orderOrderUseCase.findAllOrderUseCase();
+      return await this._orderController.findAllOrders();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  @Get("/queue")
-  @ApiOperation({ summary: 'Retrieve orders queue' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Orders queue retrieved successfully',
-    type: Array<OrderEntity>,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @Get('/queue')
+  @FindQueueSwaggerConfig()
   async findQueue() {
     try {
-      const orderOrderUseCase = this.createOrderUseCase();
-      return await orderOrderUseCase.findOrderQueue();
+      return await this._orderController.findOrdersQueue();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -77,79 +52,23 @@ export default class OrderRoute {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Create an order' })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'Order created successfully',
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: "Client/product not found",
-  })
-  @ApiBody({
-    type: CreateOrderDto,
-    examples: {
-      a: {
-        summary: "Exemplo cliente identificado",
-        value: {
-          customerId: randomUUID(),
-          productIds: [randomUUID(), randomUUID(), randomUUID(), randomUUID()],
-          description: "Pedido para viagem.",
-        } as CreateOrderDto
-      },
-      b: {
-        summary: "Exemplo Anônimo",
-        value: {
-          productIds: [randomUUID(), randomUUID(), randomUUID(), randomUUID()]
-        } as CreateOrderDto
-      }
-    }
-  })
+  @CreateOrderSwaggerConfig()
   async create(@Body() createOrderDto: CreateOrderDto) {
     try {
-      const orderOrderUseCase = this.createOrderUseCase();
-      return orderOrderUseCase.createOrder(createOrderDto);
+      return await this._orderController.createOrder(createOrderDto);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Post('/checkout')
-  @ApiQuery({examples: {a: {summary: "Exemplo de pagamento", value: { id: '83786085280', topic: 'payment' }}}})
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Checkout an order' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Order checked out'
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Order not found',
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
-  async checkout(@Query() { id, topic }) {
+  @CheckoutOrderSwaggerConfig()
+  async checkout(@Query() checkoutParams: CheckoutOrderDto) {
     try {
-      if (topic === "payment") {
-        const orderOrderUseCase = this.createOrderUseCase();
-        await orderOrderUseCase.orderCheckout(id);
-      }
+      await this._orderController.orderCheckout(checkoutParams);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-  }
-
-  private createOrderUseCase(): OrderUseCase {
-    const orderGateway = new OrderGateway(this._orderRepository);
-    const customerGateway = new CustomerGateway(this._customerRepository);
-    const productGateway = new ProductGateway(this._productRepository);
-    const orderOrderUseCase = new OrderUseCase(orderGateway, customerGateway, productGateway, this._mercadoPagoProvider);
-    return orderOrderUseCase;
   }
 }

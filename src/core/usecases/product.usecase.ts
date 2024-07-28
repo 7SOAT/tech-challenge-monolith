@@ -2,12 +2,12 @@ import { UUID } from "crypto";
 import ProductEntity from "core/entities/product.entity";
 import ProductCategory from "core/enums/product-category.enum";
 import IProductGateway from "@interfaces/datasource/product.gateway";
-import IProductInput from "core/types/input/product.input";
+import { ICreateProductInput, IUpdateProductInput } from "core/types/input/product.input";
 
 export default class ProductUseCase {
   constructor(private _productGateway: IProductGateway) { }
 
-  async updateProduct(id: UUID, input: IProductInput): Promise<void> {
+  async updateProduct(id: UUID, input: IUpdateProductInput): Promise<void> {
     const product = new ProductEntity(
       input.name,
       input.description,
@@ -23,7 +23,7 @@ export default class ProductUseCase {
     return await this._productGateway.findByCategory(category);
   }
 
-  async findOneProductByIdUseCase(id: UUID): Promise<ProductEntity> {
+  async findOneProductById(id: UUID): Promise<ProductEntity> {
     try {
       return await this._productGateway.findOneById(id);
     } catch (error) {
@@ -31,18 +31,18 @@ export default class ProductUseCase {
     }
   }
 
-  async findAllProductsUseCase(): Promise<Array<ProductEntity>> {
+  async findAllProducts(): Promise<Array<ProductEntity>> {
     return new Promise(async (resolve, reject) => {
       const products = await this._productGateway.findAll();
       resolve(products);
     });
   }
 
-  async deleteProductUseCase(id: UUID): Promise<void> {
+  async deleteProduct(id: UUID): Promise<void> {
     this._productGateway.delete(id);
   }
 
-  async createProductUseCase(input: IProductInput): Promise<void> {
+  async createProduct(input: ICreateProductInput): Promise<void> {
     try {
       const newProduct = new ProductEntity(
         input.name,

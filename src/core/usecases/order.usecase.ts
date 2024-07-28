@@ -1,11 +1,11 @@
 import { UUID } from "crypto";
+import { ICreateOrderInput } from "core/types/input/order.input";
 import OrderStatusEnum from "core/enums/order-status.enum";
 import ICustomerGateway from "@interfaces/datasource/customer.gateway";
 import IOrderGateway from "@interfaces/datasource/order.gateway";
 import CustomerEntity from "core/entities/customer.entity";
 import OrderEntity from "core/entities/order.entity";
 import ProductEntity from "core/entities/product.entity";
-import IOrderInput from "core/types/input/order.input";
 import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
 import IProductGateway from "@interfaces/datasource/product.gateway";
 
@@ -15,7 +15,7 @@ export default class OrderUseCase {
     private _customerGateway: ICustomerGateway,
     private _productGateway: IProductGateway,
     private _mercadoPagoProvider: MercadoPagoProvider,
-  ) { 
+  ) {
   }
 
   async orderCheckout(orderId: UUID): Promise<{ orderNumber: number }> {
@@ -32,19 +32,19 @@ export default class OrderUseCase {
     }
   }
 
-  async findOrderQueue(): Promise<Array<OrderEntity>> {
+  async findOrdersQueue(): Promise<Array<OrderEntity>> {
     return await this._orderGateway.findQueue();
   }
 
-  async findAllOrderUseCase(): Promise<Array<OrderEntity>> {
+  async findAllOrders(): Promise<Array<OrderEntity>> {
     return await this._orderGateway.findAll();
   }
 
-  async createOrder(orderInput: IOrderInput): Promise<{ qr_data: string }> {
+  async createOrder(createOrderInput: ICreateOrderInput): Promise<{ qr_data: string }> {
     try {
-      const products: ProductEntity[] = await this.validateProducts(orderInput.productIds);
+      const products: ProductEntity[] = await this.validateProducts(createOrderInput.productIds);
       const customer: CustomerEntity = await this._customerGateway.findOneById(
-        orderInput.customerId
+        createOrderInput.customerId,
       );
 
       const order: OrderEntity = new OrderEntity(

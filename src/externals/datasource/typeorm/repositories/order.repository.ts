@@ -5,8 +5,8 @@ import OrderStatusEnum from 'core/enums/order-status.enum';
 import { UUID } from 'crypto';
 import { Repository } from 'typeorm';
 
-
 export default class OrderRepository {
+  private readonly relations = ['products', 'status', 'customer']
   constructor(
     @InjectRepository(OrderModel)
     private _orderRepository: Repository<OrderModel>
@@ -14,7 +14,7 @@ export default class OrderRepository {
 
   async findAll(): Promise<OrderModel[]> {
     try {
-      return await this._orderRepository.find({ relations: ['products'] });
+      return await this._orderRepository.find({ relations: this.relations });
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
     }
@@ -22,7 +22,7 @@ export default class OrderRepository {
 
   async findById(id: UUID): Promise<OrderModel> {
     try {
-      return await this._orderRepository.findOneBy({ id: id.toString() });
+      return await this._orderRepository.findOne({ where: {id}, relations: this.relations });
     } catch (error) {
       throw new Error(`Error finding order: ${error}`)
     }
@@ -31,7 +31,7 @@ export default class OrderRepository {
   async findQueue(): Promise<Array<OrderModel>> {
     try {
       const result: OrderModel[] = await this._orderRepository.find({
-        relations: ['status', "products"],
+        relations: this.relations,
         where: [
           { status: { id: OrderStatusEnum.RECEPTED } },
           { status: { id: OrderStatusEnum.IN_PREPARATION } },

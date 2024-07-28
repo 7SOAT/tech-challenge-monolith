@@ -1,6 +1,7 @@
 
 import CustomerModel from '@models/customer.model';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IFindCustomerByParamsInput } from '@type/input/customer.input';
 import { UUID } from 'crypto';
 import { Repository } from 'typeorm';
 
@@ -18,9 +19,9 @@ export default class CustomerRepository {
     }
   }
 
-  async findOneByCPF(cpf: string): Promise<CustomerModel> {
+  async findOneByParams(params: IFindCustomerByParamsInput): Promise<CustomerModel> {
     try {
-      return await this._customerRepository.findOne({ where: { cpf } });
+      return await this._customerRepository.findOne({ where: params });
     } catch (error) {
       throw new Error(`Error finding customer by cpf: ${error}`);
     }

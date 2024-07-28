@@ -11,9 +11,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     EnvironmentConfigModule,
     HttpModule,
     TypeOrmModule,
-    RepositoriesModule.resgister(),
-    ProvidersModule.register(),
     RoutesModule.resgister(),
+    RepositoriesModule.resgister(),
+    ProvidersModule.register()
   ],
 })
 

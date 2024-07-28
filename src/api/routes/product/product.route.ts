@@ -1,151 +1,82 @@
+import { UUIDParamDto } from "@api/dtos/identificator.dto";
+import CreateProductDto from "@api/dtos/product/create-product.dto";
+import UpdateProductBodyDto from "@api/dtos/product/update-product.dto";
+import { CreateProductSwaggerConfig } from "@api/swagger/product/create-product.swagger";
+import { DeleteProductSwaggerConfig } from "@api/swagger/product/delete-product.swagger";
+import { FindAllProductsSwaggerConfig } from "@api/swagger/product/find-all-products.swagger";
+import { FindProductByIdSwaggerConfig } from "@api/swagger/product/find-product-by-id.swagger";
+import { FindProductsByCategorySwaggerConfig } from "@api/swagger/product/find-products-by-category.swagger";
+import { UpdateProductSwaggerConfig } from "@api/swagger/product/update-product.swagger";
 import ProductRepository from "@datasource/typeorm/repositories/product.repository";
-import ProductsMock from "@datasource/typeorm/seed/seed-tables/product.seed";
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from "@nestjs/common";
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import CreateProductDto from "@routes/product/dto/create-product.dto";
-import UpdateProductDto from "@routes/product/dto/update-product.dto";
-import ProductUseCase from "@usecases/product.usecase";
+import { ApiTags } from "@nestjs/swagger";
+import ProductController from "adapters/controllers/product.controller";
 import ProductEntity from "core/entities/product.entity";
-import ProductCategory from "core/enums/product-category.enum";
 import { UUID } from 'crypto';
 
 @ApiTags("products")
 @Controller("products")
 export default class ProductRoute {
+  private readonly _productController: ProductController = new ProductController(this._productRepository);
   constructor(
     private _productRepository: ProductRepository
   ) { }
 
   @Get("/:productId")
-  @ApiParam({ name: 'productId' })
-  @ApiOperation({ summary: "Find product by Id", parameters: [{ name: "id", in: "path" }] })
-  @ApiResponse({ status: 200, description: 'Retrieve a product' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @FindProductByIdSwaggerConfig()
   async findOneById(@Param("productId") id: UUID) {
     try {
-      const productUseCase = new ProductUseCase(this._productRepository)
-      return await productUseCase.findOneProductByIdUseCase(id);
+      return await this._productController.findOneProductById(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Get()
-  @ApiOperation({ summary: "Find all products" })
-  @ApiResponse({
-    status: 200, description: 'Retrieve products list',
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @FindAllProductsSwaggerConfig()
   async find(): Promise<ProductEntity[]> {
     try {
-      const productUseCase = new ProductUseCase(this._productRepository)
-      return await productUseCase.findAllProductsUseCase();
+      return await this._productController.findAllProducts();
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Get("/by-category/:productCategory")
-  @ApiParam({ name: 'productCategory', enum: ProductCategory })
-  @ApiOperation({ summary: "Find products by category name" })
-  @ApiResponse({ status: 200, description: 'Retrieve a product by category name' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @FindProductsByCategorySwaggerConfig()
   async findByCategory(@Param("productCategory") category): Promise<ProductEntity[]> {
     try {
-      const productUseCase = new ProductUseCase(this._productRepository)
-      return await productUseCase.findProductsByCategory(category);
+      return await this._productController.findProductsByCategory(category);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create product' })
-  @ApiResponse({ status: 201, description: 'Product created' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
-  @ApiBody({
-    type: CreateProductDto,
-    examples: Object.call(() => { }, ProductsMock.map((item, i) => {
-      return {
-        summary: `Exemplo ${i}`,
-        value: {
-          name: item.name,
-          category: item.category,
-          description: item.description,
-          price: item.price
-        } as CreateProductDto
-      }
-    }))
-  })
+  @CreateProductSwaggerConfig()
   async create(@Body() input: CreateProductDto) {
-    const productUseCase = new ProductUseCase(this._productRepository)
-    return await productUseCase.createProductUseCase(input);
+    try {
+      return await this._productController.createProduct(input);
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Put("/:productId")
-  @ApiParam({ name: 'productId', schema: { description: "product UUID" } })
-  @ApiOperation({ summary: 'Update product' })
-  @ApiResponse({ status: 200, description: 'Product updated' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
-  @ApiBody({
-    type: UpdateProductDto,
-    examples: {
-      a: {
-        summary: "Exemplo Ativo",
-        value: {
-          name: "X-Salada",
-          category: ProductCategory.Burger,
-          description: "Hambúrguer, alface, tomate, queijo, presunto e maionese, servido em um pão de hambúrguer.",
-          price: 23.50,
-        } as UpdateProductDto
-      },
-      b: {
-        summary: "Exemplo Inativo",
-        value: {
-          name: "Batata Frita",
-          category: ProductCategory.Side,
-          description: "Batatas em tiras e fritas em óleo quente, com sal e alecrim.",
-          price: 12.00,
-        } as UpdateProductDto
-      }
-    }
-  })
-  async update(@Param("productId") id: UUID, @Body() input: UpdateProductDto) {
+  @UpdateProductSwaggerConfig()
+  async update(@Param("productId") { id }: UUIDParamDto, @Body() body: UpdateProductBodyDto) {
     try {
-      const productUseCase = new ProductUseCase(this._productRepository)
-      return await productUseCase.updateProduct(id, input);
+      return await this._productController.updateProduct(id, body);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @Delete("/:productId")
-  @ApiParam({ name: 'productId', schema: { description: "product UUID" } })
-  @ApiOperation({ summary: 'Delete product' })
-  @ApiResponse({ status: 200, description: 'Product deleted' })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: 'Internal server error',
-  })
+  @DeleteProductSwaggerConfig()
   async delete(@Param("productId") id: UUID) {
     try {
-      const productUseCase = new ProductUseCase(this._productRepository)
-      return await productUseCase.deleteProductUseCase(id);
+      return await this._productController.deleteProduct(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

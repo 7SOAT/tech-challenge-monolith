@@ -17,11 +17,7 @@ export default class OrderGateway implements IOrderGateway {
   async findAll(): Promise<Array<OrderEntity>> {
     try {
       const result: OrderModel[] = await this._orderRepository.findAll();
-      return plainToInstance<Array<OrderEntity>, Array<OrderModel>>(
-        Array<OrderEntity>,
-        result,
-        { enableImplicitConversion: true }
-      );
+      return result.map((orderM) => this.fromModelToEntity(orderM));
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
     }
@@ -43,12 +39,7 @@ export default class OrderGateway implements IOrderGateway {
   async findQueue(): Promise<Array<OrderEntity>> {
     try {
       const result: OrderModel[] = await this._orderRepository.findQueue()
-
-      return plainToInstance<OrderEntity, OrderModel>(
-        OrderEntity,
-        result,
-        { enableImplicitConversion: true }
-      );
+      return result.map((orderM) => this.fromModelToEntity(orderM));
     } catch (error) {
       throw new Error(`Error finding orders queue: ${error}`);
     }
@@ -90,5 +81,32 @@ export default class OrderGateway implements IOrderGateway {
     } catch (error) {
       throw new Error(`Error updating status: ${error}`);
     }
+  }
+
+  private fromModelToEntity(orderM: OrderModel){
+    const {customer, products, status} = orderM;
+
+    const productEntities = products.map((productM) => new ProductEntity(
+      productM.name,
+      productM.description,
+      productM.price,
+      productM.category,
+      productM.id
+    ));
+
+    const customerEntity = customer ? new CustomerEntity(
+      customer.name,
+      customer.email,
+      customer.cpf,
+      customer.id
+    ) : null
+
+    return new OrderEntity(
+      status?.id,
+      productEntities,
+      customerEntity,
+      orderM.orderNumber,
+      orderM.id
+    )
   }
 }
