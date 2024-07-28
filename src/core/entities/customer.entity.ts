@@ -3,9 +3,9 @@ import { UUID } from 'crypto';
 export default class CustomerEntity {
 
   constructor(
-    private readonly name: string,
-    private readonly email: string,
-    private readonly cpf: string,
-    private readonly id?: UUID
+    public readonly name: string,
+    public readonly email: string,
+    public readonly cpf: string,
+    public readonly id?: UUID
   ) {}
 }
