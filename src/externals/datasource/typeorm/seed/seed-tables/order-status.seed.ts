@@ -1,5 +1,5 @@
 import OrderStatusEnum from "core/enums/order-status.enum";
-import OrderStatusModel  from "@models/order-status.model";
+import OrderStatusModel  from "@models/order/order-status.model";
 
 const OrderStatusMock: OrderStatusModel[] = [
     new OrderStatusModel({

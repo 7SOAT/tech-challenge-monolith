@@ -6,8 +6,8 @@ import ProductRepository from "./product.repository";
 import TypeOrmConfigModule from "../typeorm.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import CustomerModel from "@models/customer.model";
-import OrderModel from "@models/order.model";
-import OrderStatusModel from "@models/order-status.model";
+import OrderModel from "@models/order/order.model";
+import OrderStatusModel from "@models/order/order-status.model";
 import ProductModel from "@models/product.model";
 
 export default class RepositoriesModule {

@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import OrderStatusModel  from '@models/order-status.model';
+import OrderStatusModel  from '@models/order/order-status.model';
 import { InjectRepository } from '@nestjs/typeorm';
 
 export default class OrderStatusRepository {

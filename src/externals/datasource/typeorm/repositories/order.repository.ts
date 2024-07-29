@@ -1,6 +1,6 @@
-import OrderModel from '@models/order.model';
+import OrderModel from '@models/order/order.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import OrderStatusEntity from 'core/entities/order-status.entity';
+import OrderStatusEntity from 'core/entities/order/order-status.entity';
 import OrderStatusEnum from 'core/enums/order-status.enum';
 import { UUID } from 'crypto';
 import { Repository } from 'typeorm';

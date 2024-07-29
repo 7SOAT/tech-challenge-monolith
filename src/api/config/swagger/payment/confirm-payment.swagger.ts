@@ -1,9 +1,9 @@
 import { applyDecorators, HttpStatus } from "@nestjs/common";
 import { ApiOperation, ApiResponse } from "@nestjs/swagger";
 
-export function CheckoutOrderSwaggerConfig() {
+export function ConfirmPaymentSwaggerConfig() {
     return applyDecorators(
-        ApiOperation({ summary: 'Checkout an order' }),
+        ApiOperation({ summary: 'Confirm order payment' }),
         ApiResponse({
             status: HttpStatus.OK,
             description: 'Order checked out'

@@ -2,7 +2,7 @@ import { HttpService } from "@nestjs/axios";
 import { Inject } from "@nestjs/common";
 import MercadoPagoConfig from "@interfaces/config/mercado-pago.config";
 import EnvironmentConfigService from "api/config/environment-config/environment-config.service";
-import OrderEntity from "core/entities/order.entity";
+import OrderEntity from "core/entities/order/order.entity";
 import MPCreateOrderRequest from "@providers/mercado-pago/types/mercado-pago.request.types";
 
 export default class MercadoPagoProvider {

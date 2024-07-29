@@ -1,8 +1,8 @@
 import OrderStatusRepository from '@datasource/typeorm/repositories/order-status.repository';
 import IOrderStatusGateway from '@interfaces/datasource/order-status.gateway';
-import OrderStatusModel from '@models/order-status.model';
+import OrderStatusModel from '@models/order/order-status.model';
 import { plainToInstance } from 'class-transformer';
-import OrderStatusEntity from 'core/entities/order-status.entity';
+import OrderStatusEntity from 'core/entities/order/order-status.entity';
 
 export default class OrderStatusGateway implements IOrderStatusGateway {
   constructor(

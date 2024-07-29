@@ -8,6 +8,7 @@ import OrderRoute from "@routes/order/order.route";
 import ProductRoute from "@routes/product/product.route";
 import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
 import RepositoriesModule from "@datasource/typeorm/repositories/repositories.module";
+import PaymentRoute from "./payment/payment.route";
 
 export default class RoutesModule {
     static resgister(): DynamicModule {
@@ -22,7 +23,8 @@ export default class RoutesModule {
                 HealthRoute,
                 ProductRoute,
                 CustomerRoute,
-                OrderRoute
+                OrderRoute,
+                PaymentRoute
             ]
         }
     }

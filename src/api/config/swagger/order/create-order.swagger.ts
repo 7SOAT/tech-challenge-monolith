@@ -1,4 +1,4 @@
-import CreateOrderDto from '@api/dtos/order/input/create-order.dto';
+import CheckoutOrderDto from '@api/dtos/order/input/create-order.dto';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
@@ -19,7 +19,7 @@ export function CreateOrderSwaggerConfig() {
             description: "Client/product not found",
         }),
         ApiBody({
-            type: CreateOrderDto,
+            type: CheckoutOrderDto,
             examples: {
                 a: {
                     summary: "Exemplo cliente identificado",
@@ -27,13 +27,13 @@ export function CreateOrderSwaggerConfig() {
                         customerId: randomUUID(),
                         productIds: [randomUUID(), randomUUID(), randomUUID(), randomUUID()],
                         description: "Pedido para viagem.",
-                    } as CreateOrderDto
+                    } as CheckoutOrderDto
                 },
                 b: {
                     summary: "Exemplo Anônimo",
                     value: {
                         productIds: [randomUUID(), randomUUID(), randomUUID(), randomUUID()]
-                    } as CreateOrderDto
+                    } as CheckoutOrderDto
                 }
             }
         })

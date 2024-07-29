@@ -1,9 +1,9 @@
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import IOrderGateway from '@interfaces/datasource/order.gateway';
-import OrderModel from '@models/order.model';
+import OrderModel from '@models/order/order.model';
 import { plainToInstance } from 'class-transformer';
 import CustomerEntity from 'core/entities/customer.entity';
-import OrderEntity from 'core/entities/order.entity';
+import OrderEntity from 'core/entities/order/order.entity';
 import ProductEntity from 'core/entities/product.entity';
 import OrderStatusEnum from 'core/enums/order-status.enum';
 import { UUID } from 'crypto';
@@ -45,7 +45,7 @@ export default class OrderGateway implements IOrderGateway {
     }
   }
 
-  async insert(order: OrderEntity): Promise<OrderEntity> {
+  async createOrder(order: OrderEntity): Promise<OrderEntity> {
     try {
 
       const orderDataModel = plainToInstance<OrderModel, OrderEntity>(

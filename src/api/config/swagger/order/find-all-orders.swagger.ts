@@ -1,4 +1,4 @@
-import OrderEntity from '@entities/order.entity';
+import OrderEntity from '@entities/order/order.entity';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 

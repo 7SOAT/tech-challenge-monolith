@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ICheckoutOrderInput } from "@type/input/order.input";
+import ICConfirmPaymentInput from "@type/input/payment.input";
 import { IsNotEmpty, IsNumberString, IsString } from "class-validator";
 
-export default class CheckoutOrderDto implements ICheckoutOrderInput {
+export default class ConfirmPaymentParams implements ICConfirmPaymentInput {
   @ApiProperty({ type: 'number', description: 'Payment id', required: true })
   @IsNotEmpty({message: "The id is required"})
   @IsNumberString({no_symbols: true},{ message: "The id need to be a number" })

@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ICreateOrderInput } from '@type/input/order.input';
+import { ICheckoutOrderInput } from '@type/input/order.input';
 import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { UUID } from 'crypto';
 
-export default class CreateOrderDto implements ICreateOrderInput {
+export default class CheckoutOrderDtos implements ICheckoutOrderInput {
   @IsNotEmpty()
   @IsArray({ message: 'The order productIds should be an array' })
   @ApiProperty({ type: 'array', description: 'Product Ids', items: { type: 'string' } })

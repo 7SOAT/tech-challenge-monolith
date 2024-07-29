@@ -1,7 +1,7 @@
 import { randomInt } from "crypto";
 import ProductsMock from "@datasource/typeorm/seed/seed-tables/product.seed";
 import OrderStatusEnum from "core/enums/order-status.enum";
-import OrderModel  from "@models/order.model";
+import OrderModel  from "@models/order/order.model";
 
 const currentDate = new Date();
 
