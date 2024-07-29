@@ -1,12 +1,12 @@
 import { UUIDParamDto } from "@api/dtos/identificator.dto";
 import CreateProductDto from "@api/dtos/product/create-product.dto";
 import UpdateProductBodyDto from "@api/dtos/product/update-product.dto";
-import { CreateProductSwaggerConfig } from "@api/swagger/product/create-product.swagger";
-import { DeleteProductSwaggerConfig } from "@api/swagger/product/delete-product.swagger";
-import { FindAllProductsSwaggerConfig } from "@api/swagger/product/find-all-products.swagger";
-import { FindProductByIdSwaggerConfig } from "@api/swagger/product/find-product-by-id.swagger";
-import { FindProductsByCategorySwaggerConfig } from "@api/swagger/product/find-products-by-category.swagger";
-import { UpdateProductSwaggerConfig } from "@api/swagger/product/update-product.swagger";
+import { CreateProductSwaggerConfig } from "@api/config/swagger/product/create-product.swagger";
+import { DeleteProductSwaggerConfig } from "@api/config/swagger/product/delete-product.swagger";
+import { FindAllProductsSwaggerConfig } from "@api/config/swagger/product/find-all-products.swagger";
+import { FindProductByIdSwaggerConfig } from "@api/config/swagger/product/find-product-by-id.swagger";
+import { FindProductsByCategorySwaggerConfig } from "@api/config/swagger/product/find-products-by-category.swagger";
+import { UpdateProductSwaggerConfig } from "@api/config/swagger/product/update-product.swagger";
 import ProductRepository from "@datasource/typeorm/repositories/product.repository";
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";

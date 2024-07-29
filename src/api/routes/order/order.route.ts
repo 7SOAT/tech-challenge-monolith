@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post, Query } from '@nestjs/common';
-import { CheckoutOrderSwaggerConfig } from '@api/swagger/order/checkout-order.swagger';
-import { CreateOrderSwaggerConfig } from '@api/swagger/order/create-order.swagger';
-import { FindAllSwaggerConfig } from '@api/swagger/order/find-all-orders.swagger';
-import { FindQueueSwaggerConfig } from '@api/swagger/order/find-orders-queue.swagger';
+import { CheckoutOrderSwaggerConfig } from '@api/config/swagger/order/checkout-order.swagger';
+import { CreateOrderSwaggerConfig } from '@api/config/swagger/order/create-order.swagger';
+import { FindAllSwaggerConfig } from '@api/config/swagger/order/find-all-orders.swagger';
+import { FindQueueSwaggerConfig } from '@api/config/swagger/order/find-orders-queue.swagger';
 import { ApiTags } from '@nestjs/swagger';
 import CreateOrderDto from '@api/dtos/order/input/create-order.dto';
 import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
