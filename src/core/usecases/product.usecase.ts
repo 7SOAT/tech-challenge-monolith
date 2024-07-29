@@ -1,13 +1,13 @@
-import { UUID } from "crypto";
-import ProductEntity from "core/entities/product.entity";
-import ProductCategory from "core/enums/product-category.enum";
+import ProductEntity from "@entities/product.entity";
+import ProductCategory from "@enums/product-category.enum";
 import IProductGateway from "@interfaces/datasource/product.gateway";
-import { ICreateProductInput, IUpdateProductInput } from "core/types/input/product.input";
+import { ICreateProductInput, IUpdateProductInput } from "@type/input/product.input";
+import { UUID } from "crypto";
 
 export default class ProductUseCase {
   constructor(private _productGateway: IProductGateway) { }
 
-  async updateProduct(id: UUID, input: IUpdateProductInput): Promise<void> {
+  async updateProduct(id: UUID, input: IUpdateProductInput): Promise<ProductEntity> {
     const product = new ProductEntity(
       input.name,
       input.description,
@@ -17,6 +17,8 @@ export default class ProductUseCase {
     );
 
     await this._productGateway.update(id, product);
+
+    return product;
   }
 
   async findProductsByCategory(category: ProductCategory): Promise<Array<ProductEntity>> {
@@ -42,7 +44,7 @@ export default class ProductUseCase {
     this._productGateway.delete(id);
   }
 
-  async createProduct(input: ICreateProductInput): Promise<void> {
+  async createProduct(input: ICreateProductInput): Promise<ProductEntity> {
     try {
       const newProduct = new ProductEntity(
         input.name,
@@ -51,7 +53,7 @@ export default class ProductUseCase {
         input.category
       );
 
-      this._productGateway.insert(newProduct);
+      return await this._productGateway.insert(newProduct);
     } catch (err) {
       throw err;
     }

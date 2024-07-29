@@ -1,5 +1,6 @@
+import ProductCategory from '@enums/product-category.enum';
 import { randomUUID, UUID } from 'crypto';
-import ProductCategory from 'core/enums/product-category.enum';
+
 
 export default class ProductEntity {
   constructor(

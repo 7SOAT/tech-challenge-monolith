@@ -25,11 +25,11 @@ export default class ProductController {
   }
 
   async createProduct(product: ICreateProductInput) {   
-    return await this._productUseCase.createProduct(product);
+    return ProductPresenter.Product(await this._productUseCase.createProduct(product));
   }
 
   async updateProduct(id: UUID, productUpdate: IUpdateProductInput) {    
-    return await this._productUseCase.updateProduct(id, productUpdate);
+    return ProductPresenter.Product(await this._productUseCase.updateProduct(id, productUpdate));
   }
 
   async deleteProduct(id: UUID) {    
