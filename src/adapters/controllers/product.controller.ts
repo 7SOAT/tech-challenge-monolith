@@ -1,6 +1,7 @@
 import ProductRepository from "@datasource/typeorm/repositories/product.repository";
 import { ICreateProductInput, IUpdateProductInput } from '@type/input/product.input';
 import ProductUseCase from "@usecases/product.usecase";
+import ProductPresenter from "adapters/presenters/product.presenter";
 import ProductEntity from "core/entities/product.entity";
 import ProductCategory from "core/enums/product-category.enum";
 import { UUID } from 'crypto';
@@ -12,15 +13,15 @@ export default class ProductController {
   ) { }
 
   async findOneProductById(id: UUID) {
-    return await this._productUseCase.findOneProductById(id);
+    return ProductPresenter.Product(await this._productUseCase.findOneProductById(id));
   }
 
   async findAllProducts(): Promise<ProductEntity[]> { 
-    return await this._productUseCase.findAllProducts();
+    return ProductPresenter.Products(await this._productUseCase.findAllProducts());
   }
 
   async findProductsByCategory(category: ProductCategory): Promise<ProductEntity[]> { 
-    return await this._productUseCase.findProductsByCategory(category);
+    return ProductPresenter.Products(await this._productUseCase.findProductsByCategory(category));
   }
 
   async createProduct(product: ICreateProductInput) {   

@@ -62,9 +62,9 @@ export default class ProductRoute {
     }
   }
 
-  @Put("/:productId")
+  @Put("/:id")
   @UpdateProductSwaggerConfig()
-  async update(@Param("productId") { id }: UUIDParamDto, @Body() body: UpdateProductBodyDto) {
+  async update(@Param("id") id: UUID, @Body() body: UpdateProductBodyDto) {
     try {
       return await this._productController.updateProduct(id, body);
     } catch (error) {

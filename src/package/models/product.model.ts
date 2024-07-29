@@ -1,8 +1,8 @@
 import { UUID } from 'crypto';
 import { Column, Entity, PrimaryColumn } from "typeorm";
-import BaseModel from "@models/base.model";
 import { IProductOutput } from '@type/output/product.output';
 import ProductCategory from '@enums/product-category.enum';
+import BaseModel from './base.model';
 
 @Entity({ name: "product" })
 export default class ProductModel extends BaseModel<ProductModel> implements IProductOutput {

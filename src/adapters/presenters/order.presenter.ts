@@ -1,4 +1,5 @@
 import OrderCustomerDto from "@api/dtos/customer/output/order-customer.dto";
+import OrderStatusDto from "@api/dtos/order-status/output/order-status.dto";
 import OrderDto from "@api/dtos/order/output/order.dto";
 import OrderProductDto from "@api/dtos/product/output/order-product.dto";
 import OrderEntity from "@entities/order.entity";
@@ -23,7 +24,11 @@ class OrderPresenter {
         order.customer.id,
         order.customer.name
       ) : null,
-      order.status,
+      new OrderStatusDto(
+        order.status.id,
+        order.status.name,
+        order.status.description
+      ),
       order.orderNumber
     ); 
   }

@@ -45,10 +45,10 @@ export default class OrderUseCase {
       const products: ProductEntity[] = await this.validateProducts(createOrderInput.productIds);
       const customer: CustomerEntity = await this._customerGateway.findOneById(
         createOrderInput.customerId,
-      );
+      );      
 
       const order: OrderEntity = new OrderEntity(
-        OrderStatusEnum.PENDING,
+        { id: OrderStatusEnum.PENDING },
         products,
         customer
       );

@@ -1,3 +1,4 @@
+import { UUIDParamDto } from '@api/dtos/identificator.dto';
 import UpdateProductBodyDto from '@api/dtos/product/update-product.dto';
 import ProductCategory from '@enums/product-category.enum';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
@@ -5,7 +6,7 @@ import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 export function UpdateProductSwaggerConfig() {
     return applyDecorators(
-        ApiParam({ name: 'productId', schema: { description: "product UUID" } }),
+        ApiParam({ name: 'id', schema: { description: "product UUID" }}),
         ApiOperation({ summary: 'Update product' }),
         ApiResponse({ status: 200, description: 'Product updated' }),
         ApiResponse({

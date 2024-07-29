@@ -57,7 +57,7 @@ export default class OrderGateway implements IOrderGateway {
       const result = await this._orderRepository.insert(orderDataModel);
 
       return new OrderEntity(
-        result.status.id,
+        result.status,
         result.products.map(({ name, description, price, category, id }) => new ProductEntity(
           name,
           description,
@@ -102,7 +102,7 @@ export default class OrderGateway implements IOrderGateway {
     ) : null
 
     return new OrderEntity(
-      status?.id,
+      status,
       productEntities,
       customerEntity,
       orderM.orderNumber,
