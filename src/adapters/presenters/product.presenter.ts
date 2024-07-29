@@ -28,6 +28,8 @@ class ProductPresenter {
       product.description
     );
   }
+
+  
 }
 
 export default ProductPresenter;

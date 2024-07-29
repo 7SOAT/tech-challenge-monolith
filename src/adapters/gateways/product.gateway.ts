@@ -50,12 +50,11 @@ export default class ProductGateway implements IProductGateway {
   }
   
   async insert(product: ProductEntity): Promise<ProductEntity> {
-    const mappedProduct = plainToInstance<ProductModel, ProductEntity>(
-      ProductModel, 
-      product, 
-      {enableImplicitConversion: true}
-    );
-    return await this._productRepository.insert(mappedProduct);
+    const mappedProduct = this.adaptEntityToModel(product);
+    
+    const result = await this._productRepository.insert(mappedProduct);
+
+    return this.adaptModelToEntity(result);
   }
 
   async update(id: UUID, product: ProductEntity): Promise<number> {
@@ -70,5 +69,41 @@ export default class ProductGateway implements IProductGateway {
 
   async delete(id: UUID): Promise<void> {
     await this._productRepository.delete(id);
+  }
+
+  private adaptEntityToModel(productE: ProductEntity): ProductModel {
+    const {
+      name,
+      description,
+      price,
+      category,
+      id
+    } = productE;
+
+    return new ProductModel({
+      name,
+      description,
+      price,
+      category,
+      id
+    });
+  }
+
+  private adaptModelToEntity(productM: ProductModel): ProductEntity {
+    const {
+      name,
+      description,
+      price,
+      category,
+      id
+    } = productM;
+
+    return new ProductEntity(      
+      name,
+      description,
+      price,
+      category,
+      id
+    );
   }
 }
