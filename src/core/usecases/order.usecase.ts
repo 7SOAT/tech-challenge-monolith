@@ -1,5 +1,9 @@
+import PaymentStatusEntity from "@entities/payment/payment-status.entity";
+import PaymentEntity from "@entities/payment/payment.entity";
+import PaymentStatusEnum from "@enums/payment-status.enum";
 import ICustomerGateway from "@interfaces/datasource/customer.gateway";
 import IOrderGateway from "@interfaces/datasource/order.gateway";
+import IPaymentGateway from "@interfaces/datasource/payment.gateway";
 import IProductGateway from "@interfaces/datasource/product.gateway";
 import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
 import CustomerEntity from "core/entities/customer.entity";
@@ -14,7 +18,7 @@ export default class OrderUseCase {
     private _orderGateway: IOrderGateway,
     private _customerGateway: ICustomerGateway,
     private _productGateway: IProductGateway,
-    private _mercadoPagoProvider: MercadoPagoProvider,
+    private _paymentGateway: IPaymentGateway
   ) {
   }
 
@@ -26,21 +30,27 @@ export default class OrderUseCase {
     return await this._orderGateway.findAll();
   }
 
-  async checkoutOrder(checkoutOrderInput: ICheckoutOrderInput): Promise<{ qr_data: string }> {
+  async checkoutOrder(checkoutOrderInput: ICheckoutOrderInput): Promise<any> {
     try {
       const products: ProductEntity[] = await this.validateProducts(checkoutOrderInput.productIds);
       const customer: CustomerEntity = await this._customerGateway.findOneById(
         checkoutOrderInput.customerId,
       );
 
+      const payment: PaymentEntity = new PaymentEntity(
+        new PaymentStatusEntity(PaymentStatusEnum.PENDING)
+      );
+      
       const order: OrderEntity = new OrderEntity(
         { id: OrderStatusEnum.PENDING },
         products,
+        payment,
         customer
       );
 
-      const orderRegistered = await this._orderGateway.createOrder(order);
-      return await this._mercadoPagoProvider.createOrder(orderRegistered);
+      await this._paymentGateway.insert(payment);
+      const createdOrder = await this._orderGateway.createOrder(order);
+      return createdOrder;
     } catch (error) {
       throw error;
     }

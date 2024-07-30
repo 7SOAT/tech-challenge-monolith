@@ -20,7 +20,7 @@ export default class MercadoPagoProvider {
       private readonly _mercadoPagoConfig: MercadoPagoConfig
    ) { }
 
-   async createOrder(order: OrderEntity) {
+   async createOrderPayment(order: OrderEntity): Promise<{ qr_code: string}> {
       // TODO: Adapter
       const request: MPCreateOrderRequest = new MPCreateOrderRequest(
          `Pedido ${order.orderNumber}`,

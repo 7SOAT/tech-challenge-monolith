@@ -3,6 +3,7 @@ import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
 import MPCreateOrderRequest from "@providers/mercado-pago/types/mercado-pago.request.types";
 import OrderEntity from "core/entities/order/order.entity";
 import OrderStatusEnum from "core/enums/order-status.enum";
+import { UUID } from "crypto";
 
 export default class PaymentUseCase {
     constructor(
@@ -20,6 +21,19 @@ export default class PaymentUseCase {
                 return { orderNumber: order.orderNumber };
             } else {
                 throw Error("Product not found")
+            }
+        } catch (err) {
+            throw Error(err);
+        }
+    }
+
+    async createPayment(orderId: UUID): Promise<{ qr_code: string }> {
+        try {
+            const order = await this._orderGateway.findById(orderId);
+            if (order) {
+                return await this._mercadoPagoProvider.createOrderPayment(order);
+            } else {
+                throw Error("Order not found")
             }
         } catch (err) {
             throw Error(err);

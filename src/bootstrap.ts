@@ -30,6 +30,4 @@ export default async function bootstrap(): Promise<void> {
   
   const enableMockTables: boolean = databaseConfig.getEnableMockTables();
   await MockTables(app, enableMockTables);
-
-  
 }

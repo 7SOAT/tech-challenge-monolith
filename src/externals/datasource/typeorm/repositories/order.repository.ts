@@ -6,7 +6,6 @@ import { UUID } from 'crypto';
 import { Repository } from 'typeorm';
 
 export default class OrderRepository {
-  private readonly relations = ['products', 'status', 'customer']
   constructor(
     @InjectRepository(OrderModel)
     private _orderRepository: Repository<OrderModel>
@@ -14,7 +13,7 @@ export default class OrderRepository {
 
   async findAll(): Promise<OrderModel[]> {
     try {
-      return await this._orderRepository.find({ relations: this.relations });
+      return await this._orderRepository.find();
     } catch (error) {
       throw new Error(`Error finding all orders: ${error}`);
     }
@@ -22,7 +21,7 @@ export default class OrderRepository {
 
   async findById(id: UUID): Promise<OrderModel> {
     try {
-      return await this._orderRepository.findOne({ where: {id}, relations: this.relations });
+      return await this._orderRepository.findOne({ where: { id } });
     } catch (error) {
       throw new Error(`Error finding order: ${error}`)
     }
@@ -31,7 +30,6 @@ export default class OrderRepository {
   async findQueue(): Promise<Array<OrderModel>> {
     try {
       const result: OrderModel[] = await this._orderRepository.find({
-        relations: this.relations,
         where: [
           { status: { id: OrderStatusEnum.RECEPTED } },
           { status: { id: OrderStatusEnum.IN_PREPARATION } },
@@ -52,7 +50,9 @@ export default class OrderRepository {
 
   async insert(order: OrderModel): Promise<OrderModel> {
     try {
-      return await this._orderRepository.save(order);
+      await this._orderRepository.save(order);
+      const result = await this._orderRepository.findOneBy({ id: order.id});
+      return result;
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
     }

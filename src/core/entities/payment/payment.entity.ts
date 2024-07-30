@@ -1,11 +1,10 @@
-import { UUID } from 'crypto';
-import PaymentStatusEntity from './payment-staus.entity';
+import { randomUUID, UUID } from 'crypto';
+import PaymentStatusEntity from './payment-status.entity';
 
-export default class CustomerEntity {
-
+export default class PaymentEntity {
   constructor(
-    public readonly externalId: number,
-    public readonly status?: PaymentStatusEntity,
-    public readonly id?: UUID
+    public readonly status: PaymentStatusEntity,
+    public readonly externalId?: number,
+    public readonly id: UUID = randomUUID()
   ) {}
 }

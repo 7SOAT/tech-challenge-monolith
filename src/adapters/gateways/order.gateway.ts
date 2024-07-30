@@ -1,4 +1,6 @@
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
+import OrderStatusEntity from '@entities/order/order-status.entity';
+import PaymentEntity from '@entities/payment/payment.entity';
 import IOrderGateway from '@interfaces/datasource/order.gateway';
 import OrderModel from '@models/order/order.model';
 import { plainToInstance } from 'class-transformer';
@@ -55,20 +57,7 @@ export default class OrderGateway implements IOrderGateway {
       );
 
       const result = await this._orderRepository.insert(orderDataModel);
-
-      return new OrderEntity(
-        result.status,
-        result.products.map(({ name, description, price, category, id }) => new ProductEntity(
-          name,
-          description,
-          price,
-          category,
-          id,
-        )),
-        new CustomerEntity("a", "b", "c"),
-        result.orderNumber,
-        <UUID>result.id
-      );
+      return this.fromModelToEntity(result);
     } catch (error) {
       throw new Error(`Error inserting order: ${error}`);
     }
@@ -84,7 +73,13 @@ export default class OrderGateway implements IOrderGateway {
   }
 
   private fromModelToEntity(orderM: OrderModel){
-    const {customer, products, status} = orderM;
+    const {customer, products, status, payment} = orderM;
+
+    const statusEntity = new OrderStatusEntity(
+      status.id,
+      status.description,
+      status.name
+    );
 
     const productEntities = products.map((productM) => new ProductEntity(
       productM.name,
@@ -94,6 +89,12 @@ export default class OrderGateway implements IOrderGateway {
       productM.id
     ));
 
+    const paymentEntity = new PaymentEntity(
+      payment.status,
+      payment.externalId,
+      payment.id
+    );
+
     const customerEntity = customer ? new CustomerEntity(
       customer.name,
       customer.email,
@@ -102,8 +103,9 @@ export default class OrderGateway implements IOrderGateway {
     ) : null
 
     return new OrderEntity(
-      status,
+      statusEntity,
       productEntities,
+      paymentEntity,
       customerEntity,
       orderM.orderNumber,
       orderM.id

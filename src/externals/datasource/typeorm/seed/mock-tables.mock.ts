@@ -5,6 +5,8 @@ import ProductsMock from "@datasource/typeorm/seed/seed-tables/product.seed";
 import OrderStatusRepository from "../repositories/order-status.repository";
 import OrderRepository from "../repositories/order.repository";
 import ProductRepository from "../repositories/product.repository";
+import PaymentStatusRepository from "../repositories/payment-status.repository";
+import PaymentStatusMock from "./seed-tables/payment-status.seed";
 
 export default async function MockTables(app: INestApplication<any>, enableMockTables: boolean) {
   await HandleDomainTablesData(app);
@@ -15,6 +17,7 @@ export default async function MockTables(app: INestApplication<any>, enableMockT
 
 async function HandleDomainTablesData(app: INestApplication<any>) {
   await mockTableHandler(app, OrderStatusRepository, OrderStatusMock);
+  await mockTableHandler(app, PaymentStatusRepository, PaymentStatusMock);
 }
 
 async function HandleExtraTablesData(app: INestApplication<any>) {
