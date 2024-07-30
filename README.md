@@ -1,11 +1,11 @@
-<p align="center"> 
+<p align="center">
   <img src="https://i.ibb.co/nM93Y6b/Novo-Projeto.png" alt="Pos-tech logo">
 </p>
 <h1 align="center">🍔🥤🍨 Sistema de autoatendimento de Fast Food 🍨🥤🍔</h1>
 
 <h2 id="sobre-o-projeto"> :pencil: Sobre o projeto</h2>
 
-<p align="justify"> 
+<p align="justify">
   Esse projeto consiste na criação de um sistema back-end para controle de pedidos de fast food, visando resolver possíveis gargalos entre os atendentes e a cozinha de um restaurante. A solução contempla o processo de escolha do pedido pelo cliente, o pagamento, o acompanhamento das etapas de preparação e entrega.
 </p>
 
@@ -15,12 +15,12 @@
 <h2>📄 Documentação do projeto</h2>
 
 [<img src="https://i.pinimg.com/originals/36/98/41/369841848d679cef173ae2b0f5ed6e39.png" width=115 >](https://miro.com/welcomeonboard/ZXM3dDZEMWNYazBaZEcxMDQ4UGFSOHRUVUZhcjJsTHZDVEJuMUhkeUl3d2ZnTndZUmhncUxRbEJlYVVxREN4b3wzNDU4NzY0NTg2NjE5MjYzNTE1fDI=?share_link_id=439093219851)
-  
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <h2 id="requisitos"> 📃 Dependências</h2>
 
-<p align="justify"> 
+<p align="justify">
   Para rodar o projeto localmente, primeiro você precisa se certificas que possui essas ferramentas insaladas:
 </p>
 
@@ -32,21 +32,25 @@
 
 ```
 src
-├── domain
-|   ├── config
-|   ├── enums
-|   ├── interfaces/gateways
-|   ├── models
-|   ├── types
-├── infrastructure
-|   ├── config
+├── adapters
 |   ├── controllers
-|   ├── entities
 |   ├── gateways
+|   ├── presenters
+├── api
+|   ├── config
+|   ├── dtos
+|   ├── routes
+|   ├── validators
+├── core
+|   ├── entities
+|   ├── enums
+|   ├── usecases
+├── externals
+|   ├── datasource
 |   ├── providers
-|   ├── usecases-proxy
-├── useCases
-|
+├── package
+|   ├── interfaces
+|   ├── models
 ├── app.module.ts
 ├── bootstrap.ts
 └── main.ts
@@ -57,14 +61,14 @@ src
 <ol start="1">
   <li>
     <h3>Clonando o repositório</h3>
-    
+
     git clone https://github.com/7SOAT/tech-challenge-monolith.git
     cd tech-challenge-monolith
   </li>
   <li>
     <h3>Instalar bibliotecas</h3>
     <p>Para instalar as bibliotecas, abra o terminal na raiz do projeto e execute o seguinte comando:</p>
-    
+
     npm install
   </li>
   <li>
@@ -73,7 +77,7 @@ src
     <img src="https://code.visualstudio.com/assets/docs/containers/overview/select-subset.gif">
     <p>Ou se preferir pode ser feito pelo terminal com:</p>
     <p> - Para windows:</p>
-    
+
       docker-compose up --build
 
    <p> - Para Linux/macOS</p>
@@ -82,7 +86,7 @@ src
 
 
   Disponível em <link>http://localhost:3000</link>
-  
+
   </li>
   <li>Subindo a imagem, o projeto já estará pronto para receber requisições através do Postman ou Insomnia</li>
 </ol>
