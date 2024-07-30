@@ -1,9 +1,9 @@
-export default interface MercadoPagoConfig{
-    getMercadoPagoVendedorUserId(): number;
-    getMercadoPagoSponsorUserId(): number;
-    getMercadoPagoAccessToken(): string;
-    getMercadoPagoBaseUrl(): string;
-    getMercadoPagoVersion(): string;
-    getMercadoPagoCaixaExternalId(): string;
-    getMercadoPagoNotificationUrl(): string;
+export default interface PaymentConfig{
+    getPaymentVendedorUserId(): number;
+    getPaymentSponsorUserId(): number;
+    getPaymentAccessToken(): string;
+    getPaymentBaseUrl(): string;
+    getPaymentVersion(): string;
+    getPaymentCaixaExternalId(): string;
+    getPaymentNotificationUrl(): string;
 }

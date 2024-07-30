@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import DatabaseConfig from '@interfaces/config/database.config';
-import MercadoPagoConfig from '@interfaces/config/mercado-pago.config';
+import PaymentConfig from '@interfaces/config/mercado-pago.config';
 
 @Injectable()
-export default class EnvironmentConfigService implements MercadoPagoConfig, DatabaseConfig{
+export default class EnvironmentConfigService implements PaymentConfig, DatabaseConfig{
   constructor(private configService: ConfigService) {}
 
   public getApiPort(): number{
@@ -35,31 +35,31 @@ export default class EnvironmentConfigService implements MercadoPagoConfig, Data
     return this.configService.get<boolean>('ENABLE_MOCK_TABLES');
   }
 
-  public getMercadoPagoVendedorUserId(): number{
+  public getPaymentVendedorUserId(): number{
     return this.configService.get<number>('MERCADO_PAGO__VENDEDOR_USER_ID');
   }
 
-  public getMercadoPagoSponsorUserId(): number{
+  public getPaymentSponsorUserId(): number{
     return this.configService.get<number>('MERCADO_PAGO__SPONSOR_USER_ID');
   }
 
-  public getMercadoPagoAccessToken(): string{
+  public getPaymentAccessToken(): string{
     return this.configService.get<string>('MERCADO_PAGO__ACCESS_TOKEN');
   }
   
-  public getMercadoPagoBaseUrl(): string{
+  public getPaymentBaseUrl(): string{
     return this.configService.get<string>('MERCADO_PAGO__BASE_URL');
   }
 
-  public getMercadoPagoVersion(): string{
+  public getPaymentVersion(): string{
     return this.configService.get<string>('MERCADO_PAGO__API_VERSION');
   }
 
-  public getMercadoPagoCaixaExternalId(): string{
+  public getPaymentCaixaExternalId(): string{
     return this.configService.get<string>('MERCADO_PAGO__EXTERNAL_CAIXA_ID');
   }
 
-  public getMercadoPagoNotificationUrl(): string{
+  public getPaymentNotificationUrl(): string{
     return this.configService.get<string>('MERCADO_PAGO__NOTIFICATION_URL');
   }
 }

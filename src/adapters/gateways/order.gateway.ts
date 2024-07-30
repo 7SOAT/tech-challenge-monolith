@@ -28,11 +28,7 @@ export default class OrderGateway implements IOrderGateway {
   async findById(id: UUID): Promise<OrderEntity> {
     try {
       const result = await this._orderRepository.findById(id);
-      return plainToInstance<OrderEntity, OrderModel>(
-        OrderEntity,
-        result,
-        { enableImplicitConversion: true }
-      );
+      return this.fromModelToEntity(result);
     } catch (error) {
       throw new Error(`Error finding order: ${error}`)
     }
@@ -76,9 +72,9 @@ export default class OrderGateway implements IOrderGateway {
     const {customer, products, status, payment} = orderM;
 
     const statusEntity = new OrderStatusEntity(
-      status.id,
-      status.description,
-      status.name
+      status?.id,
+      status?.description,
+      status?.name
     );
 
     const productEntities = products.map((productM) => new ProductEntity(
@@ -90,9 +86,9 @@ export default class OrderGateway implements IOrderGateway {
     ));
 
     const paymentEntity = new PaymentEntity(
-      payment.status,
-      payment.externalId,
-      payment.id
+      payment?.status,
+      payment?.externalId,
+      payment?.id
     );
 
     const customerEntity = customer ? new CustomerEntity(

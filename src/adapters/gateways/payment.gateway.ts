@@ -1,4 +1,5 @@
 import PaymentRepository from "@datasource/typeorm/repositories/payment.repository";
+import OrderEntity from "@entities/order/order.entity";
 import PaymentStatusEntity from "@entities/payment/payment-status.entity";
 import PaymentEntity from "@entities/payment/payment.entity";
 import IPaymentGateway from "@interfaces/datasource/payment.gateway";
@@ -45,12 +46,16 @@ export default class PaymentGateway implements IPaymentGateway {
   }
 
   private adaptModelToEntity(paymentM: PaymentModel): PaymentEntity {
-    const statusM = new PaymentStatusModel(paymentM.status);
+    const statusE = new PaymentStatusEntity(
+      paymentM.status?.id,
+      paymentM.status?.name,
+      paymentM.status?.description
+    );
 
-    return new PaymentModel({
-      id: paymentM.id,
-      status: statusM,
-      externalId: paymentM.externalId
-    });
+    return new PaymentEntity(
+      statusE,
+      paymentM.externalId,
+      paymentM.id
+    );
   }
 }

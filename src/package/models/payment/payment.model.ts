@@ -16,4 +16,7 @@ export default class PaymentModel extends BaseModel<PaymentModel> {
     @ManyToOne(() => PaymentStatusModel, (paymentStatus) => paymentStatus.id, { eager: true})
     @JoinTable()
     status: PaymentStatusModel
+
+    @OneToOne(() => OrderModel)
+    order: OrderModel
 }

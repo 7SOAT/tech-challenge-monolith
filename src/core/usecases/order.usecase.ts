@@ -5,7 +5,7 @@ import ICustomerGateway from "@interfaces/datasource/customer.gateway";
 import IOrderGateway from "@interfaces/datasource/order.gateway";
 import IPaymentGateway from "@interfaces/datasource/payment.gateway";
 import IProductGateway from "@interfaces/datasource/product.gateway";
-import MercadoPagoProvider from "@providers/mercado-pago/mercado-pago.provider";
+import PaymentProvider from "@providers/mercado-pago/mercado-pago.provider";
 import CustomerEntity from "core/entities/customer.entity";
 import OrderEntity from "core/entities/order/order.entity";
 import ProductEntity from "core/entities/product.entity";

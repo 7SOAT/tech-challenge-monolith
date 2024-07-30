@@ -1,55 +1,31 @@
 import { HttpService } from "@nestjs/axios";
 import { Inject } from "@nestjs/common";
-import MercadoPagoConfig from "@interfaces/config/mercado-pago.config";
+import PaymentConfig from "@interfaces/config/mercado-pago.config";
 import EnvironmentConfigService from "api/config/environment-config/environment-config.service";
-import OrderEntity from "core/entities/order/order.entity";
-import MPCreateOrderRequest from "@providers/mercado-pago/types/mercado-pago.request.types";
+import { CreateOrderPaymentDto } from "./dto/request/create-order-request.dto";
 
-export default class MercadoPagoProvider {
-   private readonly baseUrl: string = this._mercadoPagoConfig.getMercadoPagoBaseUrl();
-   private readonly vendedorId: number = this._mercadoPagoConfig.getMercadoPagoVendedorUserId();
-   private readonly caixaID: string = this._mercadoPagoConfig.getMercadoPagoCaixaExternalId();
-   private readonly apiVersion: string = this._mercadoPagoConfig.getMercadoPagoVersion();
-   private readonly accessToken: string = `Bearer ${this._mercadoPagoConfig.getMercadoPagoAccessToken()}`
+export default class PaymentProvider {
+   private readonly baseUrl: string = this._paymentConfig.getPaymentBaseUrl();
+   private readonly vendedorId: number = this._paymentConfig.getPaymentVendedorUserId();
+   private readonly caixaID: string = this._paymentConfig.getPaymentCaixaExternalId();
+   private readonly apiVersion: string = this._paymentConfig.getPaymentVersion();
+   private readonly accessToken: string = `Bearer ${this._paymentConfig.getPaymentAccessToken()}`
 
    constructor(
       @Inject(HttpService)
       private readonly _httpService: HttpService,
 
       @Inject(EnvironmentConfigService)
-      private readonly _mercadoPagoConfig: MercadoPagoConfig
+      private readonly _paymentConfig: PaymentConfig
    ) { }
 
-   async createOrderPayment(order: OrderEntity): Promise<{ qr_code: string}> {
-      // TODO: Adapter
-      const request: MPCreateOrderRequest = new MPCreateOrderRequest(
-         `Pedido ${order.orderNumber}`,
-         order.totalValue,
-         order.id,
-         order.products.map((product) => {
-            return {
-               sku_number: product.id.toString(),
-               category: product.category,
-               title: product.name,
-               description: product.description,
-               unit_price: product.price,
-               unit_measure: "unit",
-               quantity: 1,
-               total_amount: product.price
-            }
-         }),
-         {id: parseInt(this._mercadoPagoConfig.getMercadoPagoSponsorUserId().toString())},
-         { amount: 0},
-         "Description",
-         this._mercadoPagoConfig.getMercadoPagoNotificationUrl()
-      );
-
+   async createOrderPayment(createOrderPaymentDto: CreateOrderPaymentDto): Promise<{ qr_data: string}> {
       const headers = { Authorization: this.accessToken };
       const url: string = `${this.baseUrl}/instore/orders/qr/seller/collectors/${this.vendedorId}/pos/${this.caixaID}/qrs`;
       try {
          const requested = await this._httpService.axiosRef.put(
             url,
-            request,
+            createOrderPaymentDto,
             { headers }
          );
          return requested.data;

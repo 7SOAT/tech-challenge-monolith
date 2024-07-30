@@ -21,7 +21,7 @@ export default class OrderRepository {
 
   async findById(id: UUID): Promise<OrderModel> {
     try {
-      return await this._orderRepository.findOne({ where: { id } });
+      return await this._orderRepository.findOneBy({id});
     } catch (error) {
       throw new Error(`Error finding order: ${error}`)
     }
