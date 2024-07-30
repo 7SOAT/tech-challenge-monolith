@@ -8,7 +8,7 @@ import { FindProductByIdSwaggerConfig } from "@api/config/swagger/product/find-p
 import { FindProductsByCategorySwaggerConfig } from "@api/config/swagger/product/find-products-by-category.swagger";
 import { UpdateProductSwaggerConfig } from "@api/config/swagger/product/update-product.swagger";
 import ProductRepository from "@datasource/typeorm/repositories/product.repository";
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import ProductController from "adapters/controllers/product.controller";
 import ProductEntity from "core/entities/product.entity";
@@ -17,7 +17,7 @@ import { UUID } from 'crypto';
 @ApiTags("products")
 @Controller("products")
 export default class ProductRoute {
-  private readonly _productController: ProductController = new ProductController(this._productRepository);
+  private readonly _productController = new ProductController(this._productRepository);
   constructor(
     private _productRepository: ProductRepository
   ) { }
@@ -76,7 +76,8 @@ export default class ProductRoute {
   @DeleteProductSwaggerConfig()
   async delete(@Param("productId") id: UUID) {
     try {
-      return await this._productController.deleteProduct(id);
+      await this._productController.deleteProduct(id);
+      return 
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,4 +1,4 @@
-import CheckoutOrderDto from '@api/dtos/order/input/create-order.dto';
+import CheckoutOrderDto from '@api/dtos/order/input/checkout-order.dto';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';

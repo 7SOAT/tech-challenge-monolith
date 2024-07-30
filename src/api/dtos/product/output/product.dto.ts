@@ -1,8 +1,7 @@
 import ProductCategory from '@enums/product-category.enum';
-import { IProductOutput } from '@type/output/product.output';
 import { UUID } from 'crypto';
 
-export default class ProductDto implements IProductOutput {
+export default class ProductDto {
   constructor(
     public id: UUID,    
     public name: string,

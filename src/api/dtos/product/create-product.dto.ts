@@ -1,9 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import ProductCategory from 'core/enums/product-category.enum';
-import { ICreateProductInput } from 'core/types/input/product.input';
 
-export default class CreateProductDto implements ICreateProductInput {
+export default class CreateProductDto {
   @IsNotEmpty({ message: 'Product category should be not empty' })
   @IsString({ message: 'Product category should be a string' })
   @ApiProperty({ type: 'enum', enum: ProductCategory, description: 'Product category' })

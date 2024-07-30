@@ -1,16 +1,15 @@
-import { IOrderCustomerOutput } from '@type/output/customer.output';
-import { IOrderStatusOutput } from '@type/output/order-status.output';
-import IOrderOutput from '@type/output/order.output';
-import { IOrderProductOutput } from '@type/output/product.output';
+import OrderCustomerDto from '@api/dtos/customer/output/order-customer.dto';
+import OrderStatusDto from '@api/dtos/order-status/output/order-status.dto';
+import OrderProductDto from '@api/dtos/product/output/order-product.dto';
 import { UUID } from 'crypto';
 
-export default class OrderDto implements IOrderOutput {
+export default class OrderDto {
   constructor(
     public id: UUID,
     public totalValue: number,
-    public products: IOrderProductOutput[],
-    public customer: IOrderCustomerOutput | null,
-    public orderStatus: IOrderStatusOutput,
+    public products: OrderProductDto[],
+    public customer: OrderCustomerDto | null,
+    public orderStatus: OrderStatusDto,
     public orderNumber: number
   ) {}
 }

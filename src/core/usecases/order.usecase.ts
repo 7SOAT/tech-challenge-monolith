@@ -6,7 +6,6 @@ import CustomerEntity from "core/entities/customer.entity";
 import OrderEntity from "core/entities/order/order.entity";
 import ProductEntity from "core/entities/product.entity";
 import OrderStatusEnum from "core/enums/order-status.enum";
-import { ICheckoutOrderInput } from "core/types/input/order.input";
 import { UUID } from "crypto";
 
 export default class OrderUseCase {
@@ -26,19 +25,15 @@ export default class OrderUseCase {
     return await this._orderGateway.findAll();
   }
 
-  async checkoutOrder(checkoutOrderInput: ICheckoutOrderInput): Promise<{ qr_data: string }> {
-    try {
-      const products: ProductEntity[] = await this.validateProducts(checkoutOrderInput.productIds);
-      const customer: CustomerEntity = await this._customerGateway.findOneById(
-        checkoutOrderInput.customerId,
-      );
-
-      const order: OrderEntity = new OrderEntity(
+  async checkoutOrder(productIds: UUID[], customerId: UUID): Promise<{ qr_data: string }> {
+    try {     
+      const products: ProductEntity[] = await this.validateProducts(productIds);
+      const customer: CustomerEntity = await this._customerGateway.findOneById(customerId);
+      const order = new OrderEntity(
         { id: OrderStatusEnum.PENDING },
         products,
         customer
       );
-
       const orderRegistered = await this._orderGateway.createOrder(order);
       return await this._mercadoPagoProvider.createOrder(orderRegistered);
     } catch (error) {

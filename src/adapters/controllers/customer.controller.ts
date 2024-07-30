@@ -1,6 +1,7 @@
+import CreateCustomerDto from '@api/dtos/customer/input/create-customer.dto';
+import FindCustomerByParamsDto from '@api/dtos/customer/input/find-one-by-params.dto';
 import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
 import CustomerGateway from '@gateways/customer.gateway';
-import { ICreateCustomerInput, IFindCustomerByParamsInput } from '@type/input/customer.input';
 import CustomerUseCase from '@usecases/customer.usecase';
 import CustomerEntity from 'core/entities/customer.entity';
 
@@ -12,11 +13,11 @@ export default class CustomerController {
         private _customerRepository: CustomerRepository
     ) { }
 
-    async findCustomerByParams(queryParams: IFindCustomerByParamsInput): Promise<CustomerEntity> {
+    async findCustomerByParams(queryParams: FindCustomerByParamsDto): Promise<CustomerEntity> {
         return await this._customerUseCase.findCustomerByParams(queryParams);
     }
 
-    async createCustomer(customer: ICreateCustomerInput): Promise<CustomerEntity> {
+    async createCustomer(customer: CreateCustomerDto): Promise<CustomerEntity> {
         return await this._customerUseCase.createCustomer(customer);
     }
 }

@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import ICConfirmPaymentInput from "@type/input/payment.input";
 import { IsNotEmpty, IsNumberString, IsString } from "class-validator";
 
-export default class ConfirmPaymentParams implements ICConfirmPaymentInput {
+export default class ConfirmPaymentParams {
   @ApiProperty({ type: 'number', description: 'Payment id', required: true })
   @IsNotEmpty({message: "The id is required"})
   @IsNumberString({no_symbols: true},{ message: "The id need to be a number" })
