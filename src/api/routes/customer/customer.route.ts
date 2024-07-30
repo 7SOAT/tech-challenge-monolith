@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import CustomerController from 'adapters/controllers/customer.controller';
 import CustomerEntity from 'core/entities/customer.entity';
 import FindCustomerByParamsDto from '../../dtos/customer/input/find-one-by-params.dto';
+import CustomerDto from '@api/dtos/customer/output/customer.dto';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -14,9 +15,9 @@ export default class CustomerRoute {
   constructor(
     private _customerRepository: CustomerRepository
   ) { }
-  
+
   @Get('by-params')
-  async findOne(@Query() queryParams: FindCustomerByParamsDto): Promise<CustomerEntity> {
+  async findOne(@Query() queryParams: FindCustomerByParamsDto) {
     try {
       return await this._customerController.findCustomerByParams(queryParams);
     } catch (error) {
