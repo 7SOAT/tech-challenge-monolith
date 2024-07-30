@@ -1,7 +1,8 @@
 import { CreateOrderSwaggerConfig as CheckoutOrderSwaggerConfig } from '@api/config/swagger/order/create-order.swagger';
 import { FindAllSwaggerConfig } from '@api/config/swagger/order/find-all-orders.swagger';
 import { FindQueueSwaggerConfig } from '@api/config/swagger/order/find-orders-queue.swagger';
-import CheckoutOrderDto from '@api/dtos/order/input/create-order.dto';
+import CheckoutOrderDto from '@api/dtos/order/input/checkout-order.dto';
+import OrderQRCodeDto from '@api/dtos/order/output/order-qr-code.dto';
 import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import PaymentRepository from '@datasource/typeorm/repositories/payment.repository';

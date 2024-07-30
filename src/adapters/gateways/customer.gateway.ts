@@ -2,7 +2,6 @@
 import ICustomerGateway from '@interfaces/datasource/customer.gateway';
 import CustomerModel from '@models/customer.model';
 import CustomerRepository from '@repositories/customer.repository';
-import { IFindCustomerByParamsInput } from '@type/input/customer.input';
 import { plainToInstance } from 'class-transformer';
 import CustomerEntity from 'core/entities/customer.entity';
 import { UUID } from 'crypto';
@@ -21,7 +20,7 @@ export default class CustomerGateway implements ICustomerGateway {
     }
   }
 
-  async findOneByParams(params: IFindCustomerByParamsInput): Promise<CustomerEntity> {
+  async findOneByParams(params: CustomerEntity): Promise<CustomerEntity> {
     try {
       const customer = await this._customerRepository.findOneByParams(params);
       return plainToInstance(CustomerEntity, customer, {enableImplicitConversion: true});

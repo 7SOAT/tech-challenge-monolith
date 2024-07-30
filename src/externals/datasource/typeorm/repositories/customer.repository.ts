@@ -1,7 +1,7 @@
 
+import CustomerEntity from '@entities/customer.entity';
 import CustomerModel from '@models/customer.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IFindCustomerByParamsInput } from '@type/input/customer.input';
 import { UUID } from 'crypto';
 import { Repository } from 'typeorm';
 
@@ -19,7 +19,7 @@ export default class CustomerRepository {
     }
   }
 
-  async findOneByParams(params: IFindCustomerByParamsInput): Promise<CustomerModel> {
+  async findOneByParams(params: CustomerEntity): Promise<CustomerModel> {
     try {
       return await this._customerRepository.findOne({ where: params });
     } catch (error) {

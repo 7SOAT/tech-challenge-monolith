@@ -1,10 +1,9 @@
 import { AtLeastOneField } from "@api/validators/at-least-one-field.validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { IFindCustomerByParamsInput } from "@type/input/customer.input";
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches } from "class-validator";
 
 @AtLeastOneField()
-export default class FindCustomerByParamsDto implements IFindCustomerByParamsInput{
+export default class FindCustomerByParamsDto {
     @IsOptional()
     @IsString({ message: 'Customer CPF should be a string' })
     @IsNotEmpty({ message: 'Customer CPF should be not empty' })

@@ -1,3 +1,5 @@
+import CheckoutOrderDto from '@api/dtos/order/input/checkout-order.dto';
+import OrderQRCodeDto from '@api/dtos/order/output/order-qr-code.dto';
 import CustomerRepository from '@datasource/typeorm/repositories/customer.repository';
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import PaymentRepository from '@datasource/typeorm/repositories/payment.repository';
@@ -7,7 +9,6 @@ import OrderGateway from '@gateways/order.gateway';
 import PaymentGateway from '@gateways/payment.gateway';
 import ProductGateway from '@gateways/product.gateway';
 import MercadoPagoProvider from '@providers/mercado-pago/mercado-pago.provider';
-import { ICheckoutOrderInput } from '@type/input/order.input';
 import OrderUseCase from '@usecases/order.usecase';
 import OrderPresenter from 'adapters/presenters/order.presenter';
 
@@ -31,15 +32,17 @@ export default class OrderController {
         private _paymentRepository: PaymentRepository
     ) { }
 
-    async findAllOrders() {
-        return OrderPresenter.Orders(await this._orderUseCase.findAllOrders());
-    }
+  async findAllOrders() {
+    return OrderPresenter.PresentMany(await this._orderUseCase.findAllOrders());
+  }
 
-    async findOrdersQueue() {
-        return OrderPresenter.Orders(await this._orderUseCase.findOrdersQueue());
-    }
+  async findOrdersQueue() {
+    return OrderPresenter.PresentMany(
+      await this._orderUseCase.findOrdersQueue()
+    );
+  }
 
-    async checkoutOrder(order: ICheckoutOrderInput) {
-        return OrderPresenter.Order(await this._orderUseCase.checkoutOrder(order));
-    }
+  async checkoutOrder(order: ICheckoutOrderInput) {
+      return await this._orderUseCase.checkoutOrder(order);
+  }
 }

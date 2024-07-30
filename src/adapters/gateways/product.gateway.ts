@@ -57,14 +57,13 @@ export default class ProductGateway implements IProductGateway {
     return this.adaptModelToEntity(result);
   }
 
-  async update(id: UUID, product: ProductEntity): Promise<number> {
+  async update(id: UUID, product: ProductEntity): Promise<void> {
     const mappedProduct = plainToInstance<ProductModel, ProductEntity>(
       ProductModel, 
       product,
       {enableImplicitConversion: true}
     );
-    const result = await this._productRepository.update(id, mappedProduct);
-    return result;
+    const result = await this._productRepository.update(id, mappedProduct);    
   }
 
   async delete(id: UUID): Promise<void> {

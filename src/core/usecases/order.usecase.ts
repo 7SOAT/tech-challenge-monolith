@@ -10,7 +10,6 @@ import CustomerEntity from "core/entities/customer.entity";
 import OrderEntity from "core/entities/order/order.entity";
 import ProductEntity from "core/entities/product.entity";
 import OrderStatusEnum from "core/enums/order-status.enum";
-import { ICheckoutOrderInput } from "core/types/input/order.input";
 import { UUID } from "crypto";
 
 export default class OrderUseCase {
@@ -30,13 +29,12 @@ export default class OrderUseCase {
     return await this._orderGateway.findAll();
   }
 
-  async checkoutOrder(checkoutOrderInput: ICheckoutOrderInput): Promise<any> {
+  async checkoutOrder(productIds: UUID[], customerId: UUID): Promise<any> {
     try {
-      const products: ProductEntity[] = await this.validateProducts(checkoutOrderInput.productIds);
+      const products: ProductEntity[] = await this.validateProducts(productIds);
       const customer: CustomerEntity = await this._customerGateway.findOneById(
-        checkoutOrderInput.customerId,
+        customerId,
       );
-
       const payment: PaymentEntity = new PaymentEntity(
         new PaymentStatusEntity(PaymentStatusEnum.PENDING)
       );

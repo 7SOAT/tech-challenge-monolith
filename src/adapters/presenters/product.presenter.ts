@@ -1,16 +1,9 @@
 
-import OrderProductDto from "@api/dtos/product/output/order-product.dto";
-import ProductDto from "@api/dtos/product/output/product.dto";
-import ProductEntity from "@entities/product.entity";
-import { IOrderProductOutput, IProductOutput } from "@type/output/product.output";
-
+import ProductDto from '@api/dtos/product/output/product.dto';
+import ProductEntity from '@entities/product.entity';
 
 class ProductPresenter {
-  static Products(products: ProductEntity[]): IProductOutput[] {
-    return products.map((product) => this.Product(product));
-  }
-
-  static Product(product: ProductEntity): IProductOutput {
+  static PresentOne(product: ProductEntity): ProductDto {
     return new ProductDto(
       product.id,
       product.name,
@@ -20,16 +13,9 @@ class ProductPresenter {
     );
   }
 
-  static OrderProduct(product: ProductEntity): IOrderProductOutput {
-    return new OrderProductDto(
-      product.id,
-      product.name,
-      product.price,
-      product.description
-    );
+  static PresentMany(products: ProductEntity[]): ProductDto[] {
+    return products.map((product) => this.PresentOne(product));
   }
-
-  
 }
 
 export default ProductPresenter;

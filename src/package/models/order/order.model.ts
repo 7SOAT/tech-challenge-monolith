@@ -1,14 +1,13 @@
-import IOrderOutput from 'core/types/output/order.output';
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm';
 import CustomerModel from '@models/customer.model';
 import OrderStatusModel from '@models/order/order-status.model';
 import ProductModel from '@models/product.model';
 import { UUID } from 'crypto';
 import BaseModel from '../base.model';
 import PaymentModel from '@models/payment/payment.model';
+import { Entity, PrimaryColumn, ManyToOne, JoinTable, Column, ManyToMany, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity({ name: 'order' })
-export default class OrderModel extends BaseModel<OrderModel> implements IOrderOutput {
+export default class OrderModel extends BaseModel<OrderModel> {
   @PrimaryColumn('uuid')
   id: UUID;
 
