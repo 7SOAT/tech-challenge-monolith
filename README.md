@@ -9,6 +9,10 @@
   Esse projeto consiste na criação de um sistema back-end para controle de pedidos de fast food, visando resolver possíveis gargalos entre os atendentes e a cozinha de um restaurante. A solução contempla o processo de escolha do pedido pelo cliente, o pagamento, o acompanhamento das etapas de preparação e entrega.
 </p>
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+<h2>🎥 Vídeo de apresentação da estrutura e funcionamento</h2>
+
+[<img src="https://cdn-icons-png.flaticon.com/512/4404/4404094.png" width=70>](https://drive.google.com/drive/u/0/folders/13cednbUegCMEEQxIiqef6je6HTAj3qna)
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
