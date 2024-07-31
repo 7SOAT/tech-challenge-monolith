@@ -1,5 +1,5 @@
 import { DynamicModule } from "@nestjs/common";
-import MercadoPagoProvider   from "@providers/mercado-pago/mercado-pago.provider";
+import PaymentProvider   from "@providers/mercado-pago/mercado-pago.provider";
 import { HttpModule, HttpService } from "@nestjs/axios";
 import QRCodeGeneratorProvider  from "@providers/qr-code-generator/qrCodeGenerator.provider";
 import EnvironmentConfigModule from "@api/config/environment-config/environment-config.module";
@@ -12,10 +12,10 @@ export default class ProvidersModule {
             imports: [HttpModule, EnvironmentConfigModule],
             providers: [
                 EnvironmentConfigService,
-                MercadoPagoProvider,
+                PaymentProvider,
                 QRCodeGeneratorProvider
             ],
-            exports: [MercadoPagoProvider]
+            exports: [PaymentProvider]
         }
     }
 }

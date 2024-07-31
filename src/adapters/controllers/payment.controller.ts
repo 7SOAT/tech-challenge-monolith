@@ -1,7 +1,8 @@
-import ConfirmPaymentParams from '@api/dtos/payment/input/confirm-payment.dto';
+import ConfirmPaymentDto from '@api/dtos/payment/input/confirm-payment.dto';
+import CreatePaymentDto from '@api/dtos/payment/input/create-payment.dto';
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import OrderGateway from '@gateways/order.gateway';
-import MercadoPagoProvider from '@providers/mercado-pago/mercado-pago.provider';
+import PaymentProviderGateway from '@gateways/payment-provider.gateway';
 import PaymentUseCase from '@usecases/payment.usecase';
 import PaymentPresenter from 'adapters/presenters/payment.presenter';
 
@@ -9,18 +10,21 @@ export default class PaymentController {
   private readonly _orderGateway = new OrderGateway(this._orderRepository);
   private readonly _paymentUseCase = new PaymentUseCase(
     this._orderGateway,
-    this._mercadoPagoProvider
+    this._paymentProviderGateway
   );
 
   constructor(
     private _orderRepository: OrderRepository,
-    private _mercadoPagoProvider: MercadoPagoProvider
-  ) {}
+    private _paymentProviderGateway: PaymentProviderGateway
+  ) { }
 
-  async confirmPayment({ id: externalPaymentId, topic }: ConfirmPaymentParams): Promise<PaymentDto> {
-    if (topic === 'payment') {
-      const { orderNumber } = await this._paymentUseCase.confirmPayment(externalPaymentId);
-      return PaymentPresenter.PresentOne(orderNumber);
+  async confirmPaymentWebhook({ id: externalPaymentId, topic: messageType }: ConfirmPaymentDto): Promise<void> {
+    if (messageType === 'payment') {
+      await this._paymentUseCase.confirmPayment(externalPaymentId);
     }
+  }
+
+  async createPayment({ orderId }: CreatePaymentDto) {
+    return PaymentPresenter.PresentCreatedOne(await this._paymentUseCase.createPayment(orderId));
   }
 }

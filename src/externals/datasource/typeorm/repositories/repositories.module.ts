@@ -9,6 +9,10 @@ import CustomerModel from "@models/customer.model";
 import OrderModel from "@models/order/order.model";
 import OrderStatusModel from "@models/order/order-status.model";
 import ProductModel from "@models/product.model";
+import PaymentModel from "@models/payment/payment.model";
+import PaymentStatusModel from "@models/payment/payment-status.model";
+import PaymentStatusRepository from "./payment-status.repository";
+import PaymentRepository from "./payment.repository";
 
 export default class RepositoriesModule {
     static resgister(): DynamicModule {
@@ -17,24 +21,25 @@ export default class RepositoriesModule {
             CustomerModel,
             OrderModel,
             OrderStatusModel,
-            ProductModel
+            ProductModel,
+            PaymentModel,
+            PaymentStatusModel
+        ]
+
+        const repositories = [
+            PaymentStatusRepository,
+            CustomerRepository,
+            OrderRepository,
+            OrderStatusRepository,
+            ProductRepository,
+            PaymentRepository
         ]
 
         return {
             module: this,
             imports: [TypeOrmConfigModule, TypeOrmModule.forFeature(entities)],
-            providers: [
-                CustomerRepository,
-                OrderRepository,
-                OrderStatusRepository,
-                ProductRepository
-            ],
-            exports: [
-                CustomerRepository,
-                OrderRepository,
-                OrderStatusRepository,
-                ProductRepository
-            ]
+            providers: repositories,
+            exports: repositories
         }
     }
 };

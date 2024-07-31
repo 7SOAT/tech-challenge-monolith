@@ -12,7 +12,7 @@ export default class QRCodeGeneratorProvider {
       const headers = { "Content-Type": "image/svg+xml"};
       const request = {
         "frame_name": "no-frame",
-        "qr_code_text": text,
+        "qr_data_text": text,
         "image_format": "SVG",
         "frame_color": "#02bfff",
         "frame_icon_name": "mobile",
