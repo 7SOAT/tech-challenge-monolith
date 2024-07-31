@@ -15,7 +15,7 @@ export default class OrderStatusModel {
   @Column({ type: 'varchar', length: 200 })
   description: string;
 
-  @Column({ type: 'int2', unique: true })
+  @Column({ type: 'int2', unique: true, select: false })
   priorityOrder: number;
 
   constructor(partial: Partial<OrderStatusModel>) {

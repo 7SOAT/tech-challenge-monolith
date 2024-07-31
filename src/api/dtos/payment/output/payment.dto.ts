@@ -1,6 +1,15 @@
+import { UUID } from "crypto";
 
-class PaymentDto {
+export class PaymentDto {
   constructor(
-    public orderNumber: number,
+    public id: UUID,
+    public status: number,
+    public externalId: number
+  ) {}
+}
+
+export class CreatePaymentDto {
+  constructor(
+    public qr_data: string
   ) {}
 }
