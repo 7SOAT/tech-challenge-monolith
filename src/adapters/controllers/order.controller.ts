@@ -9,6 +9,7 @@ import PaymentGateway from '@gateways/payment.gateway';
 import ProductGateway from '@gateways/product.gateway';
 import OrderUseCase from '@usecases/order.usecase';
 import OrderPresenter from 'adapters/presenters/order.presenter';
+import { UUID } from 'crypto';
 
 export default class OrderController {
   private readonly _orderGateway = new OrderGateway(this._orderRepository);
@@ -32,6 +33,10 @@ export default class OrderController {
 
   async findAllOrders() {
     return OrderPresenter.PresentMany(await this._orderUseCase.findAllOrders());
+  }
+
+  async findOrderById(id: UUID) {
+    return OrderPresenter.PresentOne(await this._orderUseCase.findOneById(id));
   }
 
   async findOrdersQueue() {

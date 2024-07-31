@@ -7,9 +7,10 @@ import CustomerRepository from '@datasource/typeorm/repositories/customer.reposi
 import OrderRepository from '@datasource/typeorm/repositories/order.repository';
 import PaymentRepository from '@datasource/typeorm/repositories/payment.repository';
 import ProductRepository from '@datasource/typeorm/repositories/product.repository';
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import OrderController from 'adapters/controllers/order.controller';
+import { UUID } from 'crypto';
 
 @ApiTags('orders')
 @Controller("orders")
@@ -34,6 +35,17 @@ export default class OrderRoute {
   async findAll() {
     try {
       return await this._orderController.findAllOrders();
+    } catch (error) {
+      throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  @FindAllSwaggerConfig()
+  async findOneById(@Param("id") id: UUID) {
+    try {
+      return await this._orderController.findOrderById(id);
     } catch (error) {
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
     }

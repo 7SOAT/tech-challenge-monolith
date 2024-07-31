@@ -39,10 +39,10 @@ export default class PaymentProviderGateway {
         return await this._paymentProvider.createOrderPayment(request);
     }
 
-    async findPaymentById(externalPaymentId: number): Promise<string> {
+    async findPaymentById(externalPaymentId: number): Promise<{external_reference, status}> {
         try {
-            const {external_reference} = await this._paymentProvider.findPaymentById(externalPaymentId)
-            return external_reference;
+            const result = await this._paymentProvider.findPaymentById(externalPaymentId)
+            return result;
         } catch (err) {
             throw Error(err);
         }

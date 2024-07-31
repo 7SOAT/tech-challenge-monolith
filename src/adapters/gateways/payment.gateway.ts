@@ -2,6 +2,7 @@ import PaymentRepository from "@datasource/typeorm/repositories/payment.reposito
 import OrderEntity from "@entities/order/order.entity";
 import PaymentStatusEntity from "@entities/payment/payment-status.entity";
 import PaymentEntity from "@entities/payment/payment.entity";
+import PaymentStatusEnum from "@enums/payment-status.enum";
 import IPaymentGateway from "@interfaces/datasource/payment.gateway";
 import PaymentStatusModel from "@models/payment/payment-status.model";
 import PaymentModel from "@models/payment/payment.model";
@@ -26,22 +27,31 @@ export default class PaymentGateway implements IPaymentGateway {
     return mappedPayments;
   }
 
-  async insert(product: PaymentEntity): Promise<PaymentEntity> {
-    const mappedPayment = this.adaptEntityToModel(product);
+  async insert(payment: PaymentEntity): Promise<PaymentEntity> {
+    const mappedPayment = this.adaptEntityToModel(payment);
     
     const result = await this._paymentRepository.insert(mappedPayment);
 
     return this.adaptModelToEntity(result);
   }
 
-  private adaptEntityToModel(productE: PaymentEntity): PaymentModel {
+  async updatePaymentStatus(paymentId: UUID, statusEnum: PaymentStatusEnum): Promise<number> {
+    try {
+      const result = await this._paymentRepository.updatePaymentStatus(paymentId, statusEnum);
+      return result;
+    } catch (error) {
+      throw new Error(`Error updating status: ${error}`);
+    }
+  }
+
+  private adaptEntityToModel(paymentE: PaymentEntity): PaymentModel {
   
-    const statusM = new PaymentStatusModel(productE.status);
+    const statusM = new PaymentStatusModel(paymentE.status);
 
     return new PaymentModel({
-      id: productE.id,
+      id: paymentE.id,
       status: statusM,
-      externalId: productE.externalId
+      externalId: paymentE.externalId
     });
   }
 

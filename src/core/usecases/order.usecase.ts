@@ -29,6 +29,10 @@ export default class OrderUseCase {
     return await this._orderGateway.findAll();
   }
 
+  async findOneById(id: UUID): Promise<OrderEntity> {
+    return await this._orderGateway.findById(id);
+  }
+
   async checkoutOrder(productIds: UUID[], customerId: UUID): Promise<any> {
     try {
       const products: ProductEntity[] = await this.validateProducts(productIds);
