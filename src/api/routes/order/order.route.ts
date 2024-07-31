@@ -49,7 +49,7 @@ export default class OrderRoute {
     }
   }
 
-  @Post()
+  @Post('checkout')
   @HttpCode(HttpStatus.CREATED)
   @CheckoutOrderSwaggerConfig()
   async checkout(@Body() checkoutOrderDto: CheckoutOrderDto) {
