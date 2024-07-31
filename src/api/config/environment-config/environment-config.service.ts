@@ -12,23 +12,23 @@ export default class EnvironmentConfigService implements PaymentConfig, Database
   }
 
   public getDatabaseHost(): string {
-    return this.configService.get<string>('POSTGRES__HOST');
+    return this.configService.get<string>('POSTGRES_HOST');
   }
 
   public getDatabasePort(): number {
-    return this.configService.get<number>('POSTGRES__PORT');
+    return this.configService.get<number>('POSTGRES_PORT');
   }
 
   public getDatabaseUser(): string {
-    return this.configService.get<string>('POSTGRES__USER');
+    return this.configService.get<string>('POSTGRES_USER');
   }
 
   public getDatabasePassword(): string {
-    return this.configService.get<string>('POSTGRES__PASSWORD');
+    return this.configService.get<string>('POSTGRES_PASSWORD');
   }
 
   public getDatabaseName(): string {
-    return this.configService.get<string>('POSTGRES__DATABASE');
+    return this.configService.get<string>('POSTGRES_DATABASE');
   }
 
   public getEnableMockTables(): boolean{
@@ -36,30 +36,30 @@ export default class EnvironmentConfigService implements PaymentConfig, Database
   }
 
   public getPaymentVendedorUserId(): number{
-    return this.configService.get<number>('MERCADO_PAGO__VENDEDOR_USER_ID');
+    return this.configService.get<number>('MERCADO_PAGO_VENDEDOR_USER_ID');
   }
 
   public getPaymentSponsorUserId(): number{
-    return this.configService.get<number>('MERCADO_PAGO__SPONSOR_USER_ID');
+    return this.configService.get<number>('MERCADO_PAGO_SPONSOR_USER_ID');
   }
 
   public getPaymentAccessToken(): string{
-    return this.configService.get<string>('MERCADO_PAGO__ACCESS_TOKEN');
+    return this.configService.get<string>('MERCADO_PAGO_ACCESS_TOKEN');
   }
-  
+
   public getPaymentBaseUrl(): string{
-    return this.configService.get<string>('MERCADO_PAGO__BASE_URL');
+    return this.configService.get<string>('MERCADO_PAGO_BASE_URL');
   }
 
   public getPaymentVersion(): string{
-    return this.configService.get<string>('MERCADO_PAGO__API_VERSION');
+    return this.configService.get<string>('MERCADO_PAGO_API_VERSION');
   }
 
   public getPaymentCaixaExternalId(): string{
-    return this.configService.get<string>('MERCADO_PAGO__EXTERNAL_CAIXA_ID');
+    return this.configService.get<string>('MERCADO_PAGO_EXTERNAL_CAIXA_ID');
   }
 
   public getPaymentNotificationUrl(): string{
-    return this.configService.get<string>('MERCADO_PAGO__NOTIFICATION_URL');
+    return this.configService.get<string>('MERCADO_PAGO_NOTIFICATION_URL');
   }
 }
