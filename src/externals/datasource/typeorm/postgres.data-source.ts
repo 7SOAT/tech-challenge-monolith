@@ -11,6 +11,6 @@ export const postgresDataSource = (config: EnvironmentConfigService): TypeOrmMod
     database: config.getDatabaseName(),
     synchronize: true,
     entities: [__dirname + "..\\models\\*.model.ts"],
-    ssl: true,
+    ssl: false,
     autoLoadEntities: true
   } as TypeOrmModuleOptions);
