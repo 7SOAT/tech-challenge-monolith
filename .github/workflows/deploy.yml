@@ -50,6 +50,9 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
+          cd ..
+          cd ..
+          cd k8s
           kubectl apply -f service.yaml
           kubectl apply -f deployment.yaml
 
