@@ -16,6 +16,12 @@
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
+<h2>🎥 Vídeo sobre infraestrutura em cloud (AWS)</h2>
+
+[<img src="https://cdn-icons-png.flaticon.com/512/4404/4404094.png" width=70>](https://drive.google.com/drive/u/0/folders/13cednbUegCMEEQxIiqef6je6HTAj3qna)
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
 <h2>📄 Documentação do projeto</h2>
 
 [<img src="https://i.pinimg.com/originals/36/98/41/369841848d679cef173ae2b0f5ed6e39.png" width=115 >](https://miro.com/welcomeonboard/ZXM3dDZEMWNYazBaZEcxMDQ4UGFSOHRUVUZhcjJsTHZDVEJuMUhkeUl3d2ZnTndZUmhncUxRbEJlYVVxREN4b3wzNDU4NzY0NTg2NjE5MjYzNTE1fDI=?share_link_id=439093219851)
