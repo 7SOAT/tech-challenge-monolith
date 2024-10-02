@@ -43,7 +43,7 @@ jobs:
           sudo mv ./kubectl /usr/local/bin/kubectl
 
       - name: Update kubeconfig
-        run: aws eks --region us-east-1 update-kubeconfig --name tech-chalenge-monolith
+        run: aws eks --region us-east-1 update-kubeconfig --name tech-challenge-monolith
 
       - name: Create ConfigMap from .env file
         run: kubectl create configmap tech-challenge-config --from-env-file=.env
