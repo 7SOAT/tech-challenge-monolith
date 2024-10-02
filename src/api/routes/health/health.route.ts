@@ -17,6 +17,6 @@ export default class HealthRoute {
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:3000')]);
+    return this.health.check([async () => this.http.pingCheck('tech-challenge-api', 'http://localhost:4000')]);
   }
 }

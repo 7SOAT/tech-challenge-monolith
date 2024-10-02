@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: tech-challenge-monolith
-          image: aureobueno/tech-challenge-monolith:latest
+          image: luizpainodev/tech-challenge-monolith:latest
           ports:
             - containerPort: 3000
           env:
@@ -30,11 +30,23 @@ spec:
               subPath: config.yaml
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
       volumes:
         - name: config-volume
           configMap:

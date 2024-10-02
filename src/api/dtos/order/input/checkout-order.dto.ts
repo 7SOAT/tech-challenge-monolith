@@ -6,7 +6,7 @@ export default class CheckoutOrderDto {
   @IsNotEmpty()
   @IsArray({ message: 'The order productIds should be an array' })
   @ApiProperty({ type: 'array', description: 'Product Ids', items: { type: 'string' } })
-  //@IsUUID('all', {message: 'Products must be a valid UUID list' })
+  @IsUUID('all', {message: 'Products must be a valid UUID list' })
   productIds: Array<UUID>;
 
   @IsString()
